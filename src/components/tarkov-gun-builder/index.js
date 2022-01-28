@@ -2,12 +2,16 @@ import { useState, useMemo } from 'react';
 
 import './index.css';
 
-function ItemList({allowedIdsList, items, handleSelect}){
+function ItemList({allowedIdsList, items, handleSelect, show}){
     const displayItems = useMemo(() => {
         return items.filter(item => allowedIdsList.includes(item.id));
     }, [allowedIdsList, items]);
 
     if(!allowedIdsList){
+        return null;
+    }
+
+    if(!show){
         return null;
     }
 
@@ -29,14 +33,23 @@ function ItemList({allowedIdsList, items, handleSelect}){
 
 function Slot({slotData, items}){
     const [selectedItemId, setSelectedItemId] = useState(false);
+    // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
+    const [showSelector, setShowSelector] = useState(false);
 
     const item = useMemo(() => {
         return items.find(item => item.id === selectedItemId);
     }, [items, selectedItemId]);
 
+    console.log(slotData._props.filters[0].Filter);
+
+    const allowedItemIds = useMemo(() => {
+        return items.filter(item => slotData._props.filters[0].Filter.includes(item.id)).map(item => item.id);
+    }, [slotData, items]);
+
     return <div
         className='slot'
-        onClick={setSelectedItemId.bind(this, '55d485be4bdc2d962f8b456f')}
+        // onClick={setSelectedItemId.bind(this, '55d485be4bdc2d962f8b456f')}
+        onClick={setShowSelector.bind(this, !showSelector)}
     >
         {item && <img
             alt={item.name}
@@ -48,6 +61,12 @@ function Slot({slotData, items}){
         >
             {slotData._name.replace('mod_', '')}
         </div>}
+        <ItemList
+            allowedIdsList={allowedItemIds}
+            items={items}
+            show={showSelector}
+            handleSelect={setSelectedItemId}
+        />
     </div>
 };
 
@@ -76,8 +95,7 @@ function StatsLine({min, max, value, text}) {
 
 function TarkovGunBuilder({items}) {
     const [selectedGun, setSelectedGun] = useState(false);
-    const [selectOneList, setSelectOneList] = useState([]);
-    const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
+    const [showGunSelector, setShowGunSelector] = useState(false);
 
     const item = useMemo(() => {
         return items.find(item => item.id === selectedGun);
@@ -98,13 +116,7 @@ function TarkovGunBuilder({items}) {
             >
                 <div
                     className='gun-selector-wrapper'
-                    onClick={() => {
-                        setItemSelectedCallback(() => { return (gunId) => {
-                            setSelectOneList([]);
-                            setSelectedGun(gunId);
-                        }})
-                        setSelectOneList(allGuns);
-                    }}
+                    onClick={setShowGunSelector.bind(this, !showGunSelector)}
                 >
                     {!item && <h2>
                         Click to select gun
@@ -116,6 +128,12 @@ function TarkovGunBuilder({items}) {
                             src={item.gridImageLink}
                         />
                     }
+                    <ItemList
+                        allowedIdsList={allGuns}
+                        items={items}
+                        handleSelect={setSelectedGun}
+                        show={showGunSelector}
+                    />
                 </div>
                 <div
                     className='stats-wrapper'
@@ -152,11 +170,6 @@ function TarkovGunBuilder({items}) {
                 </div>
             </div>
         </div>
-        <ItemList
-            allowedIdsList={selectOneList}
-            items={items}
-            handleSelect={itemSelectedCallback}
-        />
     </div>
 };
 
