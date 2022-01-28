@@ -20,16 +20,38 @@ function ItemList({allowedIdsList, items, handleSelect, show}){
     return <div
         className='select-list-wrapper'
     >
-        <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Ergo
+                    </th>
+                    <th>
+                        Recoil
+                    </th>
+                </tr>
+            </thead>
             {displayItems.map((displayItem, index) => {
-                return <li
+                console.log(displayItem)
+                return <tr
                     key = {`selected-item-${index}`}
                     onClick={handleSelect.bind(this, displayItem.id)}
                 >
-                    {displayItem.name}
-                </li>
+                    <td>
+                        {displayItem.name}
+                    </td>
+                    <td>
+                        {displayItem.itemProperties.Ergonomics}
+                    </td>
+                    <td>
+                        {displayItem.itemProperties.Recoil}
+                    </td>
+                </tr>
             })}
-        </ul>
+        </table>
     </div>
 }
 

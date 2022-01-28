@@ -100,17 +100,11 @@
     top: 10px;
 }
 
-.select-list-wrapper ul {
-    margin: 0;
-    padding: 0;
-}
-
-.select-list-wrapper li {
+.select-list-wrapper tr {
     cursor: pointer;
-    list-style-type: none;
     padding: 0;
 }
 
-.select-list-wrapper li:hover {
+.select-list-wrapper tr:hover {
     text-decoration: underline;
 }
