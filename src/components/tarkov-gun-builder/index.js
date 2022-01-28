@@ -113,6 +113,11 @@ function TarkovGunBuilder({items}) {
                 className='gun-wrapper'
             >
                 <div
+                    className='selected-gun-name-wrapper'
+                >
+                    {item?.name || 'NO GUN SELECTED'}
+                </div>
+                <div
                     className='gun-selector-wrapper'
                     onClick={setShowGunSelector.bind(this, !showGunSelector)}
                 >

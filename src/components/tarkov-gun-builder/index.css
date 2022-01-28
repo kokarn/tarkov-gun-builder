@@ -7,10 +7,15 @@
 }
 
 .gun-wrapper {
-    border: 1px solid #373739;
+    border: 1px solid #4d5154;
     background-color: #000;
     margin: 0 auto;
     min-width: 672px;
+}
+
+.selected-gun-name-wrapper {
+    background-color: #191b1b;
+    margin-left: 5px;
 }
 
 .gun-selector-wrapper {
@@ -25,7 +30,7 @@
     margin: 20px 0;
 }
 
-.builder-outer-wrapper > .stats-wrapper {
+.gun-wrapper > .stats-wrapper {
     padding: 10px;
 }
 
@@ -59,8 +64,10 @@
 }
 
 .graph-wrapper .text-wrapper {
+    font-size: 10px;
     position: relative;
     z-index: 1;
+    line-height: 19px;
 }
 
 .graph-wrapper .stats-wrapper {
@@ -83,10 +90,12 @@
 
 .select-list-wrapper {
     margin-left: 20px;
+    max-height: 100%;
+    overflow-y: scroll;
     position: absolute;
-    top: 10px;
     right: 10px;
     text-align: left;
+    top: 10px;
 }
 
 .select-list-wrapper ul {
@@ -95,6 +104,11 @@
 }
 
 .select-list-wrapper li {
-    padding: 0;
+    cursor: pointer;
     list-style-type: none;
+    padding: 0;
+}
+
+.select-list-wrapper li:hover {
+    text-decoration: underline;
 }
