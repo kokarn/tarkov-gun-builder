@@ -4,7 +4,9 @@ import './index.css';
 
 function ItemList({allowedIdsList, items, handleSelect, show}){
     const displayItems = useMemo(() => {
-        return items.filter(item => allowedIdsList.includes(item.id));
+        return items
+            .filter(item => allowedIdsList.includes(item.id))
+            .sort((itemA, itemB) => itemA.name.localeCompare(itemB.name));
     }, [allowedIdsList, items]);
 
     if(!allowedIdsList){
@@ -101,7 +103,9 @@ function TarkovGunBuilder({items}) {
     }, [items, selectedGun]);
 
     const allGuns = useMemo(() => {
-        return items.filter(item => item.types.includes('gun')).map(item => item.id);
+        return items
+            .filter(item => item.types.includes('gun'))
+            .map(item => item.id);
     }, [items]);
 
     console.log(item);
