@@ -73,11 +73,20 @@ function Slot({slotData, items}){
         // onClick={setSelectedItemId.bind(this, '55d485be4bdc2d962f8b456f')}
         onClick={setShowSelector.bind(this, !showSelector)}
     >
-        {item && <img
-            alt={item.name}
-            loading='lazy'
-            src={item.iconLink}
-        />}
+        {item && <div
+            className='slot-item-wrapper'
+        >
+            <img
+                alt={item.name}
+                loading='lazy'
+                src={item.iconLink}
+            />
+            <div
+                className='slot-item-name-wrapper'
+            >
+                {item.shortName}
+            </div>
+        </div>}
         {!item && <div
             className='slot-name-wrapper'
         >
