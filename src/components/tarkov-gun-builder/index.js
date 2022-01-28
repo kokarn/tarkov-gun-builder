@@ -69,13 +69,14 @@ function Slot({slotData, items}){
 };
 
 function StatsLine({min, max, value, text}) {
+    let percentage = (value / max) * 100;
     return <div
         className='graph-wrapper'
     >
         <div
             className='graph'
             style={{
-                width: `${value}%`,
+                width: `${percentage}%`,
             }}
         />
         <div
@@ -144,20 +145,38 @@ function TarkovGunBuilder({items}) {
                     <StatsLine
                         min={0}
                         max={100}
-                        value={42}
+                        value={item?.itemProperties.Ergonomics}
                         text={'Ergonomics'}
                     />
                     <StatsLine
                         min={0}
                         max={100}
-                        value={88}
-                        text={'Vertical recoil'}
+                        value={55}
+                        text={'Accuracy'}
                     />
                     <StatsLine
                         min={0}
                         max={100}
-                        value={12}
+                        value={55}
+                        text={'Sighting range'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={700}
+                        value={item?.itemProperties.RecoilForceUp}
+                        text={'Vertical recoil'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={700}
+                        value={item?.itemProperties.RecoilForceBack}
                         text={'Horizontal recoil'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={700}
+                        value={item?.itemProperties.RecoilForceBack}
+                        text={'Muzzle velocity'}
                     />
                     <div
                         className='slots-wrapper'
