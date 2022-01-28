@@ -42,8 +42,12 @@ function Slot({slotData, items}){
             alt={item.name}
             loading='lazy'
             src={item.iconLink}
-        />
-        }
+        />}
+        {!item && <div
+            className='slot-name-wrapper'
+        >
+            {slotData._name.replace('mod_', '')}
+        </div>}
     </div>
 };
 

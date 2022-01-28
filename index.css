@@ -38,6 +38,10 @@
     width: 64px;
 }
 
+.slot-name-wrapper {
+    font-size: 10px;
+}
+
 .graph-wrapper {
     border: 1px solid #373739;
     height: 20px;
