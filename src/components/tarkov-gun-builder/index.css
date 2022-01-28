@@ -64,17 +64,6 @@
     position: relative;
 }
 
-/* .graph-wrapper:before {
-    content: " ";
-    position: absolute;
-    z-index: -1;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border: 5px solid #ffea00;
-} */
-
 .graph-wrapper .text-wrapper {
     font-size: 10px;
     position: relative;
@@ -98,6 +87,7 @@
     left:0;
     position: absolute;
     z-index: 0;
+    transition: width 0.3s ease;
 }
 
 .select-list-wrapper {
