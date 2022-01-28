@@ -1,0 +1,88 @@
+.builder-outer-wrapper {
+    display: flex;
+}
+
+.gun-wrapper {
+    border: 1px solid #373739;
+    background-color: #000;
+    margin: 0 auto;
+    min-width: 672px;
+}
+
+.gun-selector-wrapper {
+    text-align: center;
+}
+
+.builder-outer-wrapper .gun-selector-wrapper h2 {
+    text-align: center;
+}
+
+.gun-selector-wrapper img {
+    margin: 20px 0;
+}
+
+.builder-outer-wrapper > .stats-wrapper {
+    padding: 10px;
+}
+
+.slots-wrapper {
+    background-color: #111111;
+    display: flex;
+    gap: 2px;
+    padding: 10px 20px;
+}
+
+.slots-wrapper .slot {
+    border: 1px solid #313332;
+    height: 64px;
+    width: 64px;
+}
+
+.graph-wrapper {
+    border: 1px solid #373739;
+    height: 20px;
+    margin-bottom: 5px;;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 21px;
+    padding-left: 5px;
+    font-size: 12px;
+    position: relative;
+}
+
+.graph-wrapper .text-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.graph-wrapper .stats-wrapper {
+    position: absolute;
+    z-index: 1;
+    right: 5px;
+    top: 0;
+}
+
+.graph-wrapper .graph {
+    /* should be a gradient */
+    background-color: #53575a;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left:0;
+    position: absolute;
+    z-index: 0;
+}
+
+.select-list-wrapper {
+    margin-left: 20px;
+}
+
+.select-list-wrapper ul {
+    margin: 0;
+    padding: 0;
+}
+
+.select-list-wrapper li {
+    padding: 0;
+    list-style-type: none;
+}

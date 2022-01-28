@@ -1,0 +1,23 @@
+{
+  "name": "tarkov-gun-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kokarn/tarkov-gun-builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kokarn/tarkov-gun-builder/issues"
+  },
+  "homepage": "https://github.com/kokarn/tarkov-gun-builder#readme",
+  "dependencies": {
+    "react": "^17.0.2"
+  }
+}
