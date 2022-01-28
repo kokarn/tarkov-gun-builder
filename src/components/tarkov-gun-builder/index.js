@@ -194,13 +194,13 @@ function TarkovGunBuilder({items}) {
                     />
                     <StatsLine
                         min={0}
-                        max={700}
+                        max={1000}
                         value={item?.itemProperties.RecoilForceBack}
                         text={'Horizontal recoil'}
                     />
                     <StatsLine
                         min={0}
-                        max={700}
+                        max={1000}
                         value={item?.itemProperties.RecoilForceBack}
                         text={'Muzzle velocity'}
                     />
