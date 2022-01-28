@@ -5,6 +5,17 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <link rel="preload" href="%PUBLIC_URL%/fonts/bender.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        @font-face {
+            font-family: 'bender';
+            src: url('%PUBLIC_URL%/fonts/bender.woff2') format('woff2'),
+                url('%PUBLIC_URL%/fonts/bender.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
     <meta
       name="description"
       content="Web site created using create-react-app"
