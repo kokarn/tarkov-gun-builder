@@ -40,8 +40,6 @@ function Slot({slotData, items}){
         return items.find(item => item.id === selectedItemId);
     }, [items, selectedItemId]);
 
-    console.log(slotData._props.filters[0].Filter);
-
     const allowedItemIds = useMemo(() => {
         return items.filter(item => slotData._props.filters[0].Filter.includes(item.id)).map(item => item.id);
     }, [slotData, items]);
