@@ -99,7 +99,10 @@ function TarkovGunBuilder({items}) {
                 <div
                     className='gun-selector-wrapper'
                     onClick={() => {
-                        setItemSelectedCallback(() => { return setSelectedGun})
+                        setItemSelectedCallback(() => { return (gunId) => {
+                            setSelectOneList([]);
+                            setSelectedGun(gunId);
+                        }})
                         setSelectOneList(allGuns);
                     }}
                 >
@@ -140,6 +143,7 @@ function TarkovGunBuilder({items}) {
                     >
                         {item && item.equipmentSlots.map((slot) => {
                             return <Slot
+                                key = {`${item.id}-slot-${slot._name}`}
                                 items={items}
                                 slotData={slot}
                             />;
