@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.builder-outer-wrapper h2 {
+    color: #fff;
+}
+
 .gun-wrapper {
     border: 1px solid #373739;
     background-color: #000;
