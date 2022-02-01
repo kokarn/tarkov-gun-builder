@@ -99,14 +99,15 @@
     height: 100%;
     top: 0;
     bottom: 0;
-    left:0;
+    left: 0;
     position: absolute;
     z-index: 1;
     transition: width 0.3s ease;
 }
 
 .graph-wrapper .temporary-graph {
-    background: blue;
+    background: #3e8098;
+    background: linear-gradient(180deg, rgba(66,135,159,1) 0%, rgba(43,88,103,1) 100%);
     z-index: 0;
 }
 
