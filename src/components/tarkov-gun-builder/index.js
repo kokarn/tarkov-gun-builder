@@ -55,7 +55,7 @@ function ItemList({allowedIdsList, items, handleSelect, show}){
     </div>
 }
 
-function Slot({slotData, items}){
+function Slot({slotData, items, onItemInstalled, onItemUninstalled, onItemTemporarilyInstalled}){
     const [selectedItemId, setSelectedItemId] = useState(false);
     // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
     const [showSelector, setShowSelector] = useState(false);
@@ -96,7 +96,10 @@ function Slot({slotData, items}){
             allowedIdsList={allowedItemIds}
             items={items}
             show={showSelector}
-            handleSelect={setSelectedItemId}
+            handleSelect={(itemId) => {
+                setSelectedItemId(itemId);
+                onItemInstalled(itemId);
+            }}
         />
     </div>
 };
@@ -128,6 +131,7 @@ function StatsLine({min, max, value, text}) {
 function TarkovGunBuilder({items}) {
     const [selectedGun, setSelectedGun] = useState(false);
     const [showGunSelector, setShowGunSelector] = useState(false);
+    const [installedItems, setInstalledItems] = useState([]);
 
     const item = useMemo(() => {
         return items.find(item => item.id === selectedGun);
@@ -138,6 +142,13 @@ function TarkovGunBuilder({items}) {
             .filter(item => item.types.includes('gun'))
             .map(item => item.id);
     }, [items]);
+
+    const ergonomicsModifier = useMemo(() => {
+        return items
+            .filter(item => installedItems.includes(item.id))
+            .map(item => item.itemProperties.Ergonomics || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+    }, [items, installedItems]);
 
     console.log(item);
 
@@ -180,7 +191,7 @@ function TarkovGunBuilder({items}) {
                     <StatsLine
                         min={0}
                         max={100}
-                        value={item?.itemProperties.Ergonomics}
+                        value={item?.itemProperties.Ergonomics + ergonomicsModifier}
                         text={'Ergonomics'}
                     />
                     <StatsLine
@@ -221,6 +232,12 @@ function TarkovGunBuilder({items}) {
                                 key = {`${item.id}-slot-${slot._name}`}
                                 items={items}
                                 slotData={slot}
+                                onItemInstalled={(newItem) => {
+                                    setInstalledItems([...installedItems, newItem])
+                                }}
+                                onItemUninstalled={(uninstalledItem) => {
+                                    setInstalledItems(installedItems.filter(item => item.id === uninstalledItem.id))
+                                }}
                             />;
                         })}
                     </div>
