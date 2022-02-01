@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 
 import './index.css';
 
-function ItemList({allowedIdsList, items, handleSelect, show}){
+function ItemList({allowedIdsList, items, handleSelect, show, onHover}){
     const displayItems = useMemo(() => {
         return items
             .filter(item => allowedIdsList.includes(item.id))
@@ -35,10 +35,12 @@ function ItemList({allowedIdsList, items, handleSelect, show}){
                 </tr>
             </thead>
             {displayItems.map((displayItem, index) => {
-                console.log(displayItem)
+                // console.log(displayItem)
                 return <tr
                     key = {`selected-item-${index}`}
                     onClick={handleSelect.bind(this, displayItem.id)}
+                    onMouseEnter={onHover?.bind(this, displayItem.id)}
+                    onMouseLeave={onHover?.bind(this, false)}
                 >
                     <td>
                         {displayItem.name}
@@ -96,6 +98,7 @@ function Slot({slotData, items, onItemInstalled, onItemUninstalled, onItemTempor
             allowedIdsList={allowedItemIds}
             items={items}
             show={showSelector}
+            onHover={onItemTemporarilyInstalled}
             handleSelect={(itemId) => {
                 setSelectedItemId(itemId);
                 onItemInstalled(itemId);
@@ -104,7 +107,7 @@ function Slot({slotData, items, onItemInstalled, onItemUninstalled, onItemTempor
     </div>
 };
 
-function StatsLine({min, max, value, text}) {
+function StatsLine({min, max, value, text, temporaryValue}) {
     let percentage = (value / max) * 100;
     return <div
         className='graph-wrapper'
@@ -113,6 +116,12 @@ function StatsLine({min, max, value, text}) {
             className='graph'
             style={{
                 width: `${percentage}%`,
+            }}
+        />
+        <div
+            className='temporary-graph'
+            style={{
+                width: `${temporaryValue}%`,
             }}
         />
         <div
@@ -132,6 +141,7 @@ function TarkovGunBuilder({items}) {
     const [selectedGun, setSelectedGun] = useState(false);
     const [showGunSelector, setShowGunSelector] = useState(false);
     const [installedItems, setInstalledItems] = useState([]);
+    const [temporaryItemId, setTemporaryItem] = useState(false);
 
     const item = useMemo(() => {
         return items.find(item => item.id === selectedGun);
@@ -149,6 +159,10 @@ function TarkovGunBuilder({items}) {
             .map(item => item.itemProperties.Ergonomics || 0)
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [items, installedItems]);
+
+    const temporaryErgonomicsModifier = useMemo(() => {
+        return items.find(item => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0
+    }, [items, temporaryItemId]);
 
     console.log(item);
 
@@ -238,6 +252,7 @@ function TarkovGunBuilder({items}) {
                                 onItemUninstalled={(uninstalledItem) => {
                                     setInstalledItems(installedItems.filter(item => item.id === uninstalledItem.id))
                                 }}
+                                onItemTemporarilyInstalled={setTemporaryItem}
                             />;
                         })}
                     </div>
