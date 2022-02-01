@@ -141,6 +141,7 @@ function TarkovGunBuilder({items}) {
     const [selectedGun, setSelectedGun] = useState(false);
     const [showGunSelector, setShowGunSelector] = useState(false);
     const [installedItems, setInstalledItems] = useState([]);
+    const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
 
     const item = useMemo(() => {
@@ -248,13 +249,45 @@ function TarkovGunBuilder({items}) {
                                 items={items}
                                 slotData={slot}
                                 onItemInstalled={(newItem) => {
+                                    const canMountItems = items.find(item => newItem === item.id && (item.name.includes('mount') || item.name.includes('rail'))) // todo the includes is weak
+
                                     setInstalledItems([...installedItems, newItem])
+
+                                    if (canMountItems) {
+                                        setInstalledMounts({...installedMounts, [slot._name]: newItem})
+                                    } else {
+                                        if (installedMounts[slot._name]) {
+                                            const state = {...installedMounts}
+
+                                            delete state[slot._name]
+
+                                            setInstalledMounts(state)
+                                        }
+                                    }
                                 }}
                                 onItemUninstalled={(uninstalledItem) => {
                                     setInstalledItems(installedItems.filter(item => item.id === uninstalledItem.id))
                                 }}
                                 onItemTemporarilyInstalled={setTemporaryItem}
                             />;
+                        })}
+                        {Object.keys(installedMounts).map((key) => {
+                            const mount = items.find(item => item.id === installedMounts[key])
+
+                            return mount.equipmentSlots.map((slot) => {
+                                return <Slot
+                                    key = {`${item.id}-slot-${slot._name}`}
+                                    items={items}
+                                    slotData={slot}
+                                    onItemInstalled={(newItem) => {
+                                        setInstalledItems([...installedItems, newItem])
+                                    }}
+                                    onItemUninstalled={(uninstalledItem) => {
+                                        setInstalledItems(installedItems.filter(item => item.id === uninstalledItem.id))
+                                    }}
+                                    onItemTemporarilyInstalled={setTemporaryItem}
+                                />;
+                            })
                         })}
                     </div>
                 </div>
