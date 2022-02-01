@@ -249,7 +249,7 @@ function TarkovGunBuilder({items}) {
                                 items={items}
                                 slotData={slot}
                                 onItemInstalled={(newItem) => {
-                                    const canMountItems = items.find(item => newItem === item.id && (item.name.includes('mount') || item.name.includes('rail'))) // todo the includes is weak
+                                    const canMountItems = items.find(item => (newItem === item.id) && item.slots)
 
                                     setInstalledItems([...installedItems, newItem])
 
