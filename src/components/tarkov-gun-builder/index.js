@@ -204,7 +204,7 @@ function TarkovGunBuilder({items}) {
                 >
                     <StatsLine
                         min={0}
-                        max={100}
+                        max={150}
                         value={item?.itemProperties.Ergonomics + ergonomicsModifier}
                         text={'Ergonomics'}
                         temporaryValue={item?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
