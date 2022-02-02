@@ -4,26 +4,40 @@ import usePreviousValue from '../../hooks/usePreviousValue';
 
 import './index.css';
 
-function ItemList({ allowedIdsList, items, handleSelect, show, onHover }) {
+function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
+    const [searchText, setSearchText] = useState();
+
     const displayItems = useMemo(() => {
-        return items
-            .filter((item) => allowedIdsList.includes(item.id))
-            .sort((itemA, itemB) => itemA.name.localeCompare(itemB.name));
-    }, [allowedIdsList, items]);
+        let results = items.filter((item) => allowedIdsList.includes(item.id));
+
+        if (searchText?.length) {
+            results = results.filter((item) =>
+                item.name.toLowerCase().includes(searchText),
+            );
+        }
+
+        return results.sort((itemA, itemB) =>
+            itemA.name.localeCompare(itemB.name),
+        );
+    }, [allowedIdsList, items, searchText]);
 
     if (!allowedIdsList) {
         return null;
     }
 
-    if (!show) {
-        return null;
-    }
-
     return (
         <div className="select-list-wrapper">
+            Search:
+            <input
+                type="text"
+                onChange={(e) => {
+                    setSearchText(e.target.value);
+                }}
+            />
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Name</th>
                         <th>Ergo</th>
                         <th>Recoil</th>
@@ -38,6 +52,14 @@ function ItemList({ allowedIdsList, items, handleSelect, show, onHover }) {
                             onMouseEnter={onHover?.bind(this, displayItem.id)}
                             onMouseLeave={onHover?.bind(this, false)}
                         >
+                            <td>
+                                <img
+                                    className="select-list-icon"
+                                    alt={displayItem.name}
+                                    loading="lazy"
+                                    src={displayItem.gridImageLink}
+                                />
+                            </td>
                             <td>{displayItem.name}</td>
                             <td>{displayItem.itemProperties.Ergonomics}</td>
                             <td>{displayItem.itemProperties.Recoil}</td>
@@ -55,10 +77,11 @@ function Slot({
     onItemInstalled,
     onItemUninstalled,
     onItemTemporarilyInstalled,
+    selectedItemsList,
+    setSelectedItemsList,
 }) {
     const [selectedItemId, setSelectedItemId] = useState(false);
     // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
-    const [showSelector, setShowSelector] = useState(false);
 
     const item = useMemo(() => {
         return items.find((item) => item.id === selectedItemId);
@@ -76,7 +99,9 @@ function Slot({
         <div
             className="slot"
             // onClick={setSelectedItemId.bind(this, '55d485be4bdc2d962f8b456f')}
-            onClick={setShowSelector.bind(this, !showSelector)}
+            onClick={() => {
+                setSelectedItemsList(slotData._name);
+            }}
         >
             {item && (
                 <div className="slot-item-wrapper">
@@ -91,16 +116,17 @@ function Slot({
                     {slotData._name.replace('mod_', '')}
                 </div>
             )}
-            <ItemList
-                allowedIdsList={allowedItemIds}
-                items={items}
-                show={showSelector}
-                onHover={onItemTemporarilyInstalled}
-                handleSelect={(itemId) => {
-                    setSelectedItemId(itemId);
-                    onItemInstalled(itemId);
-                }}
-            />
+            {selectedItemsList === slotData._name && (
+                <ItemList
+                    allowedIdsList={allowedItemIds}
+                    items={items}
+                    onHover={onItemTemporarilyInstalled}
+                    handleSelect={(itemId) => {
+                        setSelectedItemId(itemId);
+                        onItemInstalled(itemId);
+                    }}
+                />
+            )}
         </div>
     );
 }
@@ -141,8 +167,8 @@ function StatsLine({
 }
 
 function TarkovGunBuilder({ items }) {
+    const [currentSelector, setCurrentSelector] = useState();
     const [selectedGunId, setSelectedGunId] = useState(false);
-    const [showGunSelector, setShowGunSelector] = useState(false);
     const [installedItemsIds, setInstalledItemsIds] = useState([]);
     const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
@@ -208,10 +234,9 @@ function TarkovGunBuilder({ items }) {
                     </div>
                     <div
                         className="gun-selector-wrapper"
-                        onClick={setShowGunSelector.bind(
-                            this,
-                            !showGunSelector,
-                        )}
+                        onClick={() => {
+                            setCurrentSelector('gun');
+                        }}
                     >
                         {!gun && <h2>Click to select gun</h2>}
                         {gun && (
@@ -226,12 +251,13 @@ function TarkovGunBuilder({ items }) {
                                 />
                             </div>
                         )}
-                        <ItemList
-                            allowedIdsList={allGuns}
-                            items={items}
-                            handleSelect={setSelectedGunId}
-                            show={showGunSelector}
-                        />
+                        {currentSelector === 'gun' && (
+                            <ItemList
+                                allowedIdsList={allGuns}
+                                items={items}
+                                handleSelect={setSelectedGunId}
+                            />
+                        )}
                     </div>
                     <div className="stats-wrapper">
                         <StatsLine
@@ -353,6 +379,12 @@ function TarkovGunBuilder({ items }) {
                                 gun.equipmentSlots.map((slot) => {
                                     return (
                                         <Slot
+                                            setSelectedItemsList={(
+                                                slotName,
+                                            ) => {
+                                                setCurrentSelector(slotName);
+                                            }}
+                                            selectedItemsList={currentSelector}
                                             key={`${gun.id}-slot-${slot._name}`}
                                             items={items}
                                             slotData={slot}
@@ -420,6 +452,12 @@ function TarkovGunBuilder({ items }) {
                                 return mount.equipmentSlots.map((slot) => {
                                     return (
                                         <Slot
+                                            setSelectedItemsList={(
+                                                slotName,
+                                            ) => {
+                                                setCurrentSelector(slotName);
+                                            }}
+                                            selectedItemsList={currentSelector}
                                             key={`${gun.id}-slot-${slot._name}`}
                                             items={items}
                                             slotData={slot}
