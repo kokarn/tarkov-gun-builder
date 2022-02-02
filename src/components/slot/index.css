@@ -1,0 +1,22 @@
+.slots-wrapper .slot {
+    border: 1px solid #313332;
+    height: 64px;
+    width: 64px;
+}
+
+.slot-item-wrapper {
+    position: relative;
+}
+
+.slot-name-wrapper {
+    font-size: 10px;
+}
+
+.slot-item-name-wrapper {
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -38,36 +38,6 @@
     padding: 20px;
 }
 
-.slots-wrapper {
-    background-color: #111111;
-    display: flex;
-    gap: 2px;
-    padding: 10px 20px;
-}
-
-.slots-wrapper .slot {
-    border: 1px solid #313332;
-    height: 64px;
-    width: 64px;
-}
-
-.slot-item-wrapper {
-    position: relative;
-}
-
-.slot-name-wrapper {
-    font-size: 10px;
-}
-
-.slot-item-name-wrapper {
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
 .graph-wrapper {
     border: 1px solid #000;
     outline: 1px solid #424546;
@@ -131,25 +101,6 @@
     z-index: 0;
 }
 
-.select-list-wrapper {
-    margin-left: 20px;
-    max-height: 100%;
-    overflow-y: scroll;
-    position: absolute;
-    right: 10px;
-    text-align: left;
-    top: 10px;
-}
-
-.select-list-wrapper tr {
-    cursor: pointer;
-    padding: 0;
-}
-
-.select-list-wrapper tr:hover {
-    text-decoration: underline;
-}
-
 .grid-container {
     display: grid;
     grid-template-columns: auto auto;
@@ -173,15 +124,17 @@
     text-transform: none;
 }
 
+.slots-wrapper {
+    background-color: #111111;
+    display: flex;
+    gap: 2px;
+    padding: 10px 20px;
+}
+
 .weight {
     float: right;
     margin-right: 20px;
     margin-top: 5px;
     font-size: 14px;
     color: #fff;
-}
-
-.select-list-icon {
-    width: 48px;
-    height: 48px;
 }
