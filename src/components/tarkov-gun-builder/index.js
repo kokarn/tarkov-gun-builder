@@ -156,7 +156,9 @@ function TarkovGunBuilder({ items }) {
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
-            setInstalledItemsIds(gun.containsItems.map((containedItem) => containedItem.item.id))
+            setInstalledItemsIds(
+                gun.containsItems.map((containedItem) => containedItem.item.id),
+            );
         }
     }, [previousGun, gun, setInstalledItemsIds]);
 
