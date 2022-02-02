@@ -105,7 +105,7 @@ function Slot({
     );
 }
 
-function StatsLine({ min, max, value, text, temporaryValue }) {
+function StatsLine({ min, max, value, text, temporaryValue, iconURL }) {
     let percentage = (value / max) * 100;
     return (
         <div className="graph-wrapper">
@@ -121,7 +121,10 @@ function StatsLine({ min, max, value, text, temporaryValue }) {
                     width: `${temporaryValue}%`,
                 }}
             />
-            <div className="text-wrapper">{text}</div>
+            <div className="horizontal-wrapper">
+                <img className="icon" src={iconURL} alt="icon" />
+                <div>{text}</div>
+            </div>
             <div className="stats-wrapper">{value}</div>
         </div>
     );
@@ -227,6 +230,7 @@ function TarkovGunBuilder({ items }) {
                                 ergonomicsModifier
                             }
                             text={'Ergonomics'}
+                            iconURL={'/icons/ergonomics.jpg'}
                             temporaryValue={
                                 gun?.itemProperties.Ergonomics +
                                 temporaryErgonomicsModifier
@@ -237,58 +241,92 @@ function TarkovGunBuilder({ items }) {
                             max={100}
                             value={55}
                             text={'Accuracy'}
+                            iconURL={'/icons/accuracy.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={100}
                             value={55}
                             text={'Sighting range'}
+                            iconURL={'/icons/sighting-range.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={700}
                             value={gun?.itemProperties.RecoilForceUp}
                             text={'Vertical recoil'}
+                            iconURL={'/icons/recoil.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
                             value={gun?.itemProperties.RecoilForceBack}
                             text={'Horizontal recoil'}
+                            iconURL={'/icons/recoil.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
                             value={gun?.itemProperties.RecoilForceBack}
                             text={'Muzzle velocity'}
+                            iconURL={'/icons/muzzle-velocity.jpg'}
                         />
-                        <div className="grid-container">
-                            <div className="grid-item">
-                                Types of Fire
-                                <div className="grid-item-right">
+                        <div class="grid-container">
+                            <div class="grid-item">
+                                <div className="horizontal-wrapper">
+                                    <img
+                                        className="icon"
+                                        src={'/icons/types-of-fire.jpg'}
+                                        alt="types-of-fire-icon"
+                                    />
+                                    <div>Types of Fire</div>
+                                </div>
+
+                                <div class="grid-item-right">
                                     {gun?.itemProperties.weapFireType.join(
                                         ', ',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div className="grid-item">
-                                Fire Rate
-                                <div className="grid-item-right">
+                            <div class="grid-item">
+                                <div className="horizontal-wrapper">
+                                    <img
+                                        className="icon"
+                                        src={'/icons/fire-rate.jpg'}
+                                        alt="fire-rate-icon"
+                                    />
+                                    <div>Fire Rate</div>
+                                </div>
+                                <div class="grid-item-right">
                                     {gun?.itemProperties.bFirerate || '-'}
                                 </div>
                             </div>
-                            <div className="grid-item">
-                                Caliber
-                                <div className="grid-item-right">
+                            <div class="grid-item">
+                                <div className="horizontal-wrapper">
+                                    <img
+                                        className="icon"
+                                        src={'/icons/caliber.jpg'}
+                                        alt="caliber-icon"
+                                    />
+                                    <div>Caliber</div>
+                                </div>
+                                <div class="grid-item-right">
                                     {gun?.itemProperties.ammoCaliber.replace(
                                         'Caliber',
                                         '',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div className="grid-item">
-                                Effective Distance
-                                <div className="grid-item-right">
+                            <div class="grid-item">
+                                <div className="horizontal-wrapper">
+                                    <img
+                                        className="icon"
+                                        src={'/icons/effective-distance.jpg'}
+                                        alt="effective-distance-icon"
+                                    />
+                                    <div>Effective Distance</div>
+                                </div>
+                                <div class="grid-item-right">
                                     {gun?.itemProperties.bEffDist || '-'}
                                 </div>
                             </div>
