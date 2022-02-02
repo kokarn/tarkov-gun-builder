@@ -1,154 +1,162 @@
 .builder-outer-wrapper {
-    display: flex;
+  display: flex;
 }
 
 .builder-outer-wrapper h2 {
-    color: #fff;
+  color: #fff;
 }
 
 .gun-wrapper {
-    border: 1px solid #4d5154;
-    background-color: #000;
-    margin: 0 auto;
-    min-width: 672px;
+  border: 1px solid #4d5154;
+  background-color: #000;
+  margin: 0 auto;
+  min-width: 672px;
 }
 
 .selected-gun-name-wrapper {
-    background-color: #191b1b;
-    margin-left: 5px;
+  background-color: #191b1b;
+  margin-left: 5px;
 }
 
 .gun-selector-wrapper {
-    background-color: #111212;
-    text-align: center;
+  background-color: #111212;
+  text-align: center;
 }
 
 .builder-outer-wrapper .gun-selector-wrapper h2 {
-    text-align: center;
+  text-align: center;
 }
 
 .gun-selector-wrapper img {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .gun-wrapper > .stats-wrapper {
-    padding: 20px;
+  padding: 20px;
 }
 
 .slots-wrapper {
-    background-color: #111111;
-    display: flex;
-    gap: 2px;
-    padding: 10px 20px;
+  background-color: #111111;
+  display: flex;
+  gap: 2px;
+  padding: 10px 20px;
 }
 
 .slots-wrapper .slot {
-    border: 1px solid #313332;
-    height: 64px;
-    width: 64px;
+  border: 1px solid #313332;
+  height: 64px;
+  width: 64px;
 }
 
 .slot-item-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .slot-name-wrapper {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 .slot-item-name-wrapper {
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    position: absolute;
-    top: 0;
-    right: 0;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .graph-wrapper {
-    border: 1px solid #000;
-    outline: 1px solid #424546;
-    height: 20px;
-    margin-bottom: 5px;;
-    color: #fff;
-    text-transform: uppercase;
-    line-height: 21px;
-    padding-left: 5px;
-    font-size: 12px;
-    position: relative;
+  border: 1px solid #000;
+  outline: 1px solid #424546;
+  height: 20px;
+  margin-bottom: 5px;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 21px;
+  padding-left: 5px;
+  font-size: 12px;
+  position: relative;
 }
 
 .graph-wrapper .text-wrapper {
-    font-size: 10px;
-    position: relative;
-    z-index: 1;
-    line-height: 19px;
+  font-size: 10px;
+  position: relative;
+  z-index: 1;
+  line-height: 19px;
 }
 
 .graph-wrapper .stats-wrapper {
-    position: absolute;
-    z-index: 1;
-    right: 5px;
-    top: 0;
+  position: absolute;
+  z-index: 1;
+  right: 5px;
+  top: 0;
 }
 
 .graph-wrapper .graph,
 .graph-wrapper .temporary-graph {
-    background: rgb(87,91,94);
-    background: linear-gradient(180deg, rgba(87,91,94,1) 0%, rgba(48,53,54,1) 100%);
-    height: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    z-index: 1;
-    transition: width 0.3s ease;
+  background: rgb(87, 91, 94);
+  background: linear-gradient(
+    180deg,
+    rgba(87, 91, 94, 1) 0%,
+    rgba(48, 53, 54, 1) 100%
+  );
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1;
+  transition: width 0.3s ease;
 }
 
 .graph-wrapper .temporary-graph {
-    background: #3e8098;
-    background: linear-gradient(180deg, rgba(66,135,159,1) 0%, rgba(43,88,103,1) 100%);
-    z-index: 0;
+  background: #3e8098;
+  background: linear-gradient(
+    180deg,
+    rgba(66, 135, 159, 1) 0%,
+    rgba(43, 88, 103, 1) 100%
+  );
+  z-index: 0;
 }
 
 .select-list-wrapper {
-    margin-left: 20px;
-    max-height: 100%;
-    overflow-y: scroll;
-    position: absolute;
-    right: 10px;
-    text-align: left;
-    top: 10px;
+  margin-left: 20px;
+  max-height: 100%;
+  overflow-y: scroll;
+  position: absolute;
+  right: 10px;
+  text-align: left;
+  top: 10px;
 }
 
 .select-list-wrapper tr {
-    cursor: pointer;
-    padding: 0;
+  cursor: pointer;
+  padding: 0;
 }
 
 .select-list-wrapper tr:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    row-gap: 5px;
-    column-gap: 20px;
-    margin: 5px 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 5px;
+  column-gap: 20px;
+  margin: 5px 0;
 }
 
 .grid-item {
-    background-color: #111212;
-    height: 20px;
-    padding: 0 5px;
-    color: #fff;
-    font-size: 10px;
-    text-transform: uppercase;
-    line-height: 21px;
+  background-color: #111212;
+  height: 20px;
+  padding: 0 5px;
+  color: #fff;
+  font-size: 10px;
+  text-transform: uppercase;
+  line-height: 21px;
 }
 
 .grid-item-right {
-    float: right;
-    text-transform: none;
+  float: right;
+  text-transform: none;
 }
