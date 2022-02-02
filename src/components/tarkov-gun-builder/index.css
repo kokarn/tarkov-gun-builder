@@ -15,7 +15,10 @@
 
 .selected-gun-name-wrapper {
     background-color: #191b1b;
-    margin-left: 5px;
+    padding-left: 20px;
+    padding-top: 3px;
+    font-size: 14px;
+    color: #fff;
 }
 
 .gun-selector-wrapper {
@@ -171,6 +174,8 @@
 
 .weight {
     float: right;
-    margin-right: 5px;
+    margin-right: 20px;
     margin-top: 5px;
+    font-size: 14px;
+    color: #fff;
 }
