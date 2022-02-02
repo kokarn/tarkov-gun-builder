@@ -41,29 +41,31 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                         <th>Recoil</th>
                     </tr>
                 </thead>
-                {displayItems.map((displayItem, index) => {
-                    // console.log(displayItem)
-                    return (
-                        <tr
-                            key={`selected-item-${index}`}
-                            onClick={handleSelect.bind(this, displayItem.id)}
-                            onMouseEnter={onHover?.bind(this, displayItem.id)}
-                            onMouseLeave={onHover?.bind(this, false)}
-                        >
-                            <td>
-                                <img
-                                    className="select-list-icon"
-                                    alt={displayItem.name}
-                                    loading="lazy"
-                                    src={displayItem.gridImageLink}
-                                />
-                            </td>
-                            <td>{displayItem.name}</td>
-                            <td>{displayItem.itemProperties.Ergonomics}</td>
-                            <td>{displayItem.itemProperties.Recoil}</td>
-                        </tr>
-                    );
-                })}
+                <tbody>
+                    {displayItems.map((displayItem, index) => {
+                        // console.log(displayItem)
+                        return (
+                            <tr
+                                key={`selected-item-${index}`}
+                                onClick={handleSelect.bind(this, displayItem.id)}
+                                onMouseEnter={onHover?.bind(this, displayItem.id)}
+                                onMouseLeave={onHover?.bind(this, false)}
+                            >
+                                <td>
+                                    <img
+                                        className="select-list-icon"
+                                        alt={displayItem.name}
+                                        loading="lazy"
+                                        src={displayItem.gridImageLink}
+                                    />
+                                </td>
+                                <td>{displayItem.name}</td>
+                                <td>{displayItem.itemProperties.Ergonomics}</td>
+                                <td>{displayItem.itemProperties.Recoil}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </table>
         </div>
     );
