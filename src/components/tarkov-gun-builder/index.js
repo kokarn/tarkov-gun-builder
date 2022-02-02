@@ -240,6 +240,12 @@ function TarkovGunBuilder({items}) {
                         value={item?.itemProperties.RecoilForceBack}
                         text={'Muzzle velocity'}
                     />
+                    <div class="grid-container">
+                        <div class="grid-item">Types of Fire<div class="grid-item-right">{item?.itemProperties.weapFireType.join(', ') || '-'}</div></div>
+                        <div class="grid-item">Fire Rate<div class="grid-item-right">{item?.itemProperties.bFirerate || '-'}</div></div>
+                        <div class="grid-item">Caliber<div class="grid-item-right">{item?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}</div></div>
+                        <div class="grid-item">Effective Distance<div class="grid-item-right">{item?.itemProperties.bEffDist || '-'}</div></div>
+                    </div>
                     <div
                         className='slots-wrapper'
                     >
