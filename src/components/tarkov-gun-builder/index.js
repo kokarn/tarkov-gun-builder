@@ -142,6 +142,10 @@ function TarkovGunBuilder({ items }) {
             .map((item) => item.id);
     }, [items]);
 
+    const memoizedInstalledItems = useMemo(() => {
+        return installedItems.map((id) => items.find((item) => item.id === id));
+    }, [items, installedItems]);
+
     const ergonomicsModifier = useMemo(() => {
         return items
             .filter((item) => installedItems.includes(item.id))
@@ -159,7 +163,15 @@ function TarkovGunBuilder({ items }) {
         );
     }, [items, temporaryItemId]);
 
-    console.log(item);
+    let weight = 0;
+
+    if (item) {
+        weight =
+            (item.itemProperties?.Weight || 0) +
+            memoizedInstalledItems
+                .map((item) => item.itemProperties?.Weight || 0)
+                .reduce((a, b) => a + b, 0);
+    }
 
     return (
         <div className="builder-outer-wrapper">
@@ -177,11 +189,16 @@ function TarkovGunBuilder({ items }) {
                     >
                         {!item && <h2>Click to select gun</h2>}
                         {item && (
-                            <img
-                                alt={item.name}
-                                loading="lazy"
-                                src={item.gridImageLink}
-                            />
+                            <div>
+                                <div className="weight">
+                                    {weight.toFixed(2)}Kg
+                                </div>
+                                <img
+                                    alt={item.name}
+                                    loading="lazy"
+                                    src={item.gridImageLink}
+                                />
+                            </div>
                         )}
                         <ItemList
                             allowedIdsList={allGuns}
