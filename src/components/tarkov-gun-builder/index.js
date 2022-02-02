@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
 
+import usePreviousValue from '../../hooks/usePreviousValue';
+
 import './index.css';
 
 function ItemList({ allowedIdsList, items, handleSelect, show, onHover }) {
@@ -131,6 +133,7 @@ function TarkovGunBuilder({ items }) {
     const [installedItemsIds, setInstalledItemsIds] = useState([]);
     const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
+    const previousGun = usePreviousValue(selectedGunId);
 
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
@@ -143,8 +146,16 @@ function TarkovGunBuilder({ items }) {
     }, [items]);
 
     const installedItems = useMemo(() => {
-        return installedItemsIds.map((id) => items.find((item) => item.id === id));
+        return installedItemsIds.map((id) =>
+            items.find((item) => item.id === id),
+        );
     }, [items, installedItemsIds]);
+
+    useMemo(() => {
+        if (gun !== previousGun && gun) {
+            setInstalledItemsIds(gun.containsItems.map((containedItem) => containedItem.item.id))
+        }
+    }, [previousGun, gun, setInstalledItemsIds]);
 
     const ergonomicsModifier = useMemo(() => {
         return items
