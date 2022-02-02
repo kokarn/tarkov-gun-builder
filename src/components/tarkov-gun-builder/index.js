@@ -251,33 +251,33 @@ function TarkovGunBuilder({ items }) {
                             value={gun?.itemProperties.RecoilForceBack}
                             text={'Muzzle velocity'}
                         />
-                        <div class="grid-container">
-                            <div class="grid-item">
+                        <div className="grid-container">
+                            <div className="grid-item">
                                 Types of Fire
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.weapFireType.join(
                                         ', ',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 Fire Rate
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.bFirerate || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 Caliber
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.ammoCaliber.replace(
                                         'Caliber',
                                         '',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 Effective Distance
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.bEffDist || '-'}
                                 </div>
                             </div>
