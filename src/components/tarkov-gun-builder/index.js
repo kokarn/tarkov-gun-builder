@@ -126,15 +126,15 @@ function StatsLine({ min, max, value, text, temporaryValue }) {
 }
 
 function TarkovGunBuilder({ items }) {
-    const [selectedGun, setSelectedGun] = useState(false);
+    const [selectedGunId, setSelectedGunId] = useState(false);
     const [showGunSelector, setShowGunSelector] = useState(false);
-    const [installedItems, setInstalledItems] = useState([]);
+    const [installedItemsIds, setInstalledItemsIds] = useState([]);
     const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
 
-    const item = useMemo(() => {
-        return items.find((item) => item.id === selectedGun);
-    }, [items, selectedGun]);
+    const gun = useMemo(() => {
+        return items.find((item) => item.id === selectedGunId);
+    }, [items, selectedGunId]);
 
     const allGuns = useMemo(() => {
         return items
@@ -142,19 +142,19 @@ function TarkovGunBuilder({ items }) {
             .map((item) => item.id);
     }, [items]);
 
-    const memoizedInstalledItems = useMemo(() => {
-        return installedItems.map((id) => items.find((item) => item.id === id));
-    }, [items, installedItems]);
+    const installedItems = useMemo(() => {
+        return installedItemsIds.map((id) => items.find((item) => item.id === id));
+    }, [items, installedItemsIds]);
 
     const ergonomicsModifier = useMemo(() => {
         return items
-            .filter((item) => installedItems.includes(item.id))
+            .filter((item) => installedItemsIds.includes(item.id))
             .map((item) => item.itemProperties.Ergonomics || 0)
             .reduce(
                 (previousValue, currentValue) => previousValue + currentValue,
                 0,
             );
-    }, [items, installedItems]);
+    }, [items, installedItemsIds]);
 
     const temporaryErgonomicsModifier = useMemo(() => {
         return (
@@ -165,10 +165,10 @@ function TarkovGunBuilder({ items }) {
 
     let weight = 0;
 
-    if (item) {
+    if (gun) {
         weight =
-            (item.itemProperties?.Weight || 0) +
-            memoizedInstalledItems
+            (gun.itemProperties?.Weight || 0) +
+            installedItems
                 .map((item) => item.itemProperties?.Weight || 0)
                 .reduce((a, b) => a + b, 0);
     }
@@ -178,7 +178,7 @@ function TarkovGunBuilder({ items }) {
             <div>
                 <div className="gun-wrapper">
                     <div className="selected-gun-name-wrapper">
-                        {item?.name || 'NO GUN SELECTED'}
+                        {gun?.name || 'NO GUN SELECTED'}
                     </div>
                     <div
                         className="gun-selector-wrapper"
@@ -187,23 +187,23 @@ function TarkovGunBuilder({ items }) {
                             !showGunSelector,
                         )}
                     >
-                        {!item && <h2>Click to select gun</h2>}
-                        {item && (
+                        {!gun && <h2>Click to select gun</h2>}
+                        {gun && (
                             <div>
                                 <div className="weight">
                                     {weight.toFixed(2)}Kg
                                 </div>
                                 <img
-                                    alt={item.name}
+                                    alt={gun.name}
                                     loading="lazy"
-                                    src={item.gridImageLink}
+                                    src={gun.gridImageLink}
                                 />
                             </div>
                         )}
                         <ItemList
                             allowedIdsList={allGuns}
                             items={items}
-                            handleSelect={setSelectedGun}
+                            handleSelect={setSelectedGunId}
                             show={showGunSelector}
                         />
                     </div>
@@ -212,12 +212,12 @@ function TarkovGunBuilder({ items }) {
                             min={0}
                             max={150}
                             value={
-                                item?.itemProperties.Ergonomics +
+                                gun?.itemProperties.Ergonomics +
                                 ergonomicsModifier
                             }
                             text={'Ergonomics'}
                             temporaryValue={
-                                item?.itemProperties.Ergonomics +
+                                gun?.itemProperties.Ergonomics +
                                 temporaryErgonomicsModifier
                             }
                         />
@@ -236,26 +236,26 @@ function TarkovGunBuilder({ items }) {
                         <StatsLine
                             min={0}
                             max={700}
-                            value={item?.itemProperties.RecoilForceUp}
+                            value={gun?.itemProperties.RecoilForceUp}
                             text={'Vertical recoil'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
-                            value={item?.itemProperties.RecoilForceBack}
+                            value={gun?.itemProperties.RecoilForceBack}
                             text={'Horizontal recoil'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
-                            value={item?.itemProperties.RecoilForceBack}
+                            value={gun?.itemProperties.RecoilForceBack}
                             text={'Muzzle velocity'}
                         />
                         <div class="grid-container">
                             <div class="grid-item">
                                 Types of Fire
                                 <div class="grid-item-right">
-                                    {item?.itemProperties.weapFireType.join(
+                                    {gun?.itemProperties.weapFireType.join(
                                         ', ',
                                     ) || '-'}
                                 </div>
@@ -263,13 +263,13 @@ function TarkovGunBuilder({ items }) {
                             <div class="grid-item">
                                 Fire Rate
                                 <div class="grid-item-right">
-                                    {item?.itemProperties.bFirerate || '-'}
+                                    {gun?.itemProperties.bFirerate || '-'}
                                 </div>
                             </div>
                             <div class="grid-item">
                                 Caliber
                                 <div class="grid-item-right">
-                                    {item?.itemProperties.ammoCaliber.replace(
+                                    {gun?.itemProperties.ammoCaliber.replace(
                                         'Caliber',
                                         '',
                                     ) || '-'}
@@ -278,16 +278,16 @@ function TarkovGunBuilder({ items }) {
                             <div class="grid-item">
                                 Effective Distance
                                 <div class="grid-item-right">
-                                    {item?.itemProperties.bEffDist || '-'}
+                                    {gun?.itemProperties.bEffDist || '-'}
                                 </div>
                             </div>
                         </div>
                         <div className="slots-wrapper">
-                            {item &&
-                                item.equipmentSlots.map((slot) => {
+                            {gun &&
+                                gun.equipmentSlots.map((slot) => {
                                     return (
                                         <Slot
-                                            key={`${item.id}-slot-${slot._name}`}
+                                            key={`${gun.id}-slot-${slot._name}`}
                                             items={items}
                                             slotData={slot}
                                             onItemInstalled={(newItem) => {
@@ -299,8 +299,8 @@ function TarkovGunBuilder({ items }) {
                                                             item.slots,
                                                     );
 
-                                                setInstalledItems([
-                                                    ...installedItems,
+                                                setInstalledItemsIds([
+                                                    ...installedItemsIds,
                                                     newItem,
                                                 ]);
 
@@ -332,8 +332,8 @@ function TarkovGunBuilder({ items }) {
                                             onItemUninstalled={(
                                                 uninstalledItem,
                                             ) => {
-                                                setInstalledItems(
-                                                    installedItems.filter(
+                                                setInstalledItemsIds(
+                                                    installedItemsIds.filter(
                                                         (item) =>
                                                             item.id ===
                                                             uninstalledItem.id,
@@ -354,20 +354,20 @@ function TarkovGunBuilder({ items }) {
                                 return mount.equipmentSlots.map((slot) => {
                                     return (
                                         <Slot
-                                            key={`${item.id}-slot-${slot._name}`}
+                                            key={`${gun.id}-slot-${slot._name}`}
                                             items={items}
                                             slotData={slot}
                                             onItemInstalled={(newItem) => {
-                                                setInstalledItems([
-                                                    ...installedItems,
+                                                setInstalledItemsIds([
+                                                    ...installedItemsIds,
                                                     newItem,
                                                 ]);
                                             }}
                                             onItemUninstalled={(
                                                 uninstalledItem,
                                             ) => {
-                                                setInstalledItems(
-                                                    installedItems.filter(
+                                                setInstalledItemsIds(
+                                                    installedItemsIds.filter(
                                                         (item) =>
                                                             item.id ===
                                                             uninstalledItem.id,
