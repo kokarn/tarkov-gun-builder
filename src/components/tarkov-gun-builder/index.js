@@ -8,17 +8,32 @@ import usePreviousValue from '../../hooks/usePreviousValue';
 
 import './index.css';
 
-function TarkovGunBuilder({ items }) {
+function TarkovGunBuilder({ items, presets, defaultPresets }) {
     const [currentSelector, setCurrentSelector] = useState();
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [installedItemsIds, setInstalledItemsIds] = useState([]);
     const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
+    const [currentBuild, setCurrentBuild] = useState({});
 
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
     }, [items, selectedGunId]);
+
+    const gunPresetId = useMemo(() => {
+        if(!gun){
+            return false;
+        }
+
+        for(const presetId in defaultPresets){
+            if(gun.id === defaultPresets[presetId].baseId){
+                return presetId;
+            }
+        }
+
+        return false;
+    }, [gun, defaultPresets]);
 
     const allGuns = useMemo(() => {
         return items
@@ -34,11 +49,31 @@ function TarkovGunBuilder({ items }) {
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
-            setInstalledItemsIds(
-                gun.containsItems.map((containedItem) => containedItem.item.id),
-            );
+            const defaultBuild = {
+                slots: [
+                    ...gun.equipmentSlots.map(slot => {
+                        return {
+                            id: slot._name,
+                            item: undefined,
+                            slots: [],
+                        };
+                    }),
+                ],
+            };
+            const gunPreset = presets[gunPresetId];
+
+            for(const presetItem of gunPreset._items){
+                if(!presetItem.slotId){
+                    continue;
+                }
+
+                defaultBuild.slots.find(slot => slot.id === presetItem.slotId).item = presetItem._id;
+            }
+
+            console.log(defaultBuild);
+            setCurrentBuild(defaultBuild);
         }
-    }, [previousGun, gun, setInstalledItemsIds]);
+    }, [previousGun, gun, gunPresetId, presets]);
 
     const ergonomicsModifier = useMemo(() => {
         return items
