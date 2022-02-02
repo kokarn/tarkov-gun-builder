@@ -271,8 +271,8 @@ function TarkovGunBuilder({ items }) {
                             text={'Muzzle velocity'}
                             iconURL={'/icons/muzzle-velocity.jpg'}
                         />
-                        <div class="grid-container">
-                            <div class="grid-item">
+                        <div className="grid-container">
+                            <div className="grid-item">
                                 <div className="horizontal-wrapper">
                                     <img
                                         className="icon"
@@ -282,13 +282,13 @@ function TarkovGunBuilder({ items }) {
                                     <div>Types of Fire</div>
                                 </div>
 
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.weapFireType.join(
                                         ', ',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 <div className="horizontal-wrapper">
                                     <img
                                         className="icon"
@@ -297,11 +297,11 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Fire Rate</div>
                                 </div>
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.bFirerate || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 <div className="horizontal-wrapper">
                                     <img
                                         className="icon"
@@ -310,14 +310,14 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Caliber</div>
                                 </div>
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.ammoCaliber.replace(
                                         'Caliber',
                                         '',
                                     ) || '-'}
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div className="grid-item">
                                 <div className="horizontal-wrapper">
                                     <img
                                         className="icon"
@@ -326,7 +326,7 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Effective Distance</div>
                                 </div>
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun?.itemProperties.bEffDist || '-'}
                                 </div>
                             </div>
