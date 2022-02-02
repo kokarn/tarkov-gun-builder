@@ -105,6 +105,7 @@
     z-index: 1;
     right: 5px;
     top: 0;
+    text-transform: none;
 }
 
 .graph-wrapper .graph,

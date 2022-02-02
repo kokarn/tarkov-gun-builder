@@ -105,7 +105,15 @@ function Slot({
     );
 }
 
-function StatsLine({ min, max, value, text, temporaryValue, iconURL }) {
+function StatsLine({
+    min,
+    max,
+    value,
+    text,
+    temporaryValue,
+    iconURL,
+    rightText,
+}) {
     let percentage = (value / max) * 100;
     return (
         <div className="graph-wrapper">
@@ -125,7 +133,9 @@ function StatsLine({ min, max, value, text, temporaryValue, iconURL }) {
                 <img className="icon" src={iconURL} alt="icon" />
                 <div>{text}</div>
             </div>
-            <div className="stats-wrapper">{value}</div>
+            <div className="stats-wrapper">
+                {rightText ? `${value} ${rightText}` : value}
+            </div>
         </div>
     );
 }
@@ -271,6 +281,7 @@ function TarkovGunBuilder({ items }) {
                             max={1000}
                             value={gun?.itemProperties.RecoilForceBack}
                             text={'Muzzle velocity'}
+                            rightText={'m/s'}
                             iconURL={'/icons/muzzle-velocity.jpg'}
                         />
                         <div className="grid-container">
@@ -299,8 +310,10 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Fire Rate</div>
                                 </div>
-                                <div className="grid-item-right">
-                                    {gun?.itemProperties.bFirerate || '-'}
+                                <div class="grid-item-right">
+                                    {gun
+                                        ? `${gun.itemProperties.bFirerate} rpm`
+                                        : '-'}
                                 </div>
                             </div>
                             <div className="grid-item">
@@ -328,8 +341,10 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Effective Distance</div>
                                 </div>
-                                <div className="grid-item-right">
-                                    {gun?.itemProperties.bEffDist || '-'}
+                                <div class="grid-item-right">
+                                    {gun
+                                        ? `${gun.itemProperties.bEffDist} meters`
+                                        : '-'}
                                 </div>
                             </div>
                         </div>
