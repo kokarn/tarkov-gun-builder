@@ -178,7 +178,7 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Fire Rate</div>
                                 </div>
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun
                                         ? `${gun.itemProperties.bFirerate} rpm`
                                         : '-'}
@@ -209,7 +209,7 @@ function TarkovGunBuilder({ items }) {
                                     />
                                     <div>Effective Distance</div>
                                 </div>
-                                <div class="grid-item-right">
+                                <div className="grid-item-right">
                                     {gun
                                         ? `${gun.itemProperties.bEffDist} meters`
                                         : '-'}
