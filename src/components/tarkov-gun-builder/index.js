@@ -11,8 +11,6 @@ import './index.css';
 function TarkovGunBuilder({ items, presets, defaultPresets }) {
     const [currentSelector, setCurrentSelector] = useState();
     const [selectedGunId, setSelectedGunId] = useState(false);
-    const [installedItemsIds, setInstalledItemsIds] = useState([]);
-    const [installedMounts, setInstalledMounts] = useState({});
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
     const [currentBuild, setCurrentBuild] = useState({});
@@ -41,11 +39,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             .map((item) => item.id);
     }, [items]);
 
-    const installedItems = useMemo(() => {
-        return installedItemsIds.map((id) =>
-            items.find((item) => item.id === id),
-        );
-    }, [items, installedItemsIds]);
+    // todo make this a memo
+    const installedItems = 
+         (currentBuild.slots || [])
+            .map((slot) => items.find((item) => item.id === slot.item))
+            .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
@@ -81,15 +79,16 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         }
     }, [previousGun, gun, gunPresetId, presets]);
 
-    const ergonomicsModifier = useMemo(() => {
-        return items
-            .filter((item) => installedItemsIds.includes(item.id))
-            .map((item) => item.itemProperties.Ergonomics || 0)
-            .reduce(
-                (previousValue, currentValue) => previousValue + currentValue,
-                0,
-            );
-    }, [items, installedItemsIds]);
+    // todo
+    // const ergonomicsModifier = useMemo(() => {
+    //     return items
+    //         .filter((item) => installedItemsIds.includes(item.id))
+    //         .map((item) => item.itemProperties.Ergonomics || 0)
+    //         .reduce(
+    //             (previousValue, currentValue) => previousValue + currentValue,
+    //             0,
+    //         );
+    // }, [items, installedItemsIds]);
 
     const temporaryErgonomicsModifier = useMemo(() => {
         return (
@@ -147,8 +146,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             min={0}
                             max={150}
                             value={
-                                gun?.itemProperties.Ergonomics +
-                                ergonomicsModifier
+                                gun?.itemProperties.Ergonomics + 0 // ergonomicsModifier todo
                             }
                             text={'Ergonomics'}
                             iconURL={'/icons/ergonomics.jpg'}
@@ -278,93 +276,18 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                         slotData={slotData}
                                         presetItem={presetItem}
                                         onItemInstalled={(newItem) => {
-                                            const canMountItems = items.find(
-                                                (item) =>
-                                                    newItem === item.id &&
-                                                    item.slots,
-                                            );
-
-                                            setInstalledItemsIds([
-                                                ...installedItemsIds,
-                                                newItem,
-                                            ]);
-
-                                            if (canMountItems) {
-                                                setInstalledMounts({
-                                                    ...installedMounts,
-                                                    [slot._name]: newItem,
-                                                });
-                                            } else {
-                                                if (
-                                                    installedMounts[slot._name]
-                                                ) {
-                                                    const state = {
-                                                        ...installedMounts,
-                                                    };
-
-                                                    delete state[slot._name];
-
-                                                    setInstalledMounts(state);
-                                                }
-                                            }
+                                            console.log(newItem);
                                         }}
                                         onItemUninstalled={(
                                             uninstalledItem,
                                         ) => {
-                                            setInstalledItemsIds(
-                                                installedItemsIds.filter(
-                                                    (item) =>
-                                                        item.id ===
-                                                        uninstalledItem.id,
-                                                ),
-                                            );
+                                            console.log(uninstalledItem);
                                         }}
                                         onItemTemporarilyInstalled={
                                             setTemporaryItem
                                         }
                                     />
                                 );
-                            })}
-                            {Object.keys(installedMounts).map((key) => {
-                                const mount = items.find(
-                                    (item) => item.id === installedMounts[key],
-                                );
-
-                                return mount.equipmentSlots.map((slot) => {
-                                    return (
-                                        <Slot
-                                            setSelectedItemsList={(
-                                                slotName,
-                                            ) => {
-                                                setCurrentSelector(slotName);
-                                            }}
-                                            selectedItemsList={currentSelector}
-                                            key={`${gun.id}-slot-${slot._name}`}
-                                            items={items}
-                                            slotData={slot}
-                                            onItemInstalled={(newItem) => {
-                                                setInstalledItemsIds([
-                                                    ...installedItemsIds,
-                                                    newItem,
-                                                ]);
-                                            }}
-                                            onItemUninstalled={(
-                                                uninstalledItem,
-                                            ) => {
-                                                setInstalledItemsIds(
-                                                    installedItemsIds.filter(
-                                                        (item) =>
-                                                            item.id ===
-                                                            uninstalledItem.id,
-                                                    ),
-                                                );
-                                            }}
-                                            onItemTemporarilyInstalled={
-                                                setTemporaryItem
-                                            }
-                                        />
-                                    );
-                                });
                             })}
                         </div>
                     </div>
