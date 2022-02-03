@@ -40,10 +40,9 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     }, [items]);
 
     // todo make this a memo
-    const installedItems = 
-         (currentBuild.slots || [])
-            .map((slot) => items.find((item) => item.id === slot.item))
-            .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
+    const installedItems = (currentBuild.slots || [])
+        .map((slot) => items.find((item) => item.id === slot.item))
+        .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
@@ -106,6 +105,21 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                 .map((item) => item.itemProperties?.Weight || 0)
                 .reduce((a, b) => a + b, 0);
     }
+
+    // todo useMemo here
+    const allSlots = [];
+
+    const flattenSlots = (slots) => {
+        slots.forEach((slot) => {
+            allSlots.push(slot);
+
+            if (slot.slots) {
+                flattenSlots(slot.slots);
+            }
+        });
+    };
+
+    flattenSlots(currentBuild.slots || []);
 
     return (
         <div className="builder-outer-wrapper">
@@ -256,10 +270,13 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             </div>
                         </div>
                         <div className="slots-wrapper">
-                            {(currentBuild.slots || []).map((slot) => {
+                            {allSlots.map((slot) => {
                                 const slotData = gun.equipmentSlots.find(
                                     (eqSlot) => slot.id === eqSlot._name,
                                 );
+
+                                // TODO this is undefined when you add a mount, because the additional slot considered is not in gun.equipmentSlots
+                                console.log(slotData)
 
                                 const presetItem = items.find(
                                     (item) => item.id === slot.item,
@@ -275,8 +292,48 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                         items={items}
                                         slotData={slotData}
                                         presetItem={presetItem}
-                                        onItemInstalled={(newItem) => {
-                                            console.log(newItem);
+                                        onItemInstalled={(itemId, slotName) => {
+                                            const itemHasSlots = items.find(
+                                                (item) =>
+                                                    itemId === item.id &&
+                                                    item.slots,
+                                            );
+
+                                            const additionalSlots = [];
+
+                                            if (itemHasSlots) {
+                                                itemHasSlots.equipmentSlots.forEach(
+                                                    (slot) => {
+                                                        additionalSlots.push({
+                                                            id: slot._name,
+                                                            item: slot._id,
+                                                            slots: [], // todo should this be recursive?
+                                                        });
+                                                    },
+                                                );
+                                            }
+
+                                            const slots = [
+                                                ...currentBuild.slots,
+                                                ...additionalSlots,
+                                            ];
+
+                                            const walkSlots = (slots) => {
+                                                slots.forEach((slot) => {
+                                                    if (slot.id === slotName) {
+                                                        slot.item = itemId;
+                                                    } else if (slot.slots) {
+                                                        walkSlots(slot.slots);
+                                                    }
+                                                });
+                                            };
+
+                                            walkSlots(slots);
+
+                                            setCurrentBuild({
+                                                ...currentBuild,
+                                                slots,
+                                            });
                                         }}
                                         onItemUninstalled={(
                                             uninstalledItem,

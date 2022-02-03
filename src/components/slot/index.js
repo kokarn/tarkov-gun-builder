@@ -60,8 +60,8 @@ function Slot({
                     items={items}
                     onHover={onItemTemporarilyInstalled}
                     handleSelect={(itemId) => {
-                        setSelectedItemId(itemId);
-                        onItemInstalled(itemId);
+                        setSelectedItemId(itemId, slotData._name);
+                        onItemInstalled(itemId, slotData._name);
                     }}
                 />
             )}
