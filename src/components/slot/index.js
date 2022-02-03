@@ -18,7 +18,7 @@ function Slot({
     // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
 
     const item = useMemo(() => {
-        if (presetItem) {
+        if (!selectedItemId && presetItem) {
             return presetItem;
         }
 
