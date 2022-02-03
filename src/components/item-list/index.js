@@ -47,8 +47,14 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                         return (
                             <tr
                                 key={`selected-item-${index}`}
-                                onClick={handleSelect.bind(this, displayItem.id)}
-                                onMouseEnter={onHover?.bind(this, displayItem.id)}
+                                onClick={handleSelect.bind(
+                                    this,
+                                    displayItem.id,
+                                )}
+                                onMouseEnter={onHover?.bind(
+                                    this,
+                                    displayItem.id,
+                                )}
                                 onMouseLeave={onHover?.bind(this, false)}
                             >
                                 <td>

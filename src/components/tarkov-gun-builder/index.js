@@ -22,12 +22,12 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     }, [items, selectedGunId]);
 
     const gunPresetId = useMemo(() => {
-        if(!gun){
+        if (!gun) {
             return false;
         }
 
-        for(const presetId in defaultPresets){
-            if(gun.id === defaultPresets[presetId].baseId){
+        for (const presetId in defaultPresets) {
+            if (gun.id === defaultPresets[presetId].baseId) {
                 return presetId;
             }
         }
@@ -51,7 +51,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         if (gun !== previousGun && gun) {
             const defaultBuild = {
                 slots: [
-                    ...gun.equipmentSlots.map(slot => {
+                    ...gun.equipmentSlots.map((slot) => {
                         return {
                             id: slot._name,
                             item: undefined,
@@ -62,12 +62,18 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             };
             const gunPreset = presets[gunPresetId];
 
-            for(const presetItem of gunPreset._items){
-                if(!presetItem.slotId){
+            for (const presetItem of gunPreset._items) {
+                if (!presetItem.slotId) {
                     continue;
                 }
 
-                defaultBuild.slots.find(slot => slot.id === presetItem.slotId).item = presetItem._id;
+                const slot = defaultBuild.slots.find(
+                    (slot) => slot.id === presetItem.slotId,
+                );
+
+                if (slot) {
+                    slot.item = presetItem._tpl;
+                }
             }
 
             console.log(defaultBuild);
@@ -252,75 +258,73 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             </div>
                         </div>
                         <div className="slots-wrapper">
-                            {gun &&
-                                gun.equipmentSlots.map((slot) => {
-                                    return (
-                                        <Slot
-                                            setSelectedItemsList={(
-                                                slotName,
-                                            ) => {
-                                                setCurrentSelector(slotName);
-                                            }}
-                                            selectedItemsList={currentSelector}
-                                            key={`${gun.id}-slot-${slot._name}`}
-                                            items={items}
-                                            slotData={slot}
-                                            onItemInstalled={(newItem) => {
-                                                const canMountItems =
-                                                    items.find(
-                                                        (item) =>
-                                                            newItem ===
-                                                                item.id &&
-                                                            item.slots,
-                                                    );
+                            {(currentBuild.slots || []).map((slot) => {
+                                const slotData = gun.equipmentSlots.find(
+                                    (eqSlot) => slot.id === eqSlot._name,
+                                );
 
-                                                setInstalledItemsIds([
-                                                    ...installedItemsIds,
-                                                    newItem,
-                                                ]);
+                                const presetItem = items.find(
+                                    (item) => item.id === slot.item,
+                                );
 
-                                                if (canMountItems) {
-                                                    setInstalledMounts({
+                                return (
+                                    <Slot
+                                        setSelectedItemsList={(slotName) => {
+                                            setCurrentSelector(slotName);
+                                        }}
+                                        selectedItemsList={currentSelector}
+                                        key={`${gun.id}-slot-${slot.id}`}
+                                        items={items}
+                                        slotData={slotData}
+                                        presetItem={presetItem}
+                                        onItemInstalled={(newItem) => {
+                                            const canMountItems = items.find(
+                                                (item) =>
+                                                    newItem === item.id &&
+                                                    item.slots,
+                                            );
+
+                                            setInstalledItemsIds([
+                                                ...installedItemsIds,
+                                                newItem,
+                                            ]);
+
+                                            if (canMountItems) {
+                                                setInstalledMounts({
+                                                    ...installedMounts,
+                                                    [slot._name]: newItem,
+                                                });
+                                            } else {
+                                                if (
+                                                    installedMounts[slot._name]
+                                                ) {
+                                                    const state = {
                                                         ...installedMounts,
-                                                        [slot._name]: newItem,
-                                                    });
-                                                } else {
-                                                    if (
-                                                        installedMounts[
-                                                            slot._name
-                                                        ]
-                                                    ) {
-                                                        const state = {
-                                                            ...installedMounts,
-                                                        };
+                                                    };
 
-                                                        delete state[
-                                                            slot._name
-                                                        ];
+                                                    delete state[slot._name];
 
-                                                        setInstalledMounts(
-                                                            state,
-                                                        );
-                                                    }
+                                                    setInstalledMounts(state);
                                                 }
-                                            }}
-                                            onItemUninstalled={(
-                                                uninstalledItem,
-                                            ) => {
-                                                setInstalledItemsIds(
-                                                    installedItemsIds.filter(
-                                                        (item) =>
-                                                            item.id ===
-                                                            uninstalledItem.id,
-                                                    ),
-                                                );
-                                            }}
-                                            onItemTemporarilyInstalled={
-                                                setTemporaryItem
                                             }
-                                        />
-                                    );
-                                })}
+                                        }}
+                                        onItemUninstalled={(
+                                            uninstalledItem,
+                                        ) => {
+                                            setInstalledItemsIds(
+                                                installedItemsIds.filter(
+                                                    (item) =>
+                                                        item.id ===
+                                                        uninstalledItem.id,
+                                                ),
+                                            );
+                                        }}
+                                        onItemTemporarilyInstalled={
+                                            setTemporaryItem
+                                        }
+                                    />
+                                );
+                            })}
                             {Object.keys(installedMounts).map((key) => {
                                 const mount = items.find(
                                     (item) => item.id === installedMounts[key],

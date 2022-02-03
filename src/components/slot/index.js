@@ -12,13 +12,18 @@ function Slot({
     onItemTemporarilyInstalled,
     selectedItemsList,
     setSelectedItemsList,
+    presetItem,
 }) {
     const [selectedItemId, setSelectedItemId] = useState(false);
     // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
 
     const item = useMemo(() => {
+        if (presetItem) {
+            return presetItem;
+        }
+
         return items.find((item) => item.id === selectedItemId);
-    }, [items, selectedItemId]);
+    }, [items, selectedItemId, presetItem]);
 
     const allowedItemIds = useMemo(() => {
         return items
