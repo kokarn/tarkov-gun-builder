@@ -1,44 +1,11 @@
-import { useState, useMemo } from 'react';
-
-import ItemList from '../item-list';
-
 import './index.css';
 
-function Slot({
-    slotData,
-    items,
-    onItemInstalled,
-    onItemUninstalled,
-    onItemTemporarilyInstalled,
-    selectedItemsList,
-    setSelectedItemsList,
-    presetItem,
-}) {
-    const [selectedItemId, setSelectedItemId] = useState(false);
-    // const [itemSelectedCallback, setItemSelectedCallback] = useState(() => {});
-
-    const item = useMemo(() => {
-        if (!selectedItemId && presetItem) {
-            return presetItem;
-        }
-
-        return items.find((item) => item.id === selectedItemId);
-    }, [items, selectedItemId, presetItem]);
-
-    const allowedItemIds = useMemo(() => {
-        return items
-            .filter((item) =>
-                slotData._props.filters[0].Filter.includes(item.id),
-            )
-            .map((item) => item.id);
-    }, [slotData, items]);
-
+function Slot({ slotName, setSelectedItemsList, item }) {
     return (
         <div
             className="slot"
-            // onClick={setSelectedItemId.bind(this, '55d485be4bdc2d962f8b456f')}
             onClick={() => {
-                setSelectedItemsList(slotData._name);
+                setSelectedItemsList(slotName, item);
             }}
         >
             {item && (
@@ -51,19 +18,8 @@ function Slot({
             )}
             {!item && (
                 <div className="slot-name-wrapper">
-                    {slotData._name.replace('mod_', '')}
+                    {slotName.replace('mod_', '')}
                 </div>
-            )}
-            {selectedItemsList === slotData._name && (
-                <ItemList
-                    allowedIdsList={allowedItemIds}
-                    items={items}
-                    onHover={onItemTemporarilyInstalled}
-                    handleSelect={(itemId) => {
-                        setSelectedItemId(itemId, slotData._name);
-                        onItemInstalled(itemId, slotData._name);
-                    }}
-                />
             )}
         </div>
     );

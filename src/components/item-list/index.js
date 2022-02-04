@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import './index.css';
-
 function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
     const [searchText, setSearchText] = useState();
 
@@ -43,7 +41,6 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                 </thead>
                 <tbody>
                     {displayItems.map((displayItem, index) => {
-                        // console.log(displayItem)
                         return (
                             <tr
                                 key={`selected-item-${index}`}
