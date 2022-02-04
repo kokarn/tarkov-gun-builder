@@ -138,3 +138,13 @@
     font-size: 14px;
     color: #fff;
 }
+
+.select-list-icon {
+    width: 100%;
+    max-width: 200px;
+}
+
+.selector {
+    background-color: #000;
+    width: 450px;
+}

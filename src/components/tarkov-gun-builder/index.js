@@ -308,70 +308,65 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                 );
                             })}
                         </div>
-                        <div>
-                            {currentSelector && (
-                                <ItemList
-                                    allowedIdsList={allowedIdsList}
-                                    items={items}
-                                    handleSelect={(itemId) => {
-                                        setCurrentSelector();
-
-                                        if (
-                                            currentSelector.slotName === 'gun'
-                                        ) {
-                                            handleSelect(itemId);
-                                            return;
-                                        }
-
-                                        const itemHasSlots = items.find(
-                                            (item) =>
-                                                itemId === item.id &&
-                                                item.slots,
-                                        );
-
-                                        const additionalSlots = [];
-
-                                        if (itemHasSlots) {
-                                            itemHasSlots.equipmentSlots.forEach(
-                                                (slot) => {
-                                                    additionalSlots.push({
-                                                        id: slot._name,
-                                                        item: slot._id,
-                                                        slots: [], // todo should this be recursive?
-                                                    });
-                                                },
-                                            );
-                                        }
-
-                                        const slots = [
-                                            ...currentBuild.slots,
-                                            ...additionalSlots,
-                                        ];
-
-                                        const walkSlots = (slots) => {
-                                            slots.forEach((slot) => {
-                                                if (
-                                                    slot.id ===
-                                                    currentSelector.slotName
-                                                ) {
-                                                    slot.item = itemId;
-                                                } else if (slot.slots) {
-                                                    walkSlots(slot.slots);
-                                                }
-                                            });
-                                        };
-
-                                        walkSlots(slots);
-
-                                        setCurrentBuild({
-                                            ...currentBuild,
-                                            slots,
-                                        });
-                                    }}
-                                />
-                            )}
-                        </div>
                     </div>
+                </div>
+                <div className="selector">
+                    {currentSelector && (
+                        <ItemList
+                            allowedIdsList={allowedIdsList}
+                            items={items}
+                            handleSelect={(itemId) => {
+                                setCurrentSelector();
+
+                                if (currentSelector.slotName === 'gun') {
+                                    handleSelect(itemId);
+                                    return;
+                                }
+
+                                const itemHasSlots = items.find(
+                                    (item) => itemId === item.id && item.slots,
+                                );
+
+                                const additionalSlots = [];
+
+                                if (itemHasSlots) {
+                                    itemHasSlots.equipmentSlots.forEach(
+                                        (slot) => {
+                                            additionalSlots.push({
+                                                id: slot._name,
+                                                item: slot._id,
+                                                slots: [], // todo should this be recursive?
+                                            });
+                                        },
+                                    );
+                                }
+
+                                const slots = [
+                                    ...currentBuild.slots,
+                                    ...additionalSlots,
+                                ];
+
+                                const walkSlots = (slots) => {
+                                    slots.forEach((slot) => {
+                                        if (
+                                            slot.id === currentSelector.slotName
+                                        ) {
+                                            slot.item = itemId;
+                                        } else if (slot.slots) {
+                                            walkSlots(slot.slots);
+                                        }
+                                    });
+                                };
+
+                                walkSlots(slots);
+
+                                setCurrentBuild({
+                                    ...currentBuild,
+                                    slots,
+                                });
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
