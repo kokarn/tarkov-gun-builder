@@ -313,6 +313,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                 allowedIdsList={allowedIdsList}
                                 items={items}
                                 handleSelect={(itemId) => {
+                                    setCurrentSelector()
+
                                     if (currentSelector.slotName === 'gun') {
                                         handleSelect(itemId);
                                         return;
