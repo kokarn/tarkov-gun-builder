@@ -291,7 +291,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
 
                                 return (
                                     <Slot
-                                        setSelectedItemsList={(
+                                        setCurrentSelector={(
                                             slotName,
                                             item,
                                         ) => {
