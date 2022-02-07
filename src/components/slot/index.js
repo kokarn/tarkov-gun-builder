@@ -1,11 +1,11 @@
 import './index.css';
 
-function Slot({ id, type, setCurrentSelector, item }) {
+function Slot({ type, setCurrentSelector, item }) {
     return (
         <div
             className="slot"
             onClick={() => {
-                setCurrentSelector(id, item);
+                setCurrentSelector(item);
             }}
         >
             {item && (

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import objectPath from 'object-path';
 
 import ItemList from '../item-list';
 import Slot from '../slot';
@@ -9,13 +10,14 @@ import usePreviousValue from '../../hooks/usePreviousValue';
 import './index.css';
 
 function TarkovGunBuilder({ items, presets, defaultPresets }) {
-    const [currentSelector, setCurrentSelector] = useState();
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
     const [currentBuild, setCurrentBuild] = useState({
         slots: [],
     });
+    const [allowedIdsList, setAllowedIdsList] = useState([]);
+    const [listTarget, setListTarget] = useState();
 
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
@@ -35,12 +37,32 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         return false;
     }, [gun, defaultPresets]);
 
-    const handleSlotSet = (slotName, slotData) => {
-        console.log(slotName, slotData);
-        setCurrentSelector({
-            slotName: slotName,
-            item: slotData,
-        });
+    const handleSlotSet = (slotIdString, slotAllowedItems) => {
+        setAllowedIdsList(slotAllowedItems);
+        setListTarget(slotIdString);
+    };
+
+    const handleListSelect = (itemId) => {
+        if (allGuns.includes(itemId)) {
+            setSelectedGunId(itemId);
+            setAllowedIdsList([]);
+
+            return true;
+        }
+
+        console.log(`Setting ${listTarget}.item`);
+        const buildCopy = {
+            ...currentBuild,
+        };
+
+        objectPath.set(
+            buildCopy,
+            `${listTarget}.item`,
+            items.find((item) => item.id === itemId),
+        );
+        console.log(buildCopy);
+        setCurrentBuild(buildCopy);
+        setAllowedIdsList([]);
     };
 
     const allGuns = useMemo(() => {
@@ -49,8 +71,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
 
     // todo make this a memo
     const installedItems = currentBuild.slots || [];
-    // .map((slot) => items.find((item) => item.id === slot.item))
-    // .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
@@ -61,6 +81,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             type: slot._name,
                             item: undefined,
                             slots: [],
+                            allowedItems: slot._props.filters[0].Filter,
                         };
                     }),
                 ],
@@ -84,6 +105,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                 type: equipmentSlot._name,
                                 item: undefined,
                                 slots: [],
+                                allowedItems: equipmentSlot._props.filters[0].Filter,
                             };
                         });
                     }
@@ -117,37 +139,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             installedItems.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
-    // todo useMemo here
-    // const allSlots = [];
-
-    // const flattenSlots = (slots) => {
-    //     slots.forEach((slot) => {
-    //         allSlots.push(slot);
-
-    //         if (slot.slots) {
-    //             flattenSlots(slot.slots);
-    //         }
-    //     });
-    // };
-
-    // flattenSlots(currentBuild.slots || []);
-
-    let allowedIdsList = [];
-    let handleSelect;
-
-    if (currentSelector) {
-        if (currentSelector.slotName === 'gun') {
-            allowedIdsList = allGuns;
-            handleSelect = setSelectedGunId;
-        } else {
-            const slotData = gun.equipmentSlots.find((eqSlot) => currentSelector.slotName === eqSlot._name);
-
-            allowedIdsList = items
-                .filter((item) => slotData._props.filters[0].Filter.includes(item.id))
-                .map((item) => item.id);
-        }
-    }
-
     console.log(currentBuild);
 
     return (
@@ -158,7 +149,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                     <div
                         className="gun-selector-wrapper"
                         onClick={() => {
-                            setCurrentSelector({ slotName: 'gun' });
+                            setAllowedIdsList(allGuns);
                         }}
                     >
                         {!gun && <h2>Click to select gun</h2>}
@@ -257,7 +248,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             {currentBuild.slots.map((slot, index) => {
                                 return (
                                     <Slot
-                                        setCurrentSelector={handleSlotSet}
+                                        setCurrentSelector={handleSlotSet.bind(
+                                            this,
+                                            `slots.${index}`,
+                                            slot.allowedItems,
+                                        )}
                                         key={`${gun.id}-slot-${index}`}
                                         items={items}
                                         type={slot.type}
@@ -269,52 +264,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                     </div>
                 </div>
                 <div className="selector">
-                    {currentSelector && (
-                        <ItemList
-                            allowedIdsList={allowedIdsList}
-                            items={items}
-                            handleSelect={(itemId) => {
-                                setCurrentSelector();
-
-                                if (currentSelector.slotName === 'gun') {
-                                    handleSelect(itemId);
-                                    return;
-                                }
-
-                                const itemHasSlots = items.find((item) => itemId === item.id && item.slots);
-
-                                const additionalSlots = [];
-
-                                if (itemHasSlots) {
-                                    itemHasSlots.equipmentSlots.forEach((slot) => {
-                                        additionalSlots.push({
-                                            id: slot._name,
-                                            item: slot._id,
-                                            slots: [], // todo should this be recursive?
-                                        });
-                                    });
-                                }
-
-                                const slots = [...currentBuild.slots, ...additionalSlots];
-
-                                const walkSlots = (slots) => {
-                                    slots.forEach((slot) => {
-                                        if (slot.id === currentSelector.slotName) {
-                                            slot.item = itemId;
-                                        } else if (slot.slots) {
-                                            walkSlots(slot.slots);
-                                        }
-                                    });
-                                };
-
-                                walkSlots(slots);
-
-                                setCurrentBuild({
-                                    ...currentBuild,
-                                    slots,
-                                });
-                            }}
-                        />
+                    {allowedIdsList.length > 0 && (
+                        <ItemList allowedIdsList={allowedIdsList} items={items} handleSelect={handleListSelect} />
                     )}
                 </div>
             </div>
