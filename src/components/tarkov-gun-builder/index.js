@@ -248,7 +248,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             {currentBuild.slots.map((slot, index) => {
                                 return (
                                     <Slot
-                                        setCurrentSelector={handleSlotSet.bind(
+                                        onSelect={handleSlotSet.bind(
                                             this,
                                             `slots.${index}`,
                                             slot.allowedItems,
