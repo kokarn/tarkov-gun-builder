@@ -158,7 +158,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
 
         const childSlots = slot.slots
             .map((innerSlot, index) => {
-                return getSlot(innerSlot, `${keyPrefix}.${index}`);
+                return getSlot(innerSlot, `${keyPrefix}.slots.${index}`);
             })
             .flat();
 
