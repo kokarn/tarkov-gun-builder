@@ -1,11 +1,11 @@
 import './index.css';
 
-function Slot({ slotName, setCurrentSelector, item }) {
+function Slot({ id, type, setCurrentSelector, item }) {
     return (
         <div
             className="slot"
             onClick={() => {
-                setCurrentSelector(slotName, item);
+                setCurrentSelector(id, item);
             }}
         >
             {item && (
@@ -14,7 +14,7 @@ function Slot({ slotName, setCurrentSelector, item }) {
                     <div className="slot-item-name-wrapper">{item.shortName}</div>
                 </div>
             )}
-            {!item && <div className="slot-name-wrapper">{slotName.replace('mod_', '')}</div>}
+            {!item && <div className="slot-name-wrapper">{type.replace('mod_', '')}</div>}
         </div>
     );
 }

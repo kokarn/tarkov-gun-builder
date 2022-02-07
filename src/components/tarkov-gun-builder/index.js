@@ -13,7 +13,9 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
-    const [currentBuild, setCurrentBuild] = useState({});
+    const [currentBuild, setCurrentBuild] = useState({
+        slots: [],
+    });
 
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
@@ -56,9 +58,9 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                 slots: [
                     ...gun.equipmentSlots.map((slot) => {
                         return {
-                            id: slot._name,
+                            type: slot._name,
                             item: undefined,
-                            // slots: [],
+                            slots: [],
                         };
                     }),
                 ],
@@ -70,10 +72,21 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                     continue;
                 }
 
-                const slot = defaultBuild.slots.find((slot) => slot.id === presetItem.slotId);
+                const slot = defaultBuild.slots.find((slot) => slot.type === presetItem.slotId);
 
                 if (slot) {
-                    slot.item = items.find((item) => item.id === presetItem._tpl);
+                    const slotItem = items.find((item) => item.id === presetItem._tpl);
+                    slot.item = slotItem;
+
+                    if (slotItem.equipmentSlots) {
+                        slot.slots = slotItem.equipmentSlots.map((equipmentSlot) => {
+                            return {
+                                type: equipmentSlot._name,
+                                item: undefined,
+                                slots: [],
+                            };
+                        });
+                    }
                 }
             }
 
@@ -105,19 +118,19 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     }
 
     // todo useMemo here
-    const allSlots = [];
+    // const allSlots = [];
 
-    const flattenSlots = (slots) => {
-        slots.forEach((slot) => {
-            allSlots.push(slot);
+    // const flattenSlots = (slots) => {
+    //     slots.forEach((slot) => {
+    //         allSlots.push(slot);
 
-            if (slot.slots) {
-                flattenSlots(slot.slots);
-            }
-        });
-    };
+    //         if (slot.slots) {
+    //             flattenSlots(slot.slots);
+    //         }
+    //     });
+    // };
 
-    flattenSlots(currentBuild.slots || []);
+    // flattenSlots(currentBuild.slots || []);
 
     let allowedIdsList = [];
     let handleSelect;
@@ -135,7 +148,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         }
     }
 
-    console.log(allSlots);
+    console.log(currentBuild);
 
     return (
         <div className="builder-outer-wrapper">
@@ -241,16 +254,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             </div>
                         </div>
                         <div className="slots-wrapper">
-                            {allSlots.map((slot) => {
-                                const item = items.find((item) => item.id === slot.item);
-
+                            {currentBuild.slots.map((slot, index) => {
                                 return (
                                     <Slot
                                         setCurrentSelector={handleSlotSet}
-                                        key={`${gun.id}-slot-${slot.id}`}
+                                        key={`${gun.id}-slot-${index}`}
                                         items={items}
-                                        slotName={slot.id}
-                                        item={item}
+                                        type={slot.type}
+                                        item={slot.item}
                                     />
                                 );
                             })}
