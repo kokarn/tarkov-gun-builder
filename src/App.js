@@ -10,7 +10,14 @@ function App() {
             <div className="page-headline-wrapper">
                 <h1>Escape from Tarkov Gun Builder</h1>
             </div>
-            <TarkovGunBuilder items={items} presets={gamePresets.ItemPresets} defaultPresets={defaultPresets} />
+            <TarkovGunBuilder
+                items={items}
+                presets={gamePresets.ItemPresets}
+                defaultPresets={defaultPresets}
+                callback={(data) => {
+                    alert(JSON.stringify(data));
+                }}
+            />
         </div>
     );
 }

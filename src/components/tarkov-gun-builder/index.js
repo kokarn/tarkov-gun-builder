@@ -18,7 +18,7 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
     };
 };
 
-function TarkovGunBuilder({ items, presets, defaultPresets }) {
+function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
@@ -203,7 +203,15 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
                             <div>Discard All</div>
                         </div>
-                        <div className="action">
+                        <div
+                            className="action"
+                            onClick={() => {
+                                callback({
+                                    gun,
+                                    currentBuild,
+                                });
+                            }}
+                        >
                             <img className="icon" src={'/icons/share.jpg'} alt="share-icon" />
                             <div>Share</div>
                         </div>
