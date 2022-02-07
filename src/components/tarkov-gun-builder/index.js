@@ -178,13 +178,23 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             setAllowedIdsList(allGuns);
                         }}
                     >
-                        {!gun && <h2>Click to select gun</h2>}
+                        {!gun && <h2>CLICK TO SELECT A GUN</h2>}
                         {gun && (
                             <div>
                                 <div className="weight">{weight.toFixed(2)}Kg</div>
                                 <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
                             </div>
                         )}
+                    </div>
+                    <div className="actions-wrapper">
+                        <div className="action irreversible">
+                            <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
+                            <div>Discard All</div>
+                        </div>
+                        <div className="action">
+                            <img className="icon" src={'/icons/share.jpg'} alt="share-icon" />
+                            <div>Share</div>
+                        </div>
                     </div>
                     <div className="stats-wrapper">
                         <StatsLine
@@ -208,21 +218,21 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                         <StatsLine
                             min={0}
                             max={700}
-                            value={gun?.itemProperties.RecoilForceUp}
+                            value={gun?.itemProperties.RecoilForceUp || '-'}
                             text={'Vertical recoil'}
                             iconURL={'/icons/recoil.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
-                            value={gun?.itemProperties.RecoilForceBack}
+                            value={gun?.itemProperties.RecoilForceBack || '-'}
                             text={'Horizontal recoil'}
                             iconURL={'/icons/recoil.jpg'}
                         />
                         <StatsLine
                             min={0}
                             max={1000}
-                            value={gun?.itemProperties.RecoilForceBack}
+                            value={gun?.itemProperties.RecoilForceBack || '-'}
                             text={'Muzzle velocity'}
                             rightText={'m/s'}
                             iconURL={'/icons/muzzle-velocity.jpg'}
