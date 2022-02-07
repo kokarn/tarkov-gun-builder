@@ -7,14 +7,10 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
         let results = items.filter((item) => allowedIdsList.includes(item.id));
 
         if (searchText?.length) {
-            results = results.filter((item) =>
-                item.name.toLowerCase().includes(searchText),
-            );
+            results = results.filter((item) => item.name.toLowerCase().includes(searchText));
         }
 
-        return results.sort((itemA, itemB) =>
-            itemA.name.localeCompare(itemB.name),
-        );
+        return results.sort((itemA, itemB) => itemA.name.localeCompare(itemB.name));
     }, [allowedIdsList, items, searchText]);
 
     if (!allowedIdsList) {
@@ -44,14 +40,8 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                         return (
                             <tr
                                 key={`selected-item-${index}`}
-                                onClick={handleSelect.bind(
-                                    this,
-                                    displayItem.id,
-                                )}
-                                onMouseEnter={onHover?.bind(
-                                    this,
-                                    displayItem.id,
-                                )}
+                                onClick={handleSelect.bind(this, displayItem.id)}
+                                onMouseEnter={onHover?.bind(this, displayItem.id)}
                                 onMouseLeave={onHover?.bind(this, false)}
                             >
                                 <td>

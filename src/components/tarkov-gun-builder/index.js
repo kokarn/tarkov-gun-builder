@@ -33,16 +33,22 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         return false;
     }, [gun, defaultPresets]);
 
+    const handleSlotSet = (slotName, slotData) => {
+        console.log(slotName, slotData);
+        setCurrentSelector({
+            slotName: slotName,
+            item: slotData,
+        });
+    };
+
     const allGuns = useMemo(() => {
-        return items
-            .filter((item) => item.types.includes('gun'))
-            .map((item) => item.id);
+        return items.filter((item) => item.types.includes('gun')).map((item) => item.id);
     }, [items]);
 
     // todo make this a memo
-    const installedItems = (currentBuild.slots || [])
-        .map((slot) => items.find((item) => item.id === slot.item))
-        .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
+    const installedItems = currentBuild.slots || [];
+    // .map((slot) => items.find((item) => item.id === slot.item))
+    // .filter((slot) => !!slot); // todo this line should not be necessary but there are undefined items
 
     useMemo(() => {
         if (gun !== previousGun && gun) {
@@ -52,7 +58,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                         return {
                             id: slot._name,
                             item: undefined,
-                            slots: [],
+                            // slots: [],
                         };
                     }),
                 ],
@@ -64,18 +70,16 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                     continue;
                 }
 
-                const slot = defaultBuild.slots.find(
-                    (slot) => slot.id === presetItem.slotId,
-                );
+                const slot = defaultBuild.slots.find((slot) => slot.id === presetItem.slotId);
 
                 if (slot) {
-                    slot.item = presetItem._tpl;
+                    slot.item = items.find((item) => item.id === presetItem._tpl);
                 }
             }
 
             setCurrentBuild(defaultBuild);
         }
-    }, [previousGun, gun, gunPresetId, presets]);
+    }, [previousGun, gun, gunPresetId, presets, items]);
 
     // todo
     // const ergonomicsModifier = useMemo(() => {
@@ -89,10 +93,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     // }, [items, installedItemsIds]);
 
     const temporaryErgonomicsModifier = useMemo(() => {
-        return (
-            items.find((item) => item.id === temporaryItemId)?.itemProperties
-                .Ergonomics || 0
-        );
+        return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
     }, [items, temporaryItemId]);
 
     let weight = 0;
@@ -100,9 +101,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     if (gun) {
         weight =
             (gun.itemProperties?.Weight || 0) +
-            installedItems
-                .map((item) => item.itemProperties?.Weight || 0)
-                .reduce((a, b) => a + b, 0);
+            installedItems.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
     // todo useMemo here
@@ -128,14 +127,10 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             allowedIdsList = allGuns;
             handleSelect = setSelectedGunId;
         } else {
-            const slotData = gun.equipmentSlots.find(
-                (eqSlot) => currentSelector.slotName === eqSlot._name,
-            );
+            const slotData = gun.equipmentSlots.find((eqSlot) => currentSelector.slotName === eqSlot._name);
 
             allowedIdsList = items
-                .filter((item) =>
-                    slotData._props.filters[0].Filter.includes(item.id),
-                )
+                .filter((item) => slotData._props.filters[0].Filter.includes(item.id))
                 .map((item) => item.id);
         }
     }
@@ -146,9 +141,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         <div className="builder-outer-wrapper">
             <div>
                 <div className="gun-wrapper">
-                    <div className="selected-gun-name-wrapper">
-                        {gun?.name || 'NO GUN SELECTED'}
-                    </div>
+                    <div className="selected-gun-name-wrapper">{gun?.name || 'NO GUN SELECTED'}</div>
                     <div
                         className="gun-selector-wrapper"
                         onClick={() => {
@@ -158,14 +151,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                         {!gun && <h2>Click to select gun</h2>}
                         {gun && (
                             <div>
-                                <div className="weight">
-                                    {weight.toFixed(2)}Kg
-                                </div>
-                                <img
-                                    alt={gun.name}
-                                    loading="lazy"
-                                    src={gun.gridImageLink}
-                                />
+                                <div className="weight">{weight.toFixed(2)}Kg</div>
+                                <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
                             </div>
                         )}
                     </div>
@@ -178,18 +165,9 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                             }
                             text={'Ergonomics'}
                             iconURL={'/icons/ergonomics.jpg'}
-                            temporaryValue={
-                                gun?.itemProperties.Ergonomics +
-                                temporaryErgonomicsModifier
-                            }
+                            temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
                         />
-                        <StatsLine
-                            min={0}
-                            max={100}
-                            value={55}
-                            text={'Accuracy'}
-                            iconURL={'/icons/accuracy.jpg'}
-                        />
+                        <StatsLine min={0} max={100} value={55} text={'Accuracy'} iconURL={'/icons/accuracy.jpg'} />
                         <StatsLine
                             min={0}
                             max={100}
@@ -222,49 +200,30 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                         <div className="grid-container">
                             <div className="grid-item">
                                 <div className="horizontal-wrapper">
-                                    <img
-                                        className="icon"
-                                        src={'/icons/types-of-fire.jpg'}
-                                        alt="types-of-fire-icon"
-                                    />
+                                    <img className="icon" src={'/icons/types-of-fire.jpg'} alt="types-of-fire-icon" />
                                     <div>Types of Fire</div>
                                 </div>
 
                                 <div className="grid-item-right">
-                                    {gun?.itemProperties.weapFireType.join(
-                                        ', ',
-                                    ) || '-'}
+                                    {gun?.itemProperties.weapFireType.join(', ') || '-'}
                                 </div>
                             </div>
                             <div className="grid-item">
                                 <div className="horizontal-wrapper">
-                                    <img
-                                        className="icon"
-                                        src={'/icons/fire-rate.jpg'}
-                                        alt="fire-rate-icon"
-                                    />
+                                    <img className="icon" src={'/icons/fire-rate.jpg'} alt="fire-rate-icon" />
                                     <div>Fire Rate</div>
                                 </div>
                                 <div className="grid-item-right">
-                                    {gun
-                                        ? `${gun.itemProperties.bFirerate} rpm`
-                                        : '-'}
+                                    {gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}
                                 </div>
                             </div>
                             <div className="grid-item">
                                 <div className="horizontal-wrapper">
-                                    <img
-                                        className="icon"
-                                        src={'/icons/caliber.jpg'}
-                                        alt="caliber-icon"
-                                    />
+                                    <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
                                     <div>Caliber</div>
                                 </div>
                                 <div className="grid-item-right">
-                                    {gun?.itemProperties.ammoCaliber.replace(
-                                        'Caliber',
-                                        '',
-                                    ) || '-'}
+                                    {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
                                 </div>
                             </div>
                             <div className="grid-item">
@@ -277,29 +236,17 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                     <div>Effective Distance</div>
                                 </div>
                                 <div className="grid-item-right">
-                                    {gun
-                                        ? `${gun.itemProperties.bEffDist} meters`
-                                        : '-'}
+                                    {gun ? `${gun.itemProperties.bEffDist} meters` : '-'}
                                 </div>
                             </div>
                         </div>
                         <div className="slots-wrapper">
                             {allSlots.map((slot) => {
-                                const item = items.find(
-                                    (item) => item.id === slot.item,
-                                );
+                                const item = items.find((item) => item.id === slot.item);
 
                                 return (
                                     <Slot
-                                        setCurrentSelector={(
-                                            slotName,
-                                            item,
-                                        ) => {
-                                            setCurrentSelector({
-                                                slotName,
-                                                item,
-                                            });
-                                        }}
+                                        setCurrentSelector={handleSlotSet}
                                         key={`${gun.id}-slot-${slot.id}`}
                                         items={items}
                                         slotName={slot.id}
@@ -323,34 +270,25 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                     return;
                                 }
 
-                                const itemHasSlots = items.find(
-                                    (item) => itemId === item.id && item.slots,
-                                );
+                                const itemHasSlots = items.find((item) => itemId === item.id && item.slots);
 
                                 const additionalSlots = [];
 
                                 if (itemHasSlots) {
-                                    itemHasSlots.equipmentSlots.forEach(
-                                        (slot) => {
-                                            additionalSlots.push({
-                                                id: slot._name,
-                                                item: slot._id,
-                                                slots: [], // todo should this be recursive?
-                                            });
-                                        },
-                                    );
+                                    itemHasSlots.equipmentSlots.forEach((slot) => {
+                                        additionalSlots.push({
+                                            id: slot._name,
+                                            item: slot._id,
+                                            slots: [], // todo should this be recursive?
+                                        });
+                                    });
                                 }
 
-                                const slots = [
-                                    ...currentBuild.slots,
-                                    ...additionalSlots,
-                                ];
+                                const slots = [...currentBuild.slots, ...additionalSlots];
 
                                 const walkSlots = (slots) => {
                                     slots.forEach((slot) => {
-                                        if (
-                                            slot.id === currentSelector.slotName
-                                        ) {
+                                        if (slot.id === currentSelector.slotName) {
                                             slot.item = itemId;
                                         } else if (slot.slots) {
                                             walkSlots(slot.slots);

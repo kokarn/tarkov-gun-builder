@@ -1,14 +1,6 @@
-function StatsLine({
-    min,
-    max,
-    value,
-    text,
-    temporaryValue,
-    iconURL,
-    rightText,
-}) {
+function StatsLine({ min, max, value, text, temporaryValue, iconURL, rightText }) {
     let percentage = (value / max) * 100;
-    if(isNaN(value)){
+    if (isNaN(value)) {
         value = 0;
     }
     return (
@@ -29,9 +21,7 @@ function StatsLine({
                 <img className="icon" src={iconURL} alt="icon" />
                 <div>{text}</div>
             </div>
-            <div className="stats-wrapper">
-                {rightText ? `${value} ${rightText}` : value}
-            </div>
+            <div className="stats-wrapper">{rightText ? `${value} ${rightText}` : value}</div>
         </div>
     );
 }
