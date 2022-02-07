@@ -8,6 +8,9 @@ function StatsLine({
     rightText,
 }) {
     let percentage = (value / max) * 100;
+    if(isNaN(value)){
+        value = 0;
+    }
     return (
         <div className="graph-wrapper">
             <div
