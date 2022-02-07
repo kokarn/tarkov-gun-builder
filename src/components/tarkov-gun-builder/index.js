@@ -9,6 +9,15 @@ import usePreviousValue from '../../hooks/usePreviousValue';
 
 import './index.css';
 
+const equipmentSlotsToSlots = (equipmentSlot) => {
+    return {
+        type: equipmentSlot._name,
+        item: undefined,
+        slots: [],
+        allowedItems: equipmentSlot._props.filters[0].Filter,
+    };
+};
+
 function TarkovGunBuilder({ items, presets, defaultPresets }) {
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
@@ -38,6 +47,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     }, [gun, defaultPresets]);
 
     const handleSlotSet = (slotIdString, slotAllowedItems) => {
+        // console.log(`Setting ${slotIdString}`);
         setAllowedIdsList(slotAllowedItems);
         setListTarget(slotIdString);
     };
@@ -55,11 +65,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             ...currentBuild,
         };
 
-        objectPath.set(
-            buildCopy,
-            `${listTarget}.item`,
-            items.find((item) => item.id === itemId),
-        );
+        const targetItem = items.find((item) => item.id === itemId);
+
+        objectPath.set(buildCopy, `${listTarget}.item`, targetItem);
+        objectPath.set(buildCopy, `${listTarget}.slots`, targetItem.equipmentSlots?.map(equipmentSlotsToSlots));
+        console.log('New build');
         console.log(buildCopy);
         setCurrentBuild(buildCopy);
         setAllowedIdsList([]);
@@ -75,16 +85,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     useMemo(() => {
         if (gun !== previousGun && gun) {
             const defaultBuild = {
-                slots: [
-                    ...gun.equipmentSlots.map((slot) => {
-                        return {
-                            type: slot._name,
-                            item: undefined,
-                            slots: [],
-                            allowedItems: slot._props.filters[0].Filter,
-                        };
-                    }),
-                ],
+                slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
             };
             const gunPreset = presets[gunPresetId];
 
@@ -100,14 +101,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                     slot.item = slotItem;
 
                     if (slotItem.equipmentSlots) {
-                        slot.slots = slotItem.equipmentSlots.map((equipmentSlot) => {
-                            return {
-                                type: equipmentSlot._name,
-                                item: undefined,
-                                slots: [],
-                                allowedItems: equipmentSlot._props.filters[0].Filter,
-                            };
-                        });
+                        slot.slots = slotItem.equipmentSlots.map(equipmentSlotsToSlots);
                     }
                 }
             }
@@ -139,8 +133,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             installedItems.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
-    console.log(currentBuild);
-
     const getSlot = (slot, keyPrefix) => {
         const primarySlot = (
             <Slot
@@ -166,7 +158,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
     };
 
     const getSlots = () => {
-        console.log(currentBuild);
         return currentBuild.slots
             .map((slot, index) => {
                 return getSlot(slot, `slots.${index}`);
@@ -174,7 +165,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             .flat();
     };
 
-    console.log(getSlots());
+    // console.log(getSlots());
 
     return (
         <div className="builder-outer-wrapper">
