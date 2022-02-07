@@ -141,6 +141,41 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
 
     console.log(currentBuild);
 
+    const getSlot = (slot, keyPrefix) => {
+        const primarySlot = (
+            <Slot
+                onSelect={handleSlotSet.bind(this, keyPrefix, slot.allowedItems)}
+                key={`${gun.id}-slot-${keyPrefix}`}
+                items={items}
+                type={slot.type}
+                item={slot.item}
+            />
+        );
+
+        if (!slot.slots) {
+            return [primarySlot];
+        }
+
+        const childSlots = slot.slots
+            .map((innerSlot, index) => {
+                return getSlot(innerSlot, `${keyPrefix}.${index}`);
+            })
+            .flat();
+
+        return [primarySlot, ...childSlots];
+    };
+
+    const getSlots = () => {
+        console.log(currentBuild);
+        return currentBuild.slots
+            .map((slot, index) => {
+                return getSlot(slot, `slots.${index}`);
+            })
+            .flat();
+    };
+
+    console.log(getSlots());
+
     return (
         <div className="builder-outer-wrapper">
             <div>
@@ -244,23 +279,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="slots-wrapper">
-                            {currentBuild.slots.map((slot, index) => {
-                                return (
-                                    <Slot
-                                        onSelect={handleSlotSet.bind(
-                                            this,
-                                            `slots.${index}`,
-                                            slot.allowedItems,
-                                        )}
-                                        key={`${gun.id}-slot-${index}`}
-                                        items={items}
-                                        type={slot.type}
-                                        item={slot.item}
-                                    />
-                                );
-                            })}
-                        </div>
+                        <div className="slots-wrapper">{getSlots()}</div>
                     </div>
                 </div>
                 <div className="selector">
