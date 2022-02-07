@@ -46,7 +46,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
         return false;
     }, [gun, defaultPresets]);
 
-    const handleSlotSet = (slotIdString, slotAllowedItems) => {
+    const handleSlotSet = (slotIdString, slotAllowedItems, conflictingItems) => {
         // console.log(`Setting ${slotIdString}`);
         setAllowedIdsList(slotAllowedItems);
         setListTarget(slotIdString);
@@ -133,7 +133,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             installedItems.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
+    const possibleItemsConflicts = [];
+
     const getSlot = (slot, keyPrefix) => {
+        possibleItemsConflicts.push({
+            key: `${gun.id}-slot-${keyPrefix}`,
+            ids: slot.item?.itemProperties.ConflictingItems || [],
+        });
+
         const primarySlot = (
             <Slot
                 onSelect={handleSlotSet.bind(this, keyPrefix, slot.allowedItems)}
@@ -141,6 +148,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                 items={items}
                 type={slot.type}
                 item={slot.item}
+                possibleItemsConflicts={[]}
             />
         );
 
@@ -165,7 +173,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
             .flat();
     };
 
-    // console.log(getSlots());
+    const slots = getSlots();
+
+    slots.forEach((slot) => {
+        slot.props.possibleItemsConflicts.push(...possibleItemsConflicts);
+    });
 
     return (
         <div className="builder-outer-wrapper">
@@ -280,7 +292,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="slots-wrapper">{getSlots()}</div>
+                        <div className="slots-wrapper">{slots}</div>
                     </div>
                 </div>
                 <div className="selector">
