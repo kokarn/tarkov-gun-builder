@@ -47,7 +47,7 @@ body {
 }
 
 .gun-wrapper > .stats-wrapper {
-    padding: 20px;
+    padding: 15px 20px;
 }
 
 .graph-wrapper {
@@ -110,7 +110,6 @@ body {
     grid-template-columns: auto auto;
     row-gap: 5px;
     column-gap: 5px;
-    margin: 5px 0;
     padding: 5px 40px;
     background-color: #191b1a;
 }
