@@ -193,6 +193,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [slots]);
 
+    const accuracyModifier = useMemo(() => {
+        return slots
+            .map((slot) => slot.props.item?.itemProperties.Accuracy || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+    }, [slots]);
+
+    console.log(slots.map((slot) => slot.props.item?.itemProperties));
+
     return (
         <div className="builder-outer-wrapper">
             <div>
@@ -239,7 +247,13 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                             iconURL={'/icons/ergonomics.jpg'}
                             temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
                         />
-                        <StatsLine min={0} max={100} value={55} text={'Accuracy'} iconURL={'/icons/accuracy.jpg'} />
+                        <StatsLine
+                            min={0}
+                            max={100}
+                            value={gun?.itemProperties.Accuracy + accuracyModifier}
+                            text={'Accuracy'}
+                            iconURL={'/icons/accuracy.jpg'}
+                        />
                         <StatsLine
                             min={0}
                             max={100}
@@ -289,27 +303,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                                     {gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}
                                 </div>
                             </div>
-                            <div className="grid-item">
-                                <div className="horizontal-wrapper">
-                                    <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
-                                    <div>Caliber</div>
-                                </div>
-                                <div className="grid-item-right">
-                                    {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
-                                </div>
+                        </div>
+                        <div className="grid-item">
+                            <div className="horizontal-wrapper">
+                                <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
+                                <div>Caliber</div>
                             </div>
-                            <div className="grid-item">
-                                <div className="horizontal-wrapper">
-                                    <img
-                                        className="icon"
-                                        src={'/icons/effective-distance.jpg'}
-                                        alt="effective-distance-icon"
-                                    />
-                                    <div>Effective Distance</div>
-                                </div>
-                                <div className="grid-item-right">
-                                    {gun ? `${gun.itemProperties.bEffDist} meters` : '-'}
-                                </div>
+                            <div className="grid-item-right">
+                                {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
                             </div>
                         </div>
                         <div className="slots-wrapper">{slots}</div>
