@@ -187,10 +187,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     const ergonomicsModifier = useMemo(() => {
         return slots
             .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
-            .reduce(
-                (previousValue, currentValue) => previousValue + currentValue,
-                0,
-            );
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [slots]);
 
     return (
@@ -234,9 +231,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                         <StatsLine
                             min={0}
                             max={150}
-                            value={
-                                gun?.itemProperties.Ergonomics + ergonomicsModifier
-                            }
+                            value={gun?.itemProperties.Ergonomics + ergonomicsModifier}
                             text={'Ergonomics'}
                             iconURL={'/icons/ergonomics.jpg'}
                             temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
@@ -319,7 +314,12 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                 </div>
                 <div className="selector">
                     {allowedIdsList.length > 0 && (
-                        <ItemList allowedIdsList={allowedIdsList} items={items} handleSelect={handleListSelect} onHover={setTemporaryItem}/>
+                        <ItemList
+                            allowedIdsList={allowedIdsList}
+                            items={items}
+                            handleSelect={handleListSelect}
+                            onHover={setTemporaryItem}
+                        />
                     )}
                 </div>
             </div>
