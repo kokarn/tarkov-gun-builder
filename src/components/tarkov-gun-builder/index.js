@@ -199,8 +199,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [slots]);
 
-    console.log(slots.map((slot) => slot.props.item?.itemProperties));
-
     return (
         <div className="builder-outer-wrapper">
             <div>
