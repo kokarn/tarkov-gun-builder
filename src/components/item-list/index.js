@@ -27,19 +27,20 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                 }}
                 placeholder="Search by item name"
             />
-            <table>
+            <table style={{ width: '100%' }}>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Name</th>
-                        <th>Ergo</th>
-                        <th>Recoil</th>
+                        <th>NAME</th>
+                        <th>ERGONOMICS</th>
+                        <th>RECOIL</th>
                     </tr>
                 </thead>
                 <tbody>
                     {displayItems.map((displayItem, index) => {
                         return (
                             <tr
+                                className="selected-item"
                                 key={`selected-item-${index}`}
                                 onClick={handleSelect.bind(this, displayItem.id)}
                                 onMouseEnter={onHover?.bind(this, displayItem.id)}
@@ -47,13 +48,13 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                             >
                                 <td>
                                     <img
-                                        className="select-list-icon"
+                                        className="selected-item-image"
                                         alt={displayItem.name}
                                         loading="lazy"
                                         src={displayItem.gridImageLink}
                                     />
                                 </td>
-                                <td>{displayItem.name}</td>
+                                <td className="selected-item-name">{displayItem.name}</td>
                                 <td>{displayItem.itemProperties.Ergonomics}</td>
                                 <td>{displayItem.itemProperties.Recoil}</td>
                             </tr>
