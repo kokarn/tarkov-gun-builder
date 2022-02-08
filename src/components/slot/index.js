@@ -26,7 +26,7 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
     }
 
     return (
-        <div className="slot">
+        <div className={`slot ${conflict && 'conflict'}`}>
             {item && (
                 <div
                     className="slot-item-wrapper"
@@ -34,7 +34,6 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
                     onMouseLeave={(e) => hideButton(e)}
                 >
                     {display && <button onClick={onItemDeselect}>×</button>}
-                    {conflict && `Conflict with ${conflict}`}
                     <div onClick={onSelect}>
                         <img alt={item.name} loading="lazy" src={item.iconLink} />
                         <div className="slot-item-name-wrapper">{item.shortName}</div>
