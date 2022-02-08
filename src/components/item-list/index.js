@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import './index.css';
 
 function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
     const [searchText, setSearchText] = useState();
@@ -19,12 +20,12 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
 
     return (
         <div className="select-list-wrapper">
-            Search:
             <input
                 type="text"
                 onChange={(e) => {
                     setSearchText(e.target.value);
                 }}
+                placeholder="Search by item name"
             />
             <table>
                 <thead>

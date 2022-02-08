@@ -14,7 +14,7 @@ body {
     border: 1px solid #4d5154;
     background-color: #000;
     margin: 0 auto;
-    min-width: 672px;
+    width: 672px;
 }
 
 .selected-gun-name-wrapper {
@@ -168,6 +168,7 @@ body {
 .slots-wrapper {
     background-color: #111111;
     display: flex;
+    flex-wrap: wrap;
     gap: 2px;
     padding: 10px 20px;
 }
