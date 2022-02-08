@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import ReactTooltip from 'react-tooltip';
+
 import './index.css';
 
 function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) {
@@ -15,11 +17,15 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
         setDisplay(false);
     };
 
+    useEffect(() => {
+        ReactTooltip.rebuild();
+    });
+
     if (item) {
         possibleItemsConflicts.forEach((slotItemSet) => {
             slotItemSet.ids.forEach((id) => {
                 if (id === item?.id) {
-                    conflict = slotItemSet.key;
+                    conflict = slotItemSet.item.name;
                 }
             });
         });
@@ -29,6 +35,8 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
         <div className={`slot ${conflict && 'conflict'}`}>
             {item && (
                 <div
+                    data-for={type}
+                    data-tip={`Cannot install both '${item.name}' and '${conflict}' at the same time`}
                     className="slot-item-wrapper"
                     onMouseEnter={(e) => showButton(e)}
                     onMouseLeave={(e) => hideButton(e)}
@@ -38,6 +46,7 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
                         <img alt={item.name} loading="lazy" src={item.iconLink} />
                         <div className="slot-item-name-wrapper">{item.shortName}</div>
                     </div>
+                    {conflict && <ReactTooltip id={type} />}
                 </div>
             )}
             {!item && (

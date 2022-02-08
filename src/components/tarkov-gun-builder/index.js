@@ -141,6 +141,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         possibleItemsConflicts.push({
             key: `${gun.id}-slot-${keyPrefix}`,
             ids: slot.item?.itemProperties.ConflictingItems || [],
+            item: slot.item,
         });
 
         const primarySlot = (
