@@ -97,9 +97,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         return items.filter((item) => item.types.includes('gun')).map((item) => item.id);
     }, [items]);
 
-    // todo make this a memo
-    const installedItems = currentBuild.slots || [];
-
     useMemo(() => {
         if (gun !== previousGun && gun) {
             const defaultBuild = {
@@ -133,7 +130,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     if (gun) {
         weight =
             (gun.itemProperties?.Weight || 0) +
-            installedItems.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
+            currentBuild.slots.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
     const possibleItemsConflicts = [];
