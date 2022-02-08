@@ -52,6 +52,26 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         setListTarget(slotIdString);
     };
 
+    const handleItemDeselect = (keyPrefix) => {
+        const currentSlots = [...currentBuild.slots];
+        const path = keyPrefix.match(/[0-9]+/g);
+
+        let depth = 0;
+
+        const findSlotToReset = (currentSlots, depth) => {
+            if (depth + 1 === path.length) {
+                return currentSlots[path[depth]];
+            } else {
+                return findSlotToReset(currentSlots[path[depth]].slots, depth + 1);
+            }
+        };
+
+        const slot = findSlotToReset(currentSlots, depth);
+
+        delete slot.item;
+        delete slot.slots;
+    };
+
     const handleListSelect = (itemId) => {
         if (allGuns.includes(itemId)) {
             setSelectedGunId(itemId);
@@ -144,6 +164,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         const primarySlot = (
             <Slot
                 onSelect={handleSlotSet.bind(this, keyPrefix, slot.allowedItems)}
+                onItemDeselect={handleItemDeselect.bind(this, keyPrefix)}
                 key={`${gun.id}-slot-${keyPrefix}`}
                 items={items}
                 type={slot.type}
