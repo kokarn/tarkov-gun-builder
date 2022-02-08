@@ -68,6 +68,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
 
         delete slot.item;
         delete slot.slots;
+
+        setCurrentBuild({ ...currentBuild, slots: currentSlots });
     };
 
     const handleListSelect = (itemId) => {
