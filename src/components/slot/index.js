@@ -26,20 +26,27 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
     }
 
     return (
-        <div className="slot" onClick={onSelect}>
+        <div className="slot">
             {item && (
                 <div
                     className="slot-item-wrapper"
                     onMouseEnter={(e) => showButton(e)}
                     onMouseLeave={(e) => hideButton(e)}
                 >
-                    <img alt={item.name} loading="lazy" src={item.iconLink} />
-                    {display && <button onClick={onItemDeselect}>Delete</button>}
+                    {display && <button onClick={onItemDeselect}>×</button>}
                     {conflict && `Conflict with ${conflict}`}
-                    <div className="slot-item-name-wrapper">{item.shortName}</div>
+                    <div onClick={onSelect}>
+                        <img alt={item.name} loading="lazy" src={item.iconLink} />
+                        <div className="slot-item-name-wrapper">{item.shortName}</div>
+                    </div>
                 </div>
             )}
-            {!item && <div className="slot-name-wrapper">{type.replace('mod_', '')}</div>}
+            {!item && (
+                <div className="slot-name-wrapper" onClick={onSelect}>
+                    <img alt={'item.name'} loading="lazy" src={'/assets/slots/generic.jpg'} />
+                    <p>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</p>
+                </div>
+            )}
         </div>
     );
 }

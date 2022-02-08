@@ -8,8 +8,33 @@
     position: relative;
 }
 
+.slot-item-wrapper button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 4px;
+    background-color: #3f0c11;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+}
+
 .slot-name-wrapper {
     font-size: 10px;
+    color: #fff;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slot-name-wrapper img {
+    position: absolute;
+}
+
+.slot-name-wrapper p {
+    z-index: 1;
+    font-weight: bold;
 }
 
 .slot-item-name-wrapper {
