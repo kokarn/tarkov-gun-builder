@@ -56,8 +56,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         const currentSlots = [...currentBuild.slots];
         const path = keyPrefix.match(/[0-9]+/g);
 
-        let depth = 0;
-
         const findSlotToReset = (currentSlots, depth) => {
             if (depth + 1 === path.length) {
                 return currentSlots[path[depth]];
@@ -66,7 +64,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
             }
         };
 
-        const slot = findSlotToReset(currentSlots, depth);
+        const slot = findSlotToReset(currentSlots, 0);
 
         delete slot.item;
         delete slot.slots;
