@@ -128,10 +128,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         }
     }, [previousGun, gun, gunPresetId, presets, items]);
 
-    const temporaryErgonomicsModifier = useMemo(() => {
-        return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
-    }, [items, temporaryItemId]);
-
     let weight = 0;
 
     if (gun) {
@@ -186,6 +182,10 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     slots.forEach((slot) => {
         slot.props.possibleItemsConflicts.push(...possibleItemsConflicts);
     });
+
+    const temporaryErgonomicsModifier = useMemo(() => {
+        return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
+    }, [items, temporaryItemId]);
 
     const ergonomicsModifier = useMemo(() => {
         return slots
@@ -322,7 +322,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                 </div>
                 <div className="selector">
                     {allowedIdsList.length > 0 && (
-                        <ItemList allowedIdsList={allowedIdsList} items={items} handleSelect={handleListSelect} />
+                        <ItemList allowedIdsList={allowedIdsList} items={items} handleSelect={handleListSelect} onHover={setTemporaryItem}/>
                     )}
                 </div>
             </div>
