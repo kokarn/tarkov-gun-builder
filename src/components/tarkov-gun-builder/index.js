@@ -128,17 +128,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         }
     }, [previousGun, gun, gunPresetId, presets, items]);
 
-    // todo
-    // const ergonomicsModifier = useMemo(() => {
-    //     return items
-    //         .filter((item) => installedItemsIds.includes(item.id))
-    //         .map((item) => item.itemProperties.Ergonomics || 0)
-    //         .reduce(
-    //             (previousValue, currentValue) => previousValue + currentValue,
-    //             0,
-    //         );
-    // }, [items, installedItemsIds]);
-
     const temporaryErgonomicsModifier = useMemo(() => {
         return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
     }, [items, temporaryItemId]);
@@ -198,6 +187,15 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
         slot.props.possibleItemsConflicts.push(...possibleItemsConflicts);
     });
 
+    const ergonomicsModifier = useMemo(() => {
+        return slots
+            .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
+            .reduce(
+                (previousValue, currentValue) => previousValue + currentValue,
+                0,
+            );
+    }, [slots]);
+
     return (
         <div className="builder-outer-wrapper">
             <div>
@@ -240,7 +238,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                             min={0}
                             max={150}
                             value={
-                                gun?.itemProperties.Ergonomics + 0 // ergonomicsModifier todo
+                                gun?.itemProperties.Ergonomics + ergonomicsModifier
                             }
                             text={'Ergonomics'}
                             iconURL={'/icons/ergonomics.jpg'}
