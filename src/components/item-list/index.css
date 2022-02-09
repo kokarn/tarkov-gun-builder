@@ -44,9 +44,22 @@
     width: 48px;
     height: 48px;
     border: 1px solid #424546;
+    object-fit: contain;
 }
 
 .selected-item-name {
     text-align: left;
     font-weight: bold;
+    font-size: 12px;
+}
+
+.selected-item-name-conflict {
+    text-align: left;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.conflict {
+    border: 1px solid #8b2a32;
+    background-color: #3d2124;
 }

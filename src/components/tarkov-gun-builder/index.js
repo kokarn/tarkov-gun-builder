@@ -139,7 +139,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
 
     const getSlot = (slot, keyPrefix) => {
         possibleItemsConflicts.push({
-            key: `${gun.id}-slot-${keyPrefix}`,
+            key: keyPrefix,
             ids: slot.item?.itemProperties.ConflictingItems || [],
             item: slot.item,
         });
@@ -318,6 +318,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                     {allowedIdsList.length > 0 && (
                         <ItemList
                             allowedIdsList={allowedIdsList}
+                            possibleItemsConflicts={possibleItemsConflicts}
                             items={items}
                             handleSelect={handleListSelect}
                             onHover={setTemporaryItem}
