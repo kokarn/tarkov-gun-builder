@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import './index.css';
 
-function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
+function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsConflicts }) {
     const [searchText, setSearchText] = useState();
 
     const displayItems = useMemo(() => {
@@ -27,7 +27,13 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                 }}
                 placeholder="Search by item name"
             />
-            <table style={{ width: '100%' }}>
+            <table
+                style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                    verticalAlign: 'middle',
+                }}
+            >
                 <thead>
                     <tr>
                         <th></th>
@@ -38,9 +44,16 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                 </thead>
                 <tbody>
                     {displayItems.map((displayItem, index) => {
+                        const conflict = possibleItemsConflicts.find((x) => x.ids.includes(displayItem.id));
+                        let conflictText;
+
+                        if (conflict) {
+                            conflictText = `This mod conflicts with '${conflict.item.name}'`;
+                        }
+
                         return (
                             <tr
-                                className="selected-item"
+                                className={`selected-item ${conflict && 'conflict'}`}
                                 key={`selected-item-${index}`}
                                 onClick={handleSelect.bind(this, displayItem.id)}
                                 onMouseEnter={onHover?.bind(this, displayItem.id)}
@@ -54,7 +67,12 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover }) {
                                         src={displayItem.gridImageLink}
                                     />
                                 </td>
-                                <td className="selected-item-name">{displayItem.name}</td>
+                                <td className="selected-item-name">
+                                    <div>
+                                        <p>{displayItem.name}</p>
+                                        <p className="selected-item-name-conflict">{conflictText}</p>
+                                    </div>
+                                </td>
                                 <td>{displayItem.itemProperties.Ergonomics}</td>
                                 <td>{displayItem.itemProperties.Recoil}</td>
                             </tr>

@@ -167,6 +167,7 @@ body {
     background-color: #111111;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 2px;
     padding: 10px 20px;
 }

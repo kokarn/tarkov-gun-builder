@@ -29,16 +29,16 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .slot-name-wrapper img {
     position: absolute;
 }
 
-.slot-name-wrapper p {
+.slot-name-wrapper div {
     z-index: 1;
     font-weight: bold;
+    margin-top: 1px;
 }
 
 .slot-item-name-wrapper {
@@ -46,6 +46,8 @@
     font-size: 10px;
     font-weight: bold;
     position: absolute;
+    margin-top: 1px;
+    margin-right: 2px;
     top: 0;
     right: 0;
 }

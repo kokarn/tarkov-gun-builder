@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import objectPath from 'object-path';
 
 import ItemList from '../item-list';
@@ -18,7 +18,7 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
     };
 };
 
-function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
+function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallback, defaultConfiguration }) {
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
     const previousGun = usePreviousValue(selectedGunId);
@@ -31,6 +31,20 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
     }, [items, selectedGunId]);
+
+    useEffect(() => {
+        callback({
+            gun,
+            currentBuild,
+        });
+    }, [gun, currentBuild]);
+
+    useEffect(() => {
+        if (defaultConfiguration) {
+            setSelectedGunId(defaultConfiguration.gun.id);
+            setCurrentBuild(defaultConfiguration.currentBuild);
+        }
+    }, [defaultConfiguration]);
 
     const gunPresetId = useMemo(() => {
         if (!gun) {
@@ -100,7 +114,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
     }, [items]);
 
     useMemo(() => {
-        if (gun !== previousGun && gun) {
+        if (gun !== previousGun && gun && !defaultConfiguration) {
             const defaultBuild = {
                 slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
             };
@@ -139,7 +153,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
 
     const getSlot = (slot, keyPrefix) => {
         possibleItemsConflicts.push({
-            key: `${gun.id}-slot-${keyPrefix}`,
+            key: keyPrefix,
             ids: slot.item?.itemProperties.ConflictingItems || [],
             item: slot.item,
         });
@@ -226,7 +240,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                         <div
                             className="action"
                             onClick={() => {
-                                callback({
+                                shareCallback({
                                     gun,
                                     currentBuild,
                                 });
@@ -318,6 +332,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback }) {
                     {allowedIdsList.length > 0 && (
                         <ItemList
                             allowedIdsList={allowedIdsList}
+                            possibleItemsConflicts={possibleItemsConflicts}
                             items={items}
                             handleSelect={handleListSelect}
                             onHover={setTemporaryItem}
