@@ -52,7 +52,7 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
             {!item && (
                 <div className="slot-name-wrapper" onClick={onSelect}>
                     <img alt={'item.name'} loading="lazy" src={'/assets/slots/generic.jpg'} />
-                    <p>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</p>
+                    <div>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</div>
                 </div>
             )}
         </div>
