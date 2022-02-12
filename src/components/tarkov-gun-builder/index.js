@@ -220,130 +220,124 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
 
     return (
         <div className="builder-outer-wrapper">
-            <div>
-                <div className="gun-wrapper">
-                    <div className="selected-gun-name-wrapper">{gun?.name || 'NO GUN SELECTED'}</div>
+            <div className="gun-wrapper">
+                <div className="selected-gun-name-wrapper">{gun?.name || 'NO GUN SELECTED'}</div>
+                <div
+                    className="gun-selector-wrapper"
+                    onClick={() => {
+                        setAllowedIdsList(allGuns);
+                    }}
+                >
+                    {!gun && <h2>CLICK TO SELECT A GUN</h2>}
+                    {gun && (
+                        <div>
+                            <div className="weight">{weight.toFixed(2)}Kg</div>
+                            <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
+                        </div>
+                    )}
+                </div>
+                <div className="actions-wrapper">
+                    <div className="action irreversible">
+                        <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
+                        <div>Discard All</div>
+                    </div>
                     <div
-                        className="gun-selector-wrapper"
+                        className="action"
                         onClick={() => {
-                            setAllowedIdsList(allGuns);
+                            shareCallback({
+                                gun,
+                                currentBuild,
+                            });
                         }}
                     >
-                        {!gun && <h2>CLICK TO SELECT A GUN</h2>}
-                        {gun && (
-                            <div>
-                                <div className="weight">{weight.toFixed(2)}Kg</div>
-                                <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
+                        <img className="icon" src={'/icons/share.jpg'} alt="share-icon" />
+                        <div>Share</div>
+                    </div>
+                </div>
+                <div className="stats-wrapper">
+                    <StatsLine
+                        min={0}
+                        max={150}
+                        value={gun?.itemProperties.Ergonomics + ergonomicsModifier}
+                        text={'Ergonomics'}
+                        iconURL={'/icons/ergonomics.jpg'}
+                        temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={100}
+                        value={gun?.itemProperties.Accuracy + accuracyModifier}
+                        text={'Accuracy'}
+                        iconURL={'/icons/accuracy.jpg'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={100}
+                        value={55}
+                        text={'Sighting range'}
+                        iconURL={'/icons/sighting-range.jpg'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={700}
+                        value={gun?.itemProperties.RecoilForceUp || '-'}
+                        text={'Vertical recoil'}
+                        iconURL={'/icons/recoil.jpg'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={1000}
+                        value={gun?.itemProperties.RecoilForceBack || '-'}
+                        text={'Horizontal recoil'}
+                        iconURL={'/icons/recoil.jpg'}
+                    />
+                    <StatsLine
+                        min={0}
+                        max={1000}
+                        value={gun?.itemProperties.RecoilForceBack || '-'}
+                        text={'Muzzle velocity'}
+                        rightText={'m/s'}
+                        iconURL={'/icons/muzzle-velocity.jpg'}
+                    />
+                    <div className="grid-container">
+                        <div className="grid-item">
+                            <div className="horizontal-wrapper">
+                                <img className="icon" src={'/icons/types-of-fire.jpg'} alt="types-of-fire-icon" />
+                                <div>Types of Fire</div>
                             </div>
-                        )}
-                    </div>
-                    <div className="actions-wrapper">
-                        <div className="action irreversible">
-                            <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
-                            <div>Discard All</div>
-                        </div>
-                        <div
-                            className="action"
-                            onClick={() => {
-                                shareCallback({
-                                    gun,
-                                    currentBuild,
-                                });
-                            }}
-                        >
-                            <img className="icon" src={'/icons/share.jpg'} alt="share-icon" />
-                            <div>Share</div>
-                        </div>
-                    </div>
-                    <div className="stats-wrapper">
-                        <StatsLine
-                            min={0}
-                            max={150}
-                            value={gun?.itemProperties.Ergonomics + ergonomicsModifier}
-                            text={'Ergonomics'}
-                            iconURL={'/icons/ergonomics.jpg'}
-                            temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
-                        />
-                        <StatsLine
-                            min={0}
-                            max={100}
-                            value={gun?.itemProperties.Accuracy + accuracyModifier}
-                            text={'Accuracy'}
-                            iconURL={'/icons/accuracy.jpg'}
-                        />
-                        <StatsLine
-                            min={0}
-                            max={100}
-                            value={55}
-                            text={'Sighting range'}
-                            iconURL={'/icons/sighting-range.jpg'}
-                        />
-                        <StatsLine
-                            min={0}
-                            max={700}
-                            value={gun?.itemProperties.RecoilForceUp || '-'}
-                            text={'Vertical recoil'}
-                            iconURL={'/icons/recoil.jpg'}
-                        />
-                        <StatsLine
-                            min={0}
-                            max={1000}
-                            value={gun?.itemProperties.RecoilForceBack || '-'}
-                            text={'Horizontal recoil'}
-                            iconURL={'/icons/recoil.jpg'}
-                        />
-                        <StatsLine
-                            min={0}
-                            max={1000}
-                            value={gun?.itemProperties.RecoilForceBack || '-'}
-                            text={'Muzzle velocity'}
-                            rightText={'m/s'}
-                            iconURL={'/icons/muzzle-velocity.jpg'}
-                        />
-                        <div className="grid-container">
-                            <div className="grid-item">
-                                <div className="horizontal-wrapper">
-                                    <img className="icon" src={'/icons/types-of-fire.jpg'} alt="types-of-fire-icon" />
-                                    <div>Types of Fire</div>
-                                </div>
 
-                                <div className="grid-item-right">
-                                    {gun?.itemProperties.weapFireType.join(', ') || '-'}
-                                </div>
-                            </div>
-                            <div className="grid-item">
-                                <div className="horizontal-wrapper">
-                                    <img className="icon" src={'/icons/fire-rate.jpg'} alt="fire-rate-icon" />
-                                    <div>Fire Rate</div>
-                                </div>
-                                <div className="grid-item-right">
-                                    {gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}
-                                </div>
-                            </div>
+                            <div className="grid-item-right">{gun?.itemProperties.weapFireType.join(', ') || '-'}</div>
                         </div>
                         <div className="grid-item">
                             <div className="horizontal-wrapper">
-                                <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
-                                <div>Caliber</div>
+                                <img className="icon" src={'/icons/fire-rate.jpg'} alt="fire-rate-icon" />
+                                <div>Fire Rate</div>
                             </div>
-                            <div className="grid-item-right">
-                                {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
-                            </div>
+                            <div className="grid-item-right">{gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}</div>
                         </div>
-                        <div className="slots-wrapper">{slots}</div>
                     </div>
+                    <div className="grid-item">
+                        <div className="horizontal-wrapper">
+                            <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
+                            <div>Caliber</div>
+                        </div>
+                        <div className="grid-item-right">
+                            {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
+                        </div>
+                    </div>
+                    <div className="slots-wrapper">{slots}</div>
                 </div>
-                <div className="selector">
-                    {allowedIdsList.length > 0 && (
-                        <ItemList
-                            allowedIdsList={allowedIdsList}
-                            possibleItemsConflicts={possibleItemsConflicts}
-                            items={items}
-                            handleSelect={handleListSelect}
-                            onHover={setTemporaryItem}
-                        />
-                    )}
-                </div>
+            </div>
+            <div className="selector">
+                {allowedIdsList.length > 0 && (
+                    <ItemList
+                        allowedIdsList={allowedIdsList}
+                        possibleItemsConflicts={possibleItemsConflicts}
+                        items={items}
+                        handleSelect={handleListSelect}
+                        onHover={setTemporaryItem}
+                    />
+                )}
             </div>
         </div>
     );

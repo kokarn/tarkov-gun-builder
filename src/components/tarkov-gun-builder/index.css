@@ -4,6 +4,7 @@ body {
 
 .builder-outer-wrapper {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .builder-outer-wrapper h2 {
@@ -14,6 +15,7 @@ body {
     border: 1px solid #4d5154;
     background-color: #000;
     max-width: 672px;
+    flex-grow: 100;
 }
 
 .selected-gun-name-wrapper {
@@ -185,6 +187,6 @@ body {
 }
 
 .selector {
-    background-color: #000;
     max-width: 672px;
+    flex-grow: 100;
 }
