@@ -19,9 +19,10 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
 };
 
 function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallback, defaultConfiguration }) {
+    const [defaultState, setDefaultState] = useState(defaultConfiguration);
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItem] = useState(false);
-    const previousGun = usePreviousValue(selectedGunId);
+    const previousGunId = usePreviousValue(selectedGunId);
     const [currentBuild, setCurrentBuild] = useState({
         slots: [],
     });
@@ -40,11 +41,10 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
     }, [gun, currentBuild]);
 
     useEffect(() => {
-        if (defaultConfiguration) {
-            setSelectedGunId(defaultConfiguration.gun.id);
-            setCurrentBuild(defaultConfiguration.currentBuild);
+        if (defaultState) {
+            setSelectedGunId(defaultState.gun.id);
         }
-    }, [defaultConfiguration]);
+    }, [defaultState]);
 
     const gunPresetId = useMemo(() => {
         if (!gun) {
@@ -60,8 +60,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
         return false;
     }, [gun, defaultPresets]);
 
-    const handleSlotSet = (slotIdString, slotAllowedItems, conflictingItems) => {
-        // console.log(`Setting ${slotIdString}`);
+    const handleSlotSet = (slotIdString, slotAllowedItems) => {
         setAllowedIdsList(slotAllowedItems);
         setListTarget(slotIdString);
     };
@@ -114,7 +113,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
     }, [items]);
 
     useMemo(() => {
-        if (gun !== previousGun && gun && !defaultConfiguration) {
+        if (selectedGunId !== previousGunId && gun) {
             const defaultBuild = {
                 slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
             };
@@ -137,9 +136,15 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                 }
             }
 
-            setCurrentBuild(defaultBuild);
+            if (defaultState) {
+                setCurrentBuild(defaultState.currentBuild);
+
+                setDefaultState();
+            } else {
+                setCurrentBuild(defaultBuild);
+            }
         }
-    }, [previousGun, gun, gunPresetId, presets, items]);
+    }, [previousGunId, gun, gunPresetId, presets, items]);
 
     let weight = 0;
 
