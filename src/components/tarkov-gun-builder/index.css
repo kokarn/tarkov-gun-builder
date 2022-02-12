@@ -13,8 +13,7 @@ body {
 .gun-wrapper {
     border: 1px solid #4d5154;
     background-color: #000;
-    margin: 0 auto;
-    width: 672px;
+    max-width: 672px;
 }
 
 .selected-gun-name-wrapper {
@@ -187,5 +186,5 @@ body {
 
 .selector {
     background-color: #000;
-    width: 450px;
+    max-width: 672px;
 }
