@@ -10,6 +10,8 @@
 
 .slot-item-wrapper {
     position: relative;
+    height: 100%;
+    width: 100%;
 }
 
 .slot-item-wrapper button {
@@ -21,6 +23,11 @@
     color: #fff;
     border: none;
     font-size: 18px;
+}
+
+.slot-item-wrapper img {
+    height: 100%;
+    width: 100%;
 }
 
 .slot-name-wrapper {
