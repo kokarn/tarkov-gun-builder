@@ -146,14 +146,6 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
         }
     }, [previousGunId, gun, gunPresetId, presets, items]);
 
-    let weight = 0;
-
-    if (gun) {
-        weight =
-            (gun.itemProperties?.Weight || 0) +
-            currentBuild.slots.map((item) => item.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
-    }
-
     const possibleItemsConflicts = [];
 
     const getSlot = (slot, keyPrefix) => {
@@ -201,6 +193,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
     slots.forEach((slot) => {
         slot.props.possibleItemsConflicts.push(...possibleItemsConflicts);
     });
+
+    let weight = 0;
+
+    if (gun) {
+        weight =
+            (gun.itemProperties?.Weight || 0) +
+            slots.map((slot) => slot.props.item?.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
+    }
 
     const temporaryErgonomicsModifier = useMemo(() => {
         return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
