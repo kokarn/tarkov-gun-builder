@@ -28,11 +28,11 @@ body {
 
 .gun-selector-wrapper {
     background-color: #111212;
-    text-align: center;
-    height: 160px;
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    height: 160px;
 }
 
 .gun-selector-wrapper h2 {
@@ -43,8 +43,8 @@ body {
     text-align: center;
 }
 
-.gun-selector-wrapper img {
-    margin: 20px 0;
+.gun-selector-wrapper-image {
+    padding-top: 10px;
 }
 
 .gun-wrapper > .stats-wrapper {
@@ -173,14 +173,6 @@ body {
     padding: 10px 20px;
 }
 
-.weight {
-    float: right;
-    margin-right: 20px;
-    margin-top: 5px;
-    font-size: 14px;
-    color: #fff;
-}
-
 .select-list-icon {
     width: 100%;
     max-width: 200px;
@@ -189,4 +181,44 @@ body {
 .selector {
     max-width: 672px;
     flex-grow: 100;
+}
+
+.weight-wrapper {
+    right: 0;
+    top: 0;
+    position: absolute;
+    margin-right: 18px;
+    margin-top: 5px;
+    display: flex;
+    align-items: end;
+    column-gap: 2px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.gun-wrapper-top-right {
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+
+.gun-wrapper-bottom-left {
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.gun-wrapper-top-right img {
+    height: 50px;
+    width: 50px;
+}
+
+.gun-wrapper-bottom-left img {
+    height: 50px;
+    width: 50px;
 }

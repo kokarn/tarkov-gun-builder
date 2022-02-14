@@ -228,11 +228,22 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         setAllowedIdsList(allGuns);
                     }}
                 >
+                    <div className="gun-wrapper-top-right">
+                        <img className="icon" src={'/assets/gun-wrapper.png'} alt="wrapper" />
+                    </div>
+                    <div className="gun-wrapper-bottom-left">
+                        <img className="icon" src={'/assets/gun-wrapper.png'} alt="wrapper" />
+                    </div>
                     {!gun && <h2>CLICK TO SELECT A GUN</h2>}
                     {gun && (
                         <div>
-                            <div className="weight">{weight.toFixed(2)}Kg</div>
-                            <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
+                            <div className="weight-wrapper">
+                                <img className="icon" src={'/icons/weight.jpg'} alt="weight-icon" />
+                                <div>{weight.toFixed(2)}Kg</div>
+                            </div>
+                            <div className="gun-selector-wrapper-image">
+                                <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
+                            </div>
                         </div>
                     )}
                 </div>
