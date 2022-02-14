@@ -212,6 +212,34 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [slots]);
 
+    const verticalRecoilModifier = useMemo(() => {
+        const verticalModsRecoil = slots
+            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        const verticalGunRecoil = gun?.itemProperties.RecoilForceUp;
+
+        if (verticalModsRecoil > 0) {
+            return verticalGunRecoil - (verticalGunRecoil / 100) * verticalModsRecoil;
+        } else {
+            return verticalGunRecoil + (verticalGunRecoil / 100) * verticalModsRecoil;
+        }
+    }, [slots]);
+
+    const horizontalRecoilModifier = useMemo(() => {
+        const horizontalModsRecoil = slots
+            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        const horizontalGunRecoil = gun?.itemProperties.RecoilForceBack;
+
+        if (horizontalModsRecoil > 0) {
+            return horizontalGunRecoil - (horizontalGunRecoil / 100) * horizontalModsRecoil;
+        } else {
+            return horizontalGunRecoil + (horizontalGunRecoil / 100) * horizontalModsRecoil;
+        }
+    }, [slots]);
+
     const accuracyModifier = useMemo(() => {
         return slots
             .map((slot) => slot.props.item?.itemProperties.Accuracy || 0)
@@ -306,21 +334,21 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                     <StatsLine
                         min={0}
                         max={100}
-                        value={55}
+                        value={0}
                         text={'Sighting range'}
                         iconURL={'/icons/sighting-range.jpg'}
                     />
                     <StatsLine
                         min={0}
                         max={700}
-                        value={gun?.itemProperties.RecoilForceUp || '-'}
+                        value={verticalRecoilModifier.toFixed(0) || '-'}
                         text={'Vertical recoil'}
                         iconURL={'/icons/recoil.jpg'}
                     />
                     <StatsLine
                         min={0}
                         max={1000}
-                        value={gun?.itemProperties.RecoilForceBack || '-'}
+                        value={horizontalRecoilModifier.toFixed(0) || '-'}
                         text={'Horizontal recoil'}
                         iconURL={'/icons/recoil.jpg'}
                     />
