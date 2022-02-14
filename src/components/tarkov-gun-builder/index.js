@@ -248,9 +248,30 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                     )}
                 </div>
                 <div className="actions-wrapper">
-                    <div className="action irreversible">
+                    <div
+                        className="action irreversible"
+                        onClick={() => {
+                            setSelectedGunId();
+                            setCurrentBuild({
+                                slots: [],
+                            });
+                        }}
+                    >
+                        <img className="icon" src={'/icons/reset.png'} alt="discard-icon" />
+                        <div>Reset</div>
+                    </div>
+                    <div
+                        className="action irreversible"
+                        onClick={() => {
+                            if (gun) {
+                                setCurrentBuild({
+                                    slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
+                                });
+                            }
+                        }}
+                    >
                         <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
-                        <div>Discard All</div>
+                        <div>Discard Mods</div>
                     </div>
                     <div
                         className="action"
