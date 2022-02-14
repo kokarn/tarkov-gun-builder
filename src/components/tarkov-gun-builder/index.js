@@ -21,7 +21,7 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
 function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallback, defaultConfiguration }) {
     const [defaultState, setDefaultState] = useState(defaultConfiguration);
     const [selectedGunId, setSelectedGunId] = useState(false);
-    const [temporaryItemId, setTemporaryItem] = useState(false);
+    const [temporaryItemId, setTemporaryItemId] = useState(false);
     const previousGunId = usePreviousValue(selectedGunId);
     const [currentBuild, setCurrentBuild] = useState({
         slots: [],
@@ -225,6 +225,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                 <div
                     className="gun-selector-wrapper"
                     onClick={() => {
+                        setListTarget('guns');
                         setAllowedIdsList(allGuns);
                     }}
                 >
@@ -367,7 +368,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         possibleItemsConflicts={possibleItemsConflicts}
                         items={items}
                         handleSelect={handleListSelect}
-                        onHover={setTemporaryItem}
+                        onHover={(id) => {
+                            if (listTarget !== 'guns') {
+                                setTemporaryItemId(id);
+                            }
+                        }}
                     />
                 )}
             </div>
