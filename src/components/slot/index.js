@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
+import GenericSlotImage from './assets/generic.jpg';
 
 import './index.css';
 
@@ -51,7 +52,7 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
             )}
             {!item && (
                 <div className="slot-name-wrapper" onClick={onSelect}>
-                    <img alt={'item.name'} loading="lazy" src={'/assets/slots/generic.jpg'} />
+                    <img alt={'item.name'} loading="lazy" src={GenericSlotImage} />
                     <div>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</div>
                 </div>
             )}

@@ -6,6 +6,19 @@ import Slot from '../slot';
 import StatsLine from '../stats-line';
 
 import usePreviousValue from '../../hooks/usePreviousValue';
+import GunWrapperImage from './assets/gun-wrapper.png';
+import WeightImage from './assets/icons/weight.jpg';
+import ResetImage from './assets/icons/reset.png';
+import DiscardImage from './assets/icons/discard.jpg';
+import ShareImage from './assets/icons/share.jpg';
+import ErgoImage from './assets/icons/ergonomics.jpg';
+import AccuracyImage from './assets/icons/ergonomics.jpg';
+import SightingRangeImage from './assets/icons/sighting-range.jpg';
+import RecoilImage from './assets/icons/recoil.jpg';
+import MuzzleVelocityImage from './assets/icons/muzzle-velocity.jpg';
+import TypesOfFireImage from './assets/icons/types-of-fire.jpg';
+import FireRateImage from './assets/icons/fire-rate.jpg';
+import CaliberImage from './assets/icons/caliber.jpg';
 
 import './index.css';
 
@@ -18,7 +31,7 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
     };
 };
 
-function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallback, defaultConfiguration }) {
+function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultConfiguration }) {
     const [defaultState, setDefaultState] = useState(defaultConfiguration);
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItemId] = useState(false);
@@ -258,16 +271,16 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                     }}
                 >
                     <div className="gun-wrapper-top-right">
-                        <img className="icon" src={'/assets/gun-wrapper.png'} alt="wrapper" />
+                        <img className="icon" src={GunWrapperImage} alt="wrapper" />
                     </div>
                     <div className="gun-wrapper-bottom-left">
-                        <img className="icon" src={'/assets/gun-wrapper.png'} alt="wrapper" />
+                        <img className="icon" src={GunWrapperImage} alt="wrapper" />
                     </div>
                     {!gun && <h2>CLICK TO SELECT A GUN</h2>}
                     {gun && (
                         <div>
                             <div className="weight-wrapper">
-                                <img className="icon" src={'/icons/weight.jpg'} alt="weight-icon" />
+                                <img className="icon" src={WeightImage} alt="weight-icon" />
                                 <div>{weight.toFixed(2)}Kg</div>
                             </div>
                             <div className="gun-selector-wrapper-image">
@@ -278,7 +291,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                 </div>
                 <div className="actions-wrapper">
                     <div
-                        className="action irreversible"
+                        className="action"
                         onClick={() => {
                             setSelectedGunId();
                             setCurrentBuild({
@@ -286,7 +299,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                             });
                         }}
                     >
-                        <img className="icon" src={'/icons/reset.png'} alt="discard-icon" />
+                        <img className="icon" src={ResetImage} alt="discard-icon" />
                         <div>Reset</div>
                     </div>
                     <div
@@ -299,20 +312,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                             }
                         }}
                     >
-                        <img className="icon-wide" src={'/icons/discard.jpg'} alt="discard-icon" />
+                        <img className="icon-wide" src={DiscardImage} alt="discard-icon" />
                         <div>Discard Mods</div>
-                    </div>
-                    <div
-                        className="action"
-                        onClick={() => {
-                            shareCallback({
-                                gun,
-                                currentBuild,
-                            });
-                        }}
-                    >
-                        <img className="icon" src={'/icons/share.jpg'} alt="share-icon" />
-                        <div>Share</div>
                     </div>
                 </div>
                 <div className="stats-wrapper">
@@ -321,7 +322,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         max={150}
                         value={gun?.itemProperties.Ergonomics + ergonomicsModifier}
                         text={'Ergonomics'}
-                        iconURL={'/icons/ergonomics.jpg'}
+                        iconURL={ErgoImage}
                         temporaryValue={gun?.itemProperties.Ergonomics + temporaryErgonomicsModifier}
                     />
                     <StatsLine
@@ -329,28 +330,22 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         max={100}
                         value={gun?.itemProperties.Accuracy + accuracyModifier}
                         text={'Accuracy'}
-                        iconURL={'/icons/accuracy.jpg'}
+                        iconURL={AccuracyImage}
                     />
-                    <StatsLine
-                        min={0}
-                        max={100}
-                        value={0}
-                        text={'Sighting range'}
-                        iconURL={'/icons/sighting-range.jpg'}
-                    />
+                    <StatsLine min={0} max={100} value={0} text={'Sighting range'} iconURL={SightingRangeImage} />
                     <StatsLine
                         min={0}
                         max={700}
                         value={verticalRecoilModifier.toFixed(0) || '-'}
                         text={'Vertical recoil'}
-                        iconURL={'/icons/recoil.jpg'}
+                        iconURL={RecoilImage}
                     />
                     <StatsLine
                         min={0}
                         max={1000}
                         value={horizontalRecoilModifier.toFixed(0) || '-'}
                         text={'Horizontal recoil'}
-                        iconURL={'/icons/recoil.jpg'}
+                        iconURL={RecoilImage}
                     />
                     <StatsLine
                         min={0}
@@ -358,12 +353,12 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         value={gun?.itemProperties.RecoilForceBack || '-'}
                         text={'Muzzle velocity'}
                         rightText={'m/s'}
-                        iconURL={'/icons/muzzle-velocity.jpg'}
+                        iconURL={MuzzleVelocityImage}
                     />
                     <div className="grid-container">
                         <div className="grid-item">
                             <div className="horizontal-wrapper">
-                                <img className="icon" src={'/icons/types-of-fire.jpg'} alt="types-of-fire-icon" />
+                                <img className="icon" src={TypesOfFireImage} alt="types-of-fire-icon" />
                                 <div>Types of Fire</div>
                             </div>
 
@@ -371,7 +366,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                         </div>
                         <div className="grid-item">
                             <div className="horizontal-wrapper">
-                                <img className="icon" src={'/icons/fire-rate.jpg'} alt="fire-rate-icon" />
+                                <img className="icon" src={FireRateImage} alt="fire-rate-icon" />
                                 <div>Fire Rate</div>
                             </div>
                             <div className="grid-item-right">{gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}</div>
@@ -379,7 +374,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, shareCallb
                     </div>
                     <div className="grid-item">
                         <div className="horizontal-wrapper">
-                            <img className="icon" src={'/icons/caliber.jpg'} alt="caliber-icon" />
+                            <img className="icon" src={CaliberImage} alt="caliber-icon" />
                             <div>Caliber</div>
                         </div>
                         <div className="grid-item-right">

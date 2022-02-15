@@ -2860,10 +2860,6 @@ function App() {
                 callback={(data) => {
                     // called every time the configuration changes
                 }}
-                shareCallback={(data) => {
-                    // called once when you click on the share button
-                    alert(JSON.stringify(data));
-                }}
             />
         </div>
     );
