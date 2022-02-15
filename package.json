@@ -1,7 +1,21 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.0.0",
-    "private": true,
+    "version": "1.0.9",
+    "private": false,
+    "babel": {
+      "presets": [
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-react-jsx",
+          {
+            "runtime": "automatic"
+          }
+        ]
+      ]
+    },
+    "type": "module",
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
@@ -20,7 +34,8 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "create-links": "",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist --copy-files"
     },
     "eslintConfig": {
         "extends": [
@@ -45,5 +60,10 @@
         "trailingComma": "all",
         "tabWidth": 4,
         "printWidth": 120
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.17.0",
+        "@babel/preset-react": "^7.16.7",
+        "@babel/plugin-transform-react-jsx": "^7.16.7"
     }
 }
