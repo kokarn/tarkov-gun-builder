@@ -1,20 +1,24 @@
 function StatsLine({ min, max, value, text, temporaryValue, iconURL, rightText }) {
-    let percentage = (value / max) * 100;
     if (isNaN(value)) {
         value = 0;
+    }
+    if (!temporaryValue) {
+        temporaryValue = value;
     }
     return (
         <div className="graph-wrapper">
             <div
-                className="graph"
+                className={`graph ${temporaryValue < value ? 'red' : ''}`}
                 style={{
-                    width: `${percentage}%`,
+                    width: `${(value / max) * 100}%`,
+                    zIndex: temporaryValue < value ? 0 : 1,
                 }}
             />
             <div
-                className="temporary-graph"
+                className={`graph ${temporaryValue < value ? '' : 'blue'}`}
                 style={{
-                    width: `${temporaryValue}%`,
+                    zIndex: temporaryValue < value ? 1 : 0,
+                    width: `${(temporaryValue / max) * 100}%`,
                 }}
             />
             <div className="horizontal-wrapper">

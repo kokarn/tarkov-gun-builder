@@ -76,6 +76,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     const handleSlotSet = (slotIdString, slotAllowedItems) => {
         setAllowedIdsList(slotAllowedItems);
         setListTarget(slotIdString);
+        setTemporaryItemId();
     };
 
     const handleItemDeselect = (keyPrefix) => {
@@ -177,6 +178,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                 type={slot.type}
                 item={slot.item}
                 possibleItemsConflicts={[]}
+                slotIdentifier={keyPrefix}
             />
         );
 
@@ -203,6 +205,13 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
 
     const slots = getSlots();
 
+    let itemBeingReplaced;
+    const slotBeingReplaced = slots.find((slot) => slot.props.slotIdentifier === listTarget);
+
+    if (slotBeingReplaced) {
+        itemBeingReplaced = slotBeingReplaced.props.item;
+    }
+
     slots.forEach((slot) => {
         slot.props.possibleItemsConflicts.push(...possibleItemsConflicts);
     });
@@ -216,7 +225,20 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }
 
     const temporaryErgonomicsModifier = useMemo(() => {
-        return items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
+        const candidateItemErgonomics =
+            items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
+
+        let ergonomicsValues = slots;
+
+        if (itemBeingReplaced) {
+            ergonomicsValues = ergonomicsValues.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+        }
+
+        ergonomicsValues = ergonomicsValues
+            .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        return ergonomicsValues + candidateItemErgonomics;
     }, [items, temporaryItemId]);
 
     const ergonomicsModifier = useMemo(() => {
@@ -268,6 +290,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     onClick={() => {
                         setListTarget('guns');
                         setAllowedIdsList(allGuns);
+                        setTemporaryItemId();
                     }}
                 >
                     <div className="gun-wrapper-top-right">
@@ -294,6 +317,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         className="action"
                         onClick={() => {
                             setListTarget();
+                            setTemporaryItemId();
                             setSelectedGunId();
                             setCurrentBuild({
                                 slots: [],
