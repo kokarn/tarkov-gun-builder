@@ -1,6 +1,6 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "private": false,
     "babel": {
       "presets": [
@@ -15,7 +15,6 @@
         ]
       ]
     },
-    "type": "module",
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
