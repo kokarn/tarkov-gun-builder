@@ -51,6 +51,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             gun,
             currentBuild,
         });
+
+        setTemporaryItemId();
     }, [gun, currentBuild]);
 
     useEffect(() => {
@@ -224,7 +226,17 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             slots.map((slot) => slot.props.item?.itemProperties?.Weight || 0).reduce((a, b) => a + b, 0);
     }
 
+    const ergonomicsModifier = useMemo(() => {
+        return slots
+            .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+    }, [slots]);
+
     const temporaryErgonomicsModifier = useMemo(() => {
+        if (!temporaryItemId) {
+            return ergonomicsModifier;
+        }
+
         const candidateItemErgonomics =
             items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
 
@@ -239,13 +251,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
         return ergonomicsValues + candidateItemErgonomics;
-    }, [items, temporaryItemId]);
-
-    const ergonomicsModifier = useMemo(() => {
-        return slots
-            .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-    }, [slots]);
+    }, [items, temporaryItemId, ergonomicsModifier]);
 
     const verticalRecoilModifier = useMemo(() => {
         const verticalModsRecoil = slots
