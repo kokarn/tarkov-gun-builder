@@ -293,6 +293,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     <div
                         className="action"
                         onClick={() => {
+                            setListTarget();
                             setSelectedGunId();
                             setCurrentBuild({
                                 slots: [],
@@ -384,8 +385,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     <div className="slots-wrapper">{slots}</div>
                 </div>
             </div>
-            <div className="selector">
-                {allowedIdsList.length > 0 && (
+            <div className="selector-wrapper">
+                {listTarget && allowedIdsList.length > 0 && (
                     <ItemList
                         allowedIdsList={allowedIdsList}
                         possibleItemsConflicts={possibleItemsConflicts}

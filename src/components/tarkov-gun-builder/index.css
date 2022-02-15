@@ -3,8 +3,10 @@ body {
 }
 
 .builder-outer-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    border: 1px solid #4d5154;
+    width: 100%;
+    max-width: 672px;
+    min-width: 375px;
 }
 
 .builder-outer-wrapper h2 {
@@ -12,10 +14,14 @@ body {
 }
 
 .gun-wrapper {
-    border: 1px solid #4d5154;
     background-color: #000;
     max-width: 672px;
-    flex-grow: 100;
+    min-width: 375px;
+}
+
+.selector-wrapper {
+    max-width: 672px;
+    min-width: 375px;
 }
 
 .selected-gun-name-wrapper {
@@ -175,11 +181,6 @@ body {
 .select-list-icon {
     width: 100%;
     max-width: 200px;
-}
-
-.selector {
-    max-width: 672px;
-    flex-grow: 100;
 }
 
 .weight-wrapper {
