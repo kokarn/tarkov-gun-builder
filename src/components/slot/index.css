@@ -18,11 +18,13 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-bottom: 4px;
     background-color: #3f0c11;
     color: #fff;
     border: none;
     font-size: 18px;
+    font-weight: bold;
+    width: 22px;
+    height: 22px;
 }
 
 .slot-item-wrapper img {
