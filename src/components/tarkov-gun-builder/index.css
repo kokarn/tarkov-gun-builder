@@ -144,7 +144,7 @@ body {
 }
 
 .red {
-    background: linear-gradient(180deg, rgb(159, 66, 117) 0%, rgb(103, 43, 51) 100%) !important;
+    background: linear-gradient(180deg, rgb(153, 61, 68) 0%, rgb(105, 47, 47) 100%) !important;
 }
 
 .grid-container {
