@@ -359,6 +359,30 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
         return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
     }, [items, temporaryItemId, defaultMuzzleVelocity, muzzleVelocityModifier, slots, itemBeingReplaced]);
 
+    const sightingRangeModifier = useMemo(() => {
+        const maxSightingRange = Math.max(...slots.map((slot) => slot.props.item?.itemProperties.sightingRange || 0));
+
+        return maxSightingRange;
+    }, [slots]);
+
+    const temporarySightingRangeModifier = useMemo(() => {
+        if (!temporaryItemId) {
+            return sightingRangeModifier;
+        }
+
+        const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties.sightingRange || 0;
+
+        let values = slots;
+
+        if (itemBeingReplaced) {
+            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+        }
+
+        values = values.map((slot) => slot.props.item?.itemProperties.sightingRange || 0);
+
+        return Math.max(candidateItem, ...values);
+    }, [items, temporaryItemId, sightingRangeModifier, slots, itemBeingReplaced]);
+
     return (
         <div className="builder-outer-wrapper">
             <div className="gun-wrapper">
@@ -435,7 +459,14 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         text={'Accuracy'}
                         iconURL={AccuracyImage}
                     />
-                    <StatsLine min={0} max={100} value={0} text={'Sighting range'} iconURL={SightingRangeImage} />
+                    <StatsLine
+                        min={0}
+                        max={2000}
+                        text={'Sighting range'}
+                        value={Math.max(gun?.itemProperties.sightingRange, sightingRangeModifier)}
+                        temporaryValue={temporarySightingRangeModifier}
+                        iconURL={SightingRangeImage}
+                    />
                     <StatsLine
                         min={0}
                         max={700}
