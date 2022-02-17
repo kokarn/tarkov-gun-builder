@@ -406,7 +406,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         <div>
                             <div className="weight-wrapper">
                                 <img className="icon" src={WeightImage} alt="weight-icon" />
-                                <div>{weight.toFixed(2)}Kg</div>
+                                <div>{weight.toFixed(3)}Kg</div>
                             </div>
                             <div className="gun-selector-wrapper-image">
                                 <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
