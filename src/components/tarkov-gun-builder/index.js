@@ -156,8 +156,15 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
 
     useMemo(() => {
         if (selectedGunId !== previousGunId && gun) {
+            const ammoSlot = {
+                type: 'mod_chamber',
+                item: undefined,
+                slots: [],
+                allowedItems: gun.allowedAmmoIds,
+            };
+
             const defaultBuild = {
-                slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
+                slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots), ammoSlot],
             };
             const gunPreset = presets[gunPresetId];
 
@@ -331,10 +338,17 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     ]);
 
     const defaultMuzzleVelocity = useMemo(() => {
-        const defaultAmmo = items.find((item) => gun?.defAmmo === item.id);
+        let ammo;
+        const ammoSlot = slots.find((slot) => slot.props.type === 'mod_chamber');
 
-        return defaultAmmo?.initialSpeed || 0;
-    }, [gun, items]);
+        if (ammoSlot?.props.item) {
+            ammo = ammoSlot.props.item;
+        } else {
+            ammo = items.find((item) => gun?.defAmmo === item.id);
+        }
+
+        return ammo?.initialSpeed || 0;
+    }, [gun, slots, items]);
 
     const muzzleVelocityModifier = useMemo(() => {
         const modsPercentageChange = slots
@@ -434,7 +448,15 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         onClick={() => {
                             if (gun) {
                                 setCurrentBuild({
-                                    slots: [...gun.equipmentSlots?.map(equipmentSlotsToSlots)],
+                                    slots: [
+                                        ...gun.equipmentSlots?.map(equipmentSlotsToSlots),
+                                        {
+                                            type: 'mod_chamber',
+                                            item: undefined,
+                                            slots: [],
+                                            allowedItems: gun.allowedAmmoIds,
+                                        },
+                                    ],
                                 });
                             }
                         }}
