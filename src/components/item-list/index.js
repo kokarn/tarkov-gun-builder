@@ -73,8 +73,8 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
                                         <p className="selected-item-name-conflict">{conflictText}</p>
                                     </div>
                                 </td>
-                                <td>{displayItem.itemProperties.Ergonomics}</td>
-                                <td>{displayItem.itemProperties.Recoil}</td>
+                                <td>{displayItem.itemProperties.Ergonomics || 0}</td>
+                                <td>{displayItem.itemProperties.Recoil || 0}%</td>
                             </tr>
                         );
                     })}
