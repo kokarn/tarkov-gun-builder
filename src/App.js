@@ -2856,7 +2856,7 @@ function App() {
                 items={items}
                 presets={gamePresets.ItemPresets}
                 defaultPresets={defaultPresets}
-                defaultConfiguration={defaultConfiguration}
+                // defaultConfiguration={defaultConfiguration}
                 callback={(data) => {
                     // called every time the configuration changes
                 }}
