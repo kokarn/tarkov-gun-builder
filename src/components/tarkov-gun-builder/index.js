@@ -287,6 +287,43 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }, [slots]);
 
+    const defaultMuzzleVelocity = useMemo(() => {
+        const defaultAmmo = items.find((item) => gun?.defAmmo === item.id);
+
+        return defaultAmmo?.initialSpeed || 0;
+    }, [gun]);
+
+    const muzzleVelocityModifier = useMemo(() => {
+        const modsPercentageChange = slots
+            .map((slot) => slot.props.item?.itemProperties.Velocity || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
+    }, [slots]);
+
+    const temporaryMuzzleVelocityModifier = useMemo(() => {
+        if (!temporaryItemId) {
+            return muzzleVelocityModifier;
+        }
+
+        const candidateItemMuzzleVelocity =
+            items.find((item) => item.id === temporaryItemId)?.itemProperties.Velocity || 0;
+
+        let values = slots;
+
+        if (itemBeingReplaced) {
+            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+        }
+
+        values = values
+            .map((slot) => slot.props.item?.itemProperties.Velocity || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        const modsPercentageChange = values + candidateItemMuzzleVelocity;
+
+        return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
+    }, [items, temporaryItemId, muzzleVelocityModifier]);
+
     return (
         <div className="builder-outer-wrapper">
             <div className="gun-wrapper">
@@ -380,11 +417,12 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     />
                     <StatsLine
                         min={0}
-                        max={1000}
-                        value={gun?.itemProperties.RecoilForceBack || '-'}
+                        max={1300}
+                        value={muzzleVelocityModifier.toFixed(0) || '-'}
                         text={'Muzzle velocity'}
                         rightText={'m/s'}
                         iconURL={MuzzleVelocityImage}
+                        temporaryValue={temporaryMuzzleVelocityModifier.toFixed(0)}
                     />
                     <div className="grid-container">
                         <div className="grid-item">
