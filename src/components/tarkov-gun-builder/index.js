@@ -10,7 +10,6 @@ import GunWrapperImage from './assets/gun-wrapper.png';
 import WeightImage from './assets/icons/weight.jpg';
 import ResetImage from './assets/icons/reset.png';
 import DiscardImage from './assets/icons/discard.jpg';
-import ShareImage from './assets/icons/share.jpg';
 import ErgoImage from './assets/icons/ergonomics.jpg';
 import AccuracyImage from './assets/icons/ergonomics.jpg';
 import SightingRangeImage from './assets/icons/sighting-range.jpg';
@@ -29,6 +28,33 @@ const equipmentSlotsToSlots = (equipmentSlot) => {
         slots: [],
         allowedItems: equipmentSlot._props.filters[0].Filter,
     };
+};
+
+const getModifierValueFromMods = ({
+    targetProperty,
+    defaultValue,
+    temporaryItemId,
+    items,
+    slots,
+    itemBeingReplaced,
+}) => {
+    if (!temporaryItemId) {
+        return defaultValue;
+    }
+
+    const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties[targetProperty] || 0;
+
+    let values = slots;
+
+    if (itemBeingReplaced) {
+        values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+    }
+
+    const newModsValue = values
+        .map((slot) => slot.props.item?.itemProperties[targetProperty] || 0)
+        .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+    return { candidateItem, newModsValue };
 };
 
 function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultConfiguration }) {
@@ -233,25 +259,17 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [slots]);
 
     const temporaryErgonomicsModifier = useMemo(() => {
-        if (!temporaryItemId) {
-            return ergonomicsModifier;
-        }
+        const { candidateItem, newModsValue } = getModifierValueFromMods({
+            targetProperty: 'Ergonomics',
+            defaultValue: ergonomicsModifier,
+            temporaryItemId,
+            items,
+            slots,
+            itemBeingReplaced,
+        });
 
-        const candidateItemErgonomics =
-            items.find((item) => item.id === temporaryItemId)?.itemProperties.Ergonomics || 0;
-
-        let ergonomicsValues = slots;
-
-        if (itemBeingReplaced) {
-            ergonomicsValues = ergonomicsValues.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
-        }
-
-        ergonomicsValues = ergonomicsValues
-            .map((slot) => slot.props.item?.itemProperties.Ergonomics || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-
-        return ergonomicsValues + candidateItemErgonomics;
-    }, [items, temporaryItemId, ergonomicsModifier]);
+        return newModsValue + candidateItem;
+    }, [items, slots, temporaryItemId, itemBeingReplaced, ergonomicsModifier]);
 
     const verticalRecoilModifier = useMemo(() => {
         const verticalModsRecoil = slots
@@ -264,27 +282,20 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [slots, gun]);
 
     const temporaryVerticalRecoilModifier = useMemo(() => {
-        if (!temporaryItemId) {
-            return verticalRecoilModifier;
-        }
+        const { candidateItem, newModsValue } = getModifierValueFromMods({
+            targetProperty: 'Recoil',
+            defaultValue: verticalRecoilModifier,
+            temporaryItemId,
+            items,
+            slots,
+            itemBeingReplaced,
+        });
 
-        const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties.Recoil || 0;
-
-        let values = slots;
-
-        if (itemBeingReplaced) {
-            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
-        }
-
-        values = values
-            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-
-        const modsRecoil = values + candidateItem;
+        const modsRecoil = newModsValue + candidateItem;
         const verticalGunRecoil = gun?.itemProperties.RecoilForceUp;
 
         return verticalGunRecoil + (verticalGunRecoil / 100) * modsRecoil;
-    }, [items, temporaryItemId, verticalRecoilModifier]);
+    }, [items, slots, temporaryItemId, itemBeingReplaced, verticalRecoilModifier, gun?.itemProperties.RecoilForceUp]);
 
     const horizontalRecoilModifier = useMemo(() => {
         const horizontalModsRecoil = slots
@@ -297,33 +308,27 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [slots, gun]);
 
     const temporaryHorizontalRecoilModifier = useMemo(() => {
-        if (!temporaryItemId) {
-            return horizontalRecoilModifier;
-        }
+        const { candidateItem, newModsValue } = getModifierValueFromMods({
+            targetProperty: 'Recoil',
+            defaultValue: horizontalRecoilModifier,
+            temporaryItemId,
+            items,
+            slots,
+            itemBeingReplaced,
+        });
 
-        const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties.Recoil || 0;
-
-        let values = slots;
-
-        if (itemBeingReplaced && itemBeingReplaced !== candidateItem.id) {
-            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
-        }
-
-        values = values
-            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-
-        const modsRecoil = values + candidateItem;
+        const modsRecoil = newModsValue + candidateItem;
         const horizontalGunRecoil = gun?.itemProperties.RecoilForceBack;
 
         return horizontalGunRecoil + (horizontalGunRecoil / 100) * modsRecoil;
-    }, [items, temporaryItemId, horizontalRecoilModifier]);
-
-    const accuracyModifier = useMemo(() => {
-        return slots
-            .map((slot) => slot.props.item?.itemProperties.Accuracy || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-    }, [slots]);
+    }, [
+        items,
+        slots,
+        temporaryItemId,
+        itemBeingReplaced,
+        horizontalRecoilModifier,
+        gun?.itemProperties.RecoilForceBack,
+    ]);
 
     const defaultMuzzleVelocity = useMemo(() => {
         const defaultAmmo = items.find((item) => gun?.defAmmo === item.id);
@@ -340,27 +345,19 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [slots, defaultMuzzleVelocity]);
 
     const temporaryMuzzleVelocityModifier = useMemo(() => {
-        if (!temporaryItemId) {
-            return muzzleVelocityModifier;
-        }
+        const { candidateItem, newModsValue } = getModifierValueFromMods({
+            targetProperty: 'Velocity',
+            defaultValue: muzzleVelocityModifier,
+            temporaryItemId,
+            items,
+            slots,
+            itemBeingReplaced,
+        });
 
-        const candidateItemMuzzleVelocity =
-            items.find((item) => item.id === temporaryItemId)?.itemProperties.Velocity || 0;
-
-        let values = slots;
-
-        if (itemBeingReplaced) {
-            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
-        }
-
-        values = values
-            .map((slot) => slot.props.item?.itemProperties.Velocity || 0)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-
-        const modsPercentageChange = values + candidateItemMuzzleVelocity;
+        const modsPercentageChange = newModsValue + candidateItem;
 
         return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
-    }, [items, temporaryItemId, muzzleVelocityModifier]);
+    }, [items, temporaryItemId, defaultMuzzleVelocity, muzzleVelocityModifier, slots, itemBeingReplaced]);
 
     return (
         <div className="builder-outer-wrapper">
@@ -434,7 +431,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     <StatsLine
                         min={0}
                         max={100}
-                        value={gun?.itemProperties.Accuracy + accuracyModifier}
+                        value={gun?.itemProperties.Accuracy}
                         text={'Accuracy'}
                         iconURL={AccuracyImage}
                     />
