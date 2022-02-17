@@ -260,12 +260,31 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
 
         const verticalGunRecoil = gun?.itemProperties.RecoilForceUp;
 
-        if (verticalModsRecoil > 0) {
-            return verticalGunRecoil - (verticalGunRecoil / 100) * verticalModsRecoil;
-        } else {
-            return verticalGunRecoil + (verticalGunRecoil / 100) * verticalModsRecoil;
+        return verticalGunRecoil + (verticalGunRecoil / 100) * verticalModsRecoil;
+    }, [slots, gun]);
+
+    const temporaryVerticalRecoilModifier = useMemo(() => {
+        if (!temporaryItemId) {
+            return verticalRecoilModifier;
         }
-    }, [slots]);
+
+        const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties.Recoil || 0;
+
+        let values = slots;
+
+        if (itemBeingReplaced) {
+            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+        }
+
+        values = values
+            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        const modsRecoil = values + candidateItem;
+        const verticalGunRecoil = gun?.itemProperties.RecoilForceUp;
+
+        return verticalGunRecoil + (verticalGunRecoil / 100) * modsRecoil;
+    }, [items, temporaryItemId, verticalRecoilModifier]);
 
     const horizontalRecoilModifier = useMemo(() => {
         const horizontalModsRecoil = slots
@@ -274,12 +293,31 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
 
         const horizontalGunRecoil = gun?.itemProperties.RecoilForceBack;
 
-        if (horizontalModsRecoil > 0) {
-            return horizontalGunRecoil - (horizontalGunRecoil / 100) * horizontalModsRecoil;
-        } else {
-            return horizontalGunRecoil + (horizontalGunRecoil / 100) * horizontalModsRecoil;
+        return horizontalGunRecoil + (horizontalGunRecoil / 100) * horizontalModsRecoil;
+    }, [slots, gun]);
+
+    const temporaryHorizontalRecoilModifier = useMemo(() => {
+        if (!temporaryItemId) {
+            return horizontalRecoilModifier;
         }
-    }, [slots]);
+
+        const candidateItem = items.find((item) => item.id === temporaryItemId)?.itemProperties.Recoil || 0;
+
+        let values = slots;
+
+        if (itemBeingReplaced && itemBeingReplaced !== candidateItem.id) {
+            values = values.filter((slot) => slot.props.item?.id !== itemBeingReplaced.id);
+        }
+
+        values = values
+            .map((slot) => slot.props.item?.itemProperties.Recoil || 0)
+            .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
+        const modsRecoil = values + candidateItem;
+        const horizontalGunRecoil = gun?.itemProperties.RecoilForceBack;
+
+        return horizontalGunRecoil + (horizontalGunRecoil / 100) * modsRecoil;
+    }, [items, temporaryItemId, horizontalRecoilModifier]);
 
     const accuracyModifier = useMemo(() => {
         return slots
@@ -291,7 +329,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
         const defaultAmmo = items.find((item) => gun?.defAmmo === item.id);
 
         return defaultAmmo?.initialSpeed || 0;
-    }, [gun]);
+    }, [gun, items]);
 
     const muzzleVelocityModifier = useMemo(() => {
         const modsPercentageChange = slots
@@ -299,7 +337,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
         return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
-    }, [slots]);
+    }, [slots, defaultMuzzleVelocity]);
 
     const temporaryMuzzleVelocityModifier = useMemo(() => {
         if (!temporaryItemId) {
@@ -405,6 +443,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         min={0}
                         max={700}
                         value={verticalRecoilModifier.toFixed(0) || '-'}
+                        temporaryValue={temporaryVerticalRecoilModifier.toFixed(0)}
+                        invertColors={true}
                         text={'Vertical recoil'}
                         iconURL={RecoilImage}
                     />
@@ -412,6 +452,8 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         min={0}
                         max={1000}
                         value={horizontalRecoilModifier.toFixed(0) || '-'}
+                        temporaryValue={temporaryHorizontalRecoilModifier.toFixed(0)}
+                        invertColors={true}
                         text={'Horizontal recoil'}
                         iconURL={RecoilImage}
                     />

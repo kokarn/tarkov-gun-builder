@@ -1,21 +1,25 @@
-function StatsLine({ min, max, value, text, temporaryValue, iconURL, rightText }) {
+function StatsLine({ min, max, value, text, temporaryValue, iconURL, rightText, invertColors }) {
     if (isNaN(value)) {
         value = 0;
     }
     if (!temporaryValue) {
         temporaryValue = value;
     }
+
+    const positiveColor = !invertColors ? 'blue' : 'red';
+    const negativeColor = !invertColors ? 'red' : 'blue';
+
     return (
         <div className="graph-wrapper">
             <div
-                className={`graph ${temporaryValue < value ? 'red' : ''}`}
+                className={`graph ${temporaryValue < value ? negativeColor : ''}`}
                 style={{
                     width: `${(value / max) * 100}%`,
                     zIndex: temporaryValue < value ? 0 : 1,
                 }}
             />
             <div
-                className={`graph ${temporaryValue < value ? '' : 'blue'}`}
+                className={`graph ${temporaryValue < value ? '' : positiveColor}`}
                 style={{
                     zIndex: temporaryValue < value ? 1 : 0,
                     width: `${(temporaryValue / max) * 100}%`,
