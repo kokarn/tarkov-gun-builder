@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import usePreviousValue from '../../hooks/usePreviousValue';
 import './index.css';
 
 function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsConflicts }) {
     const [searchText, setSearchText] = useState();
+    const previousAllowedIdsLength = usePreviousValue(allowedIdsList.length);
 
     const displayItems = useMemo(() => {
         let results = items.filter((item) => allowedIdsList.includes(item.id));
@@ -13,6 +15,12 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
 
         return results.sort((itemA, itemB) => itemA.name.localeCompare(itemB.name));
     }, [allowedIdsList, items, searchText]);
+
+    useEffect(() => {
+        if (previousAllowedIdsLength !== allowedIdsList.length) {
+            setSearchText('');
+        }
+    }, [previousAllowedIdsLength, allowedIdsList.length]);
 
     if (!allowedIdsList) {
         return null;
@@ -26,6 +34,12 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
                     setSearchText(e.target.value);
                 }}
                 placeholder="Search by item name"
+                ref={(input) => {
+                    if (input != null) {
+                        input.focus();
+                    }
+                }}
+                value={searchText}
             />
             <table
                 style={{
