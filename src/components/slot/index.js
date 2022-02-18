@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import GenericSlotImage from './assets/generic.jpg';
+import MountImage from './assets/mount.png';
+import ScopeImage from './assets/scope.png';
+import TacticalImage from './assets/tactical.png';
+import ChamberImage from './assets/chamber.png';
 
 import './index.css';
 
@@ -32,6 +36,18 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
         });
     }
 
+    let image = GenericSlotImage;
+
+    if (type.includes('mount')) {
+        image = MountImage;
+    } else if (type.includes('scope')) {
+        image = ScopeImage;
+    } else if (type.includes('tactical')) {
+        image = TacticalImage;
+    } else if (type.includes('chamber') || type.includes('magazine')) {
+        image = ChamberImage;
+    }
+
     return (
         <div className={`slot ${conflict && 'conflict'}`}>
             {item && (
@@ -52,7 +68,7 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
             )}
             {!item && (
                 <div className="slot-name-wrapper" onClick={onSelect}>
-                    <img alt={'item.name'} loading="lazy" src={GenericSlotImage} />
+                    <img alt={'item.name'} loading="lazy" src={image} />
                     <div>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</div>
                 </div>
             )}
