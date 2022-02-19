@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import GenericSlotImage from './assets/generic.jpg';
+import BackgroundImage from './assets/background.jpg';
 
 import './index.css';
 
@@ -32,6 +32,19 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
         });
     }
 
+    const normalizedType = type
+        .replace('_000', '')
+        .replace('_001', '')
+        .replace('_002', '')
+        .replace('_003', '')
+        .replace('_004', '')
+        .replace('_005', '');
+    let image = BackgroundImage;
+
+    try {
+        image = require(`./assets/${normalizedType}.png`);
+    } catch (error) {}
+
     return (
         <div className={`slot ${conflict && 'conflict'}`}>
             {item && (
@@ -52,8 +65,11 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
             )}
             {!item && (
                 <div className="slot-name-wrapper" onClick={onSelect}>
-                    <img alt={'item.name'} loading="lazy" src={GenericSlotImage} />
-                    <div>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</div>
+                    <img alt={'item.name'} loading="lazy" src={BackgroundImage} />
+                    <img alt={'item.name'} loading="lazy" src={image} />
+                    <div>
+                        {type.replace('mod_', '').replace('_', ' ').replace('reciever', 'receiver').toUpperCase()}
+                    </div>
                 </div>
             )}
         </div>
