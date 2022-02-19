@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import GenericSlotImage from './assets/generic.jpg';
-import MountImage from './assets/mount.png';
-import ScopeImage from './assets/scope.png';
-import TacticalImage from './assets/tactical.png';
-import ChamberImage from './assets/chamber.png';
+import BackgroundImage from './assets/background.jpg';
 
 import './index.css';
 
@@ -36,17 +32,18 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
         });
     }
 
-    let image = GenericSlotImage;
+    const normalizedType = type
+        .replace('_000', '')
+        .replace('_001', '')
+        .replace('_002', '')
+        .replace('_003', '')
+        .replace('_004', '')
+        .replace('_005', '');
+    let image = BackgroundImage;
 
-    if (type.includes('mount')) {
-        image = MountImage;
-    } else if (type.includes('scope')) {
-        image = ScopeImage;
-    } else if (type.includes('tactical')) {
-        image = TacticalImage;
-    } else if (type.includes('chamber') || type.includes('magazine')) {
-        image = ChamberImage;
-    }
+    try {
+        image = require(`./assets/${normalizedType}.png`);
+    } catch (error) {}
 
     return (
         <div className={`slot ${conflict && 'conflict'}`}>
@@ -68,8 +65,11 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
             )}
             {!item && (
                 <div className="slot-name-wrapper" onClick={onSelect}>
+                    <img alt={'item.name'} loading="lazy" src={BackgroundImage} />
                     <img alt={'item.name'} loading="lazy" src={image} />
-                    <div>{type.replace('mod_', '').replace('_', ' ').toUpperCase()}</div>
+                    <div>
+                        {type.replace('mod_', '').replace('_', ' ').replace('reciever', 'receiver').toUpperCase()}
+                    </div>
                 </div>
             )}
         </div>

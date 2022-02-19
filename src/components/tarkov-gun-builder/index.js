@@ -7,17 +7,17 @@ import StatsLine from '../stats-line';
 
 import usePreviousValue from '../../hooks/usePreviousValue';
 import GunWrapperImage from './assets/gun-wrapper.png';
-import WeightImage from './assets/icons/weight.jpg';
+import WeightImage from './assets/icons/weight.png';
 import ResetImage from './assets/icons/reset.png';
-import DiscardImage from './assets/icons/discard.jpg';
-import ErgoImage from './assets/icons/ergonomics.jpg';
-import AccuracyImage from './assets/icons/ergonomics.jpg';
-import SightingRangeImage from './assets/icons/sighting-range.jpg';
-import RecoilImage from './assets/icons/recoil.jpg';
-import MuzzleVelocityImage from './assets/icons/muzzle-velocity.jpg';
-import TypesOfFireImage from './assets/icons/types-of-fire.jpg';
-import FireRateImage from './assets/icons/fire-rate.jpg';
-import CaliberImage from './assets/icons/caliber.jpg';
+import DiscardImage from './assets/icons/discard.png';
+import ErgoImage from './assets/icons/ergonomics.png';
+import AccuracyImage from './assets/icons/accuracy.png';
+import SightingRangeImage from './assets/icons/sighting-range.png';
+import RecoilImage from './assets/icons/recoil.png';
+import MuzzleVelocityImage from './assets/icons/muzzle-velocity.png';
+import TypesOfFireImage from './assets/icons/types-of-fire.png';
+import FireRateImage from './assets/icons/fire-rate.png';
+import CaliberImage from './assets/icons/caliber.png';
 
 import './index.css';
 

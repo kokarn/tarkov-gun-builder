@@ -38,6 +38,7 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .slot-name-wrapper img {
@@ -47,6 +48,7 @@
 .slot-name-wrapper div {
     z-index: 1;
     font-weight: bold;
+    margin-bottom: auto;
     margin-top: 1px;
 }
 
