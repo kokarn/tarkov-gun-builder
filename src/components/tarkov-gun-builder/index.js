@@ -500,7 +500,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     />
                     <StatsLine
                         min={0}
-                        max={1000}
+                        max={1200}
                         value={horizontalRecoilModifier.toFixed(0) || '-'}
                         temporaryValue={temporaryHorizontalRecoilModifier.toFixed(0)}
                         invertColors={true}
