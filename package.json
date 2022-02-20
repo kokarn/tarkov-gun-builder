@@ -1,6 +1,6 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "private": false,
     "babel": {
       "presets": [
