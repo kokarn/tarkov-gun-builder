@@ -373,6 +373,31 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
         return defaultMuzzleVelocity + (defaultMuzzleVelocity / 100) * modsPercentageChange;
     }, [items, temporaryItemId, defaultMuzzleVelocity, muzzleVelocityModifier, slots, itemBeingReplaced]);
 
+    const accuracyModifier = useMemo(() => {
+        const barrelSlot = slots.find((slot) => slot.props.type === 'mod_barrel');
+        let centerOfImpact;
+
+        if (barrelSlot?.props.item) {
+            centerOfImpact = barrelSlot.props.item.centerOfImpact;
+        } else if (gun?.centerOfImpact) {
+            centerOfImpact = gun.centerOfImpact;
+        } else {
+            centerOfImpact = 0;
+        }
+
+        return ((100 * centerOfImpact) / 2.9089).toFixed(2);
+    }, [slots]);
+
+    const temporaryAccuracyModifier = useMemo(() => {
+        const temporaryBarrel = items.find((item) => item.id === temporaryItemId);
+
+        if (!temporaryBarrel) {
+            return;
+        }
+
+        return ((100 * temporaryBarrel.centerOfImpact) / 2.9089).toFixed(2);
+    }, [slots]);
+
     const sightingRangeModifier = useMemo(() => {
         const maxSightingRange = Math.max(...slots.map((slot) => slot.props.item?.itemProperties.sightingRange || 0));
 
@@ -476,10 +501,13 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     />
                     <StatsLine
                         min={0}
-                        max={100}
-                        value={gun?.itemProperties.Accuracy}
+                        max={35}
+                        value={accuracyModifier}
                         text={'Accuracy'}
+                        rightText={'MOA'}
                         iconURL={AccuracyImage}
+                        invertColors={true}
+                        temporaryValue={temporaryAccuracyModifier}
                     />
                     <StatsLine
                         min={0}
