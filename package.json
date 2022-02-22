@@ -2,6 +2,7 @@
     "name": "tarkov-gun-builder",
     "version": "1.1.2",
     "private": false,
+    "license" : "ISC",
     "babel": {
         "presets": [
             "@babel/preset-react"
