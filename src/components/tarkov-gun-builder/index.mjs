@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import objectPath from 'object-path';
 
 import ItemList from '../item-list/index.mjs';

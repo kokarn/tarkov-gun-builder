@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import BackgroundImage from './assets/background.jpg';
 import ModBarrelImage from './assets/mod_barrel.png';
