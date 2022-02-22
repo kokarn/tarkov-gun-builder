@@ -28,11 +28,19 @@
                 }
             ],
             [
-                "@babel/preset-react"
+                "@babel/preset-react",
+                {
+                    "runtime": "automatic"
+                }
             ]
         ],
         "plugins": [
-            "@babel/plugin-transform-react-jsx"
+            [
+                "@babel/plugin-transform-react-jsx",
+                {
+                  "runtime": "automatic"
+                }
+            ]
         ]
     },
     "dependencies": {
