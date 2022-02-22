@@ -52,7 +52,7 @@
         "eject": "react-scripts eject",
         "create-links": "",
         "prettier": "prettier --write .",
-        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files"
+        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files --keep-file-extension"
     },
     "eslintConfig": {
         "extends": [
