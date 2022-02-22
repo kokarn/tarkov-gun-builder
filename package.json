@@ -38,6 +38,7 @@
         "@testing-library/react": "^12.1.2",
         "@testing-library/user-event": "^13.5.0",
         "object-path": "^0.11.8",
+        "patch-package": "^6.4.7",
         "prettier": "^2.5.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
@@ -52,7 +53,8 @@
         "eject": "react-scripts eject",
         "create-links": "",
         "prettier": "prettier --write .",
-        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files --keep-file-extension"
+        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files --keep-file-extension",
+        "postinstall": "patch-package"
     },
     "eslintConfig": {
         "extends": [
@@ -80,7 +82,6 @@
     },
     "devDependencies": {
         "@babel/cli": "^7.17.0",
-        "@babel/preset-react": "^7.16.7",
-        "@babel/plugin-transform-react-jsx": "^7.16.7"
+        "@babel/preset-react": "^7.16.7"
     }
 }

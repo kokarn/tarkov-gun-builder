@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
 import objectPath from 'object-path';
 
-import ItemList from '../item-list';
-import Slot from '../slot';
-import StatsLine from '../stats-line';
+import ItemList from '../item-list/index.mjs';
+import Slot from '../slot/index.mjs';
+import StatsLine from '../stats-line/index.mjs';
 
-import usePreviousValue from '../../hooks/usePreviousValue';
+import usePreviousValue from '../../hooks/usePreviousValue.js';
 import GunWrapperImage from './assets/gun-wrapper.png';
 import WeightImage from './assets/icons/weight.png';
 import ResetImage from './assets/icons/reset.png';

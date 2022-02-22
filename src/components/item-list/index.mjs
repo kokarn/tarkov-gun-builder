@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import usePreviousValue from '../../hooks/usePreviousValue';
+import usePreviousValue from '../../hooks/usePreviousValue.js';
 import './index.css';
 
 function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsConflicts }) {
