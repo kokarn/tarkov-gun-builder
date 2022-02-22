@@ -3,8 +3,8 @@
     "version": "1.1.12",
     "private": false,
     "license": "ISC",
-    "main": "dist/index.mjs",
-    "module": "dist/index.mjs",
+    "main": "dist/components/index.mjs",
+    "module": "dist/components/index.mjs",
     "files": [
         "dist",
         "readme.md"
@@ -53,7 +53,7 @@
         "eject": "react-scripts eject",
         "create-links": "",
         "prettier": "prettier --write .",
-        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files --keep-file-extension",
+        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist/components --copy-files --keep-file-extension && babel src/hooks -d dist/hooks --copy-files --keep-file-extension",
         "postinstall": "patch-package"
     },
     "eslintConfig": {
