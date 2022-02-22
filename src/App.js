@@ -1,4 +1,4 @@
-import TarkovGunBuilder from './components/index.mjs';
+import TarkovGunBuilder from './components/index.js';
 
 import items from './items.json';
 import gamePresets from './globals.json';

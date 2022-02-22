@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import objectPath from 'object-path';
 
-import ItemList from '../item-list/index.mjs';
-import Slot from '../slot/index.mjs';
-import StatsLine from '../stats-line/index.mjs';
+import ItemList from '../item-list/index.js';
+import Slot from '../slot/index.js';
+import StatsLine from '../stats-line/index.js';
 
 import usePreviousValue from '../../hooks/usePreviousValue.js';
 import GunWrapperImage from './assets/gun-wrapper.png';
