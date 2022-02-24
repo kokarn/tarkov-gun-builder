@@ -1,6 +1,6 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.1.18",
+    "version": "1.1.22",
     "private": false,
     "license": "ISC",
     "main": "dist/components/index.js",
@@ -50,8 +50,6 @@
         "object-path": "^0.11.8",
         "patch-package": "^6.4.7",
         "prettier": "^2.5.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
         "react-scripts": "5.0.0",
         "react-tooltip": "^4.2.21",
         "web-vitals": "^2.1.4"
@@ -63,8 +61,8 @@
         "eject": "react-scripts eject",
         "create-links": "",
         "prettier": "prettier --write .",
-        "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist/components --copy-files --keep-file-extension && babel src/hooks -d dist/hooks --copy-files --keep-file-extension",
-        "postinstall": "patch-package"
+        "postinstall": "patch-package",
+        "publish:npm": "rollup -c"
     },
     "eslintConfig": {
         "extends": [
@@ -92,6 +90,17 @@
     },
     "devDependencies": {
         "@babel/cli": "^7.17.0",
-        "@babel/preset-react": "^7.16.7"
-    }
+        "@babel/preset-react": "^7.16.7",
+        "@rollup/plugin-babel": "^5.3.1",
+        "@rollup/plugin-commonjs": "^21.0.2",
+        "@rollup/plugin-image": "^2.1.1",
+        "@rollup/plugin-node-resolve": "^13.1.3",
+        "rollup": "^2.68.0",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "rollup-plugin-postcss": "^4.0.2"
+    },
+    "peerDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+      }
 }
