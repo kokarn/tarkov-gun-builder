@@ -67,6 +67,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     });
     const [allowedIdsList, setAllowedIdsList] = useState([]);
     const [listTarget, setListTarget] = useState();
+    const [slotType, setSlotType] = useState();
 
     const gun = useMemo(() => {
         return items.find((item) => item.id === selectedGunId);
@@ -101,8 +102,9 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
         return false;
     }, [gun, defaultPresets]);
 
-    const handleSlotSet = (slotIdString, slotAllowedItems) => {
+    const handleSlotSet = (slotIdString, slotAllowedItems, slotType) => {
         setAllowedIdsList(slotAllowedItems);
+        setSlotType(slotType);
         setListTarget(slotIdString);
         setTemporaryItemId();
     };
@@ -206,7 +208,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
 
         const primarySlot = (
             <Slot
-                onSelect={handleSlotSet.bind(this, keyPrefix, slot.allowedItems)}
+                onSelect={handleSlotSet.bind(this, keyPrefix, slot.allowedItems, slot.type)}
                 onItemDeselect={handleItemDeselect.bind(this, keyPrefix)}
                 key={`${gun.id}-slot-${keyPrefix}`}
                 items={items}
@@ -576,6 +578,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
             <div className="selector-wrapper">
                 {listTarget && allowedIdsList.length > 0 && (
                     <ItemList
+                        slotType={slotType}
                         allowedIdsList={allowedIdsList}
                         possibleItemsConflicts={possibleItemsConflicts}
                         items={items}

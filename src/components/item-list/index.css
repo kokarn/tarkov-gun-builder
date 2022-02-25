@@ -10,6 +10,24 @@
     text-align: center;
 }
 
+.select-list-wrapper th {
+    padding: 0 5px;
+    color: #dbc59c;
+    font-size: 12px;
+    text-align: center;
+}
+
+.select-list-wrapper td {
+    padding: 0 2px;
+}
+
+.order-by-buttons {
+    display: flex;
+    column-gap: 1px;
+    align-items: center;
+    justify-content: center;
+}
+
 .select-list-wrapper input {
     background-color: #393c3c;
     color: #fff;
