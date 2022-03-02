@@ -57,7 +57,7 @@ const getModifierValueFromMods = ({
     return { candidateItem, newModsValue };
 };
 
-function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultConfiguration }) {
+function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultConfiguration, availableItemIds }) {
     const [defaultState, setDefaultState] = useState(defaultConfiguration);
     const [selectedGunId, setSelectedGunId] = useState(false);
     const [temporaryItemId, setTemporaryItemId] = useState(false);
@@ -102,7 +102,12 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [gun, defaultPresets]);
 
     const handleSlotSet = (slotIdString, slotAllowedItems) => {
-        setAllowedIdsList(slotAllowedItems);
+        if(availableItemIds && availableItemIds.length > 0){
+            setAllowedIdsList(slotAllowedItems.filter(slotAllowedItem => availableItemIds.includes(slotAllowedItem)));
+        } else {
+            setAllowedIdsList(slotAllowedItems);
+        }
+        console.log(slotAllowedItems);
         setListTarget(slotIdString);
         setTemporaryItemId();
     };
