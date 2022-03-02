@@ -179,7 +179,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                     const slotItem = items.find((item) => item.id === presetItem._tpl);
                     slot.item = slotItem;
 
-                    if (slotItem.equipmentSlots) {
+                    if (slotItem?.equipmentSlots) {
                         slot.slots = slotItem.equipmentSlots.map(equipmentSlotsToSlots);
                     }
                 }
