@@ -551,14 +551,18 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                                 <div>Types of Fire</div>
                             </div>
 
-                            <div className="tgb-grid-item-right">{gun?.itemProperties.weapFireType.join(', ') || '-'}</div>
+                            <div className="tgb-grid-item-right">
+                                {gun?.itemProperties.weapFireType.join(', ') || '-'}
+                            </div>
                         </div>
                         <div className="tgb-grid-item">
                             <div className="tgb-horizontal-wrapper">
                                 <img className="tgb-icon" src={FireRateImage} alt="fire-rate-icon" />
                                 <div>Fire Rate</div>
                             </div>
-                            <div className="tgb-grid-item-right">{gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}</div>
+                            <div className="tgb-grid-item-right">
+                                {gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}
+                            </div>
                         </div>
                     </div>
                     <div className="tgb-grid-item">
