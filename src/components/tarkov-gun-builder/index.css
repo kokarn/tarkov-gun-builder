@@ -1,30 +1,26 @@
-body {
-    padding: 0;
-}
-
-.builder-outer-wrapper {
+.tgb-builder-outer-wrapper {
     border: 1px solid #4d5154;
     width: 100%;
     max-width: 672px;
     min-width: 375px;
 }
 
-.builder-outer-wrapper h2 {
+.tgb-builder-outer-wrapper h2 {
     color: #fff;
 }
 
-.gun-wrapper {
+.tgb-gun-wrapper {
     background-color: #000;
     max-width: 672px;
     min-width: 375px;
 }
 
-.selector-wrapper {
+.tgb-selector-wrapper {
     max-width: 672px;
     min-width: 375px;
 }
 
-.selected-gun-name-wrapper {
+.tgb-selected-gun-name-wrapper {
     background-color: #191b1b;
     padding-left: 20px;
     padding-top: 3px;
@@ -32,7 +28,7 @@ body {
     color: #fff;
 }
 
-.gun-selector-wrapper {
+.tgb-gun-selector-wrapper {
     background-color: #111212;
     position: relative;
     display: flex;
@@ -41,23 +37,23 @@ body {
     height: 160px;
 }
 
-.gun-selector-wrapper h2 {
+.tgb-gun-selector-wrapper h2 {
     margin: 0;
 }
 
-.builder-outer-wrapper .gun-selector-wrapper h2 {
+.tgb-builder-outer-wrapper .tgb-gun-selector-wrapper h2 {
     text-align: center;
 }
 
-.gun-selector-wrapper-image {
+.tgb-gun-selector-wrapper-image {
     padding-top: 10px;
 }
 
-.gun-wrapper > .stats-wrapper {
+.tgb-gun-wrapper > .tgb-stats-wrapper {
     padding: 15px 20px;
 }
 
-.graph-wrapper {
+.tgb-graph-wrapper {
     border: 1px solid #000;
     outline: 1px solid #424546;
     height: 21px;
@@ -69,13 +65,13 @@ body {
     position: relative;
 }
 
-.graph-wrapper {
+.tgb-graph-wrapper {
     position: relative;
     z-index: 1;
     line-height: 21px;
 }
 
-.horizontal-wrapper {
+.tgb-horizontal-wrapper {
     display: flex;
     flex-direction: row;
     column-gap: 7px;
@@ -83,17 +79,17 @@ body {
     position: absolute;
 }
 
-.icon {
+.tgb-icon {
     width: 19px;
     height: 19px;
 }
 
-.icon-wide {
+.tgb-icon-wide {
     width: 28px;
     height: 19px;
 }
 
-.action {
+.tgb-action {
     text-transform: uppercase;
     background-color: #272a29;
     color: white;
@@ -107,11 +103,11 @@ body {
     column-gap: 7px;
 }
 
-.irreversible {
+.tgb-irreversible {
     background-color: #3f0c11;
 }
 
-.actions-wrapper {
+.tgb-actions-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     row-gap: 5px;
@@ -120,7 +116,7 @@ body {
     background-color: #191b1a;
 }
 
-.graph-wrapper .stats-wrapper {
+.tgb-graph-wrapper .tgb-stats-wrapper {
     position: absolute;
     z-index: 1;
     right: 5px;
@@ -128,32 +124,32 @@ body {
     text-transform: none;
 }
 
-.graph-wrapper .graph,
-.graph-wrapper .temporary-graph {
+.tgb-graph-wrapper .tgb-graph,
+.tgb-graph-wrapper .tgb-temporary-graph {
     background: linear-gradient(180deg, #575b5e 0%, #3a3f41 100%);
     height: 100%;
     top: 0;
     bottom: 0;
     left: 0;
     position: absolute;
-    transition: width 0.6s ease;
+    transition: width 0.tgb-6s ease;
 }
 
-.blue {
+.tgb-blue {
     background: linear-gradient(180deg, rgba(66, 135, 159, 1) 0%, rgba(43, 88, 103, 1) 100%) !important;
 }
 
-.red {
+.tgb-red {
     background: linear-gradient(180deg, rgb(153, 61, 68) 0%, rgb(105, 47, 47) 100%) !important;
 }
 
-.grid-container {
+.tgb-grid-container {
     display: grid;
     grid-template-columns: auto auto;
     column-gap: 20px;
 }
 
-.grid-item {
+.tgb-grid-item {
     background-color: #111212;
     height: 20px;
     padding-right: 5px;
@@ -164,12 +160,12 @@ body {
     margin-bottom: 5px;
 }
 
-.grid-item-right {
+.tgb-grid-item-right {
     float: right;
     text-transform: none;
 }
 
-.slots-wrapper {
+.tgb-slots-wrapper {
     background-color: #111111;
     display: flex;
     flex-wrap: wrap;
@@ -178,12 +174,12 @@ body {
     padding: 10px 20px;
 }
 
-.select-list-icon {
+.tgb-select-list-icon {
     width: 100%;
     max-width: 200px;
 }
 
-.weight-wrapper {
+.tgb-weight-wrapper {
     right: 0;
     top: 0;
     position: absolute;
@@ -196,13 +192,13 @@ body {
     color: #fff;
 }
 
-.gun-wrapper-top-right {
+.tgb-gun-wrapper-top-right {
     right: 0;
     top: 0;
     position: absolute;
 }
 
-.gun-wrapper-bottom-left {
+.tgb-gun-wrapper-bottom-left {
     left: 0;
     bottom: 0;
     position: absolute;
@@ -213,12 +209,12 @@ body {
     transform: rotate(180deg);
 }
 
-.gun-wrapper-top-right img {
+.tgb-gun-wrapper-top-right img {
     height: 50px;
     width: 50px;
 }
 
-.gun-wrapper-bottom-left img {
+.tgb-gun-wrapper-bottom-left img {
     height: 50px;
     width: 50px;
 }

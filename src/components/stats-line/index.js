@@ -6,30 +6,30 @@ function StatsLine({ min, max, value, text, temporaryValue, iconURL, rightText, 
         temporaryValue = value;
     }
 
-    const positiveColor = !invertColors ? 'blue' : 'red';
-    const negativeColor = !invertColors ? 'red' : 'blue';
+    const positiveColor = !invertColors ? 'tgb-blue' : 'tgb-red';
+    const negativeColor = !invertColors ? 'tgb-red' : 'tgb-blue';
 
     return (
-        <div className="graph-wrapper">
+        <div className="tgb-graph-wrapper">
             <div
-                className={`graph ${temporaryValue < value ? negativeColor : ''}`}
+                className={`tgb-graph ${temporaryValue < value ? negativeColor : ''}`}
                 style={{
                     width: `${(value / max) * 100}%`,
                     zIndex: temporaryValue < value ? 0 : 1,
                 }}
             />
             <div
-                className={`graph ${temporaryValue < value ? '' : positiveColor}`}
+                className={`tgb-graph ${temporaryValue < value ? '' : positiveColor}`}
                 style={{
                     zIndex: temporaryValue < value ? 1 : 0,
                     width: `${(temporaryValue / max) * 100}%`,
                 }}
             />
-            <div className="horizontal-wrapper">
-                <img className="icon" src={iconURL} alt="icon" />
+            <div className="tgb-horizontal-wrapper">
+                <img className="tgb-icon" src={iconURL} alt="icon" />
                 <div>{text}</div>
             </div>
-            <div className="stats-wrapper">{rightText ? `${value} ${rightText}` : value}</div>
+            <div className="tgb-stats-wrapper">{rightText ? `${value} ${rightText}` : value}</div>
         </div>
     );
 }

@@ -27,7 +27,7 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
     }
 
     return (
-        <div className="select-list-wrapper">
+        <div className="tgb-select-list-wrapper">
             <input
                 type="text"
                 onChange={(e) => {
@@ -67,7 +67,7 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
 
                         return (
                             <tr
-                                className={`selected-item ${conflict && 'conflict'}`}
+                                className={`tgb-selected-item ${conflict && 'tgb-conflict'}`}
                                 key={`selected-item-${index}`}
                                 onClick={handleSelect.bind(this, displayItem.id)}
                                 onMouseEnter={onHover?.bind(this, displayItem.id)}
@@ -75,16 +75,16 @@ function ItemList({ allowedIdsList, items, handleSelect, onHover, possibleItemsC
                             >
                                 <td>
                                     <img
-                                        className="selected-item-image"
+                                        className="tgb-selected-item-image"
                                         alt={displayItem.name}
                                         loading="lazy"
                                         src={displayItem.gridImageLink}
                                     />
                                 </td>
-                                <td className="selected-item-name">
+                                <td className="tgb-selected-item-name">
                                     <div>
                                         <p>{displayItem.name}</p>
-                                        <p className="selected-item-name-conflict">{conflictText}</p>
+                                        <p className="tgb-selected-item-name-conflict">{conflictText}</p>
                                     </div>
                                 </td>
                                 <td>{displayItem.itemProperties.Ergonomics || 0}</td>

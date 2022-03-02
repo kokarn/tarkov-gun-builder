@@ -423,39 +423,39 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
     }, [items, temporaryItemId, sightingRangeModifier, slots, itemBeingReplaced]);
 
     return (
-        <div className="builder-outer-wrapper">
-            <div className="gun-wrapper">
-                <div className="selected-gun-name-wrapper">{gun?.name || 'NO GUN SELECTED'}</div>
+        <div className="tgb-builder-outer-wrapper">
+            <div className="tgb-gun-wrapper">
+                <div className="tgb-selected-gun-name-wrapper">{gun?.name || 'NO GUN SELECTED'}</div>
                 <div
-                    className="gun-selector-wrapper"
+                    className="tgb-gun-selector-wrapper"
                     onClick={() => {
                         setListTarget('guns');
                         setAllowedIdsList(allGuns);
                         setTemporaryItemId();
                     }}
                 >
-                    <div className="gun-wrapper-top-right">
-                        <img className="icon" src={GunWrapperImage} alt="wrapper" />
+                    <div className="tgb-gun-wrapper-top-right">
+                        <img className="tgb-icon" src={GunWrapperImage} alt="wrapper" />
                     </div>
-                    <div className="gun-wrapper-bottom-left">
-                        <img className="icon" src={GunWrapperImage} alt="wrapper" />
+                    <div className="tgb-gun-wrapper-bottom-left">
+                        <img className="tgb-icon" src={GunWrapperImage} alt="wrapper" />
                     </div>
                     {!gun && <h2>CLICK TO SELECT A GUN</h2>}
                     {gun && (
                         <div>
-                            <div className="weight-wrapper">
-                                <img className="icon" src={WeightImage} alt="weight-icon" />
+                            <div className="tgb-weight-wrapper">
+                                <img className="tgb-icon" src={WeightImage} alt="weight-icon" />
                                 <div>{weight.toFixed(3)}Kg</div>
                             </div>
-                            <div className="gun-selector-wrapper-image">
+                            <div className="tgb-gun-selector-wrapper-image">
                                 <img alt={gun.name} loading="lazy" src={gun.gridImageLink} />
                             </div>
                         </div>
                     )}
                 </div>
-                <div className="actions-wrapper">
+                <div className="tgb-actions-wrapper">
                     <div
-                        className="action"
+                        className="tgb-action"
                         onClick={() => {
                             setListTarget();
                             setTemporaryItemId();
@@ -465,11 +465,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                             });
                         }}
                     >
-                        <img className="icon" src={ResetImage} alt="discard-icon" />
+                        <img className="tgb-icon" src={ResetImage} alt="discard-icon" />
                         <div>Reset</div>
                     </div>
                     <div
-                        className="action irreversible"
+                        className="tgb-action tgb-irreversible"
                         onClick={() => {
                             if (gun) {
                                 setCurrentBuild({
@@ -486,11 +486,11 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                             }
                         }}
                     >
-                        <img className="icon-wide" src={DiscardImage} alt="discard-icon" />
+                        <img className="tgb-icon-wide" src={DiscardImage} alt="discard-icon" />
                         <div>Discard Mods</div>
                     </div>
                 </div>
-                <div className="stats-wrapper">
+                <div className="tgb-stats-wrapper">
                     <StatsLine
                         min={0}
                         max={150}
@@ -544,36 +544,36 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                         iconURL={MuzzleVelocityImage}
                         temporaryValue={temporaryMuzzleVelocityModifier.toFixed(0)}
                     />
-                    <div className="grid-container">
-                        <div className="grid-item">
-                            <div className="horizontal-wrapper">
-                                <img className="icon" src={TypesOfFireImage} alt="types-of-fire-icon" />
+                    <div className="tgb-grid-container">
+                        <div className="tgb-grid-item">
+                            <div className="tgb-horizontal-wrapper">
+                                <img className="tgb-icon" src={TypesOfFireImage} alt="types-of-fire-icon" />
                                 <div>Types of Fire</div>
                             </div>
 
-                            <div className="grid-item-right">{gun?.itemProperties.weapFireType.join(', ') || '-'}</div>
+                            <div className="tgb-grid-item-right">{gun?.itemProperties.weapFireType.join(', ') || '-'}</div>
                         </div>
-                        <div className="grid-item">
-                            <div className="horizontal-wrapper">
-                                <img className="icon" src={FireRateImage} alt="fire-rate-icon" />
+                        <div className="tgb-grid-item">
+                            <div className="tgb-horizontal-wrapper">
+                                <img className="tgb-icon" src={FireRateImage} alt="fire-rate-icon" />
                                 <div>Fire Rate</div>
                             </div>
-                            <div className="grid-item-right">{gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}</div>
+                            <div className="tgb-grid-item-right">{gun ? `${gun.itemProperties.bFirerate} rpm` : '-'}</div>
                         </div>
                     </div>
-                    <div className="grid-item">
-                        <div className="horizontal-wrapper">
-                            <img className="icon" src={CaliberImage} alt="caliber-icon" />
+                    <div className="tgb-grid-item">
+                        <div className="tgb-horizontal-wrapper">
+                            <img className="tgb-icon" src={CaliberImage} alt="caliber-icon" />
                             <div>Caliber</div>
                         </div>
-                        <div className="grid-item-right">
+                        <div className="tgb-grid-item-right">
                             {gun?.itemProperties.ammoCaliber.replace('Caliber', '') || '-'}
                         </div>
                     </div>
-                    <div className="slots-wrapper">{slots}</div>
+                    <div className="tgb-slots-wrapper">{slots}</div>
                 </div>
             </div>
-            <div className="selector-wrapper">
+            <div className="tgb-selector-wrapper">
                 {listTarget && allowedIdsList && allowedIdsList.length > 0 && (
                     <ItemList
                         allowedIdsList={allowedIdsList}

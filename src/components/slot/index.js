@@ -115,25 +115,25 @@ function Slot({ type, onSelect, onItemDeselect, item, possibleItemsConflicts }) 
     }
 
     return (
-        <div className={`slot ${conflict && 'conflict'}`}>
+        <div className={`tgb-slot ${conflict && 'tgb-conflict'}`}>
             {item && (
                 <div
                     data-for={type}
                     data-tip={`Cannot install both '${item.name}' and '${conflict}' at the same time`}
-                    className="slot-item-wrapper"
+                    className="tgb-slot-item-wrapper"
                     onMouseEnter={(e) => showButton(e)}
                     onMouseLeave={(e) => hideButton(e)}
                 >
                     {display && <button onClick={onItemDeselect}>×</button>}
                     <div onClick={onSelect}>
                         <img alt={item.name} loading="lazy" src={item.iconLink} />
-                        <div className="slot-item-name-wrapper">{item.shortName}</div>
+                        <div className="tgb-slot-item-name-wrapper">{item.shortName}</div>
                     </div>
                     {conflict && <ReactTooltip id={type} />}
                 </div>
             )}
             {!item && (
-                <div className="slot-name-wrapper" onClick={onSelect}>
+                <div className="tgb-slot-name-wrapper" onClick={onSelect}>
                     <img alt={'item.name'} loading="lazy" src={BackgroundImage} />
                     <img alt={'item.name'} loading="lazy" src={image} />
                     <div>

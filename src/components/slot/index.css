@@ -1,20 +1,20 @@
-.slots-wrapper .slot {
+.tgb-slots-wrapper .tgb-slot {
     border: 1px solid #313332;
     height: 64px;
     width: 64px;
 }
 
-.conflict {
+.tgb-conflict {
     border: 1px solid #8b2a32 !important;
 }
 
-.slot-item-wrapper {
+.tgb-slot-item-wrapper {
     position: relative;
     height: 100%;
     width: 100%;
 }
 
-.slot-item-wrapper button {
+.tgb-slot-item-wrapper button {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -27,12 +27,12 @@
     height: 22px;
 }
 
-.slot-item-wrapper img {
+.tgb-slot-item-wrapper img {
     height: 100%;
     width: 100%;
 }
 
-.slot-name-wrapper {
+.tgb-slot-name-wrapper {
     font-size: 10px;
     color: #fff;
     height: 100%;
@@ -41,18 +41,18 @@
     align-items: center;
 }
 
-.slot-name-wrapper img {
+.tgb-slot-name-wrapper img {
     position: absolute;
 }
 
-.slot-name-wrapper div {
+.tgb-slot-name-wrapper div {
     z-index: 1;
     font-weight: bold;
     margin-bottom: auto;
     margin-top: 1px;
 }
 
-.slot-item-name-wrapper {
+.tgb-slot-item-name-wrapper {
     color: #fff;
     font-size: 10px;
     font-weight: bold;

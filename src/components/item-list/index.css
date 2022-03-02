@@ -1,16 +1,16 @@
-.select-list-wrapper {
+.tgb-select-list-wrapper {
     padding: 20px;
     background-color: #111212;
 }
 
-.select-list-wrapper tr {
+.tgb-select-list-wrapper tr {
     padding: 0;
     color: #fff;
     font-size: 12px;
     text-align: center;
 }
 
-.select-list-wrapper input {
+.tgb-select-list-wrapper input {
     background-color: #393c3c;
     color: #fff;
     border: 0px solid;
@@ -25,39 +25,39 @@
     text-align: center;
 }
 
-.select-list-wrapper input::placeholder {
+.tgb-select-list-wrapper input::placeholder {
     color: #ddd;
 }
 
-.select-list-wrapper input:focus {
+.tgb-select-list-wrapper input:focus {
     outline: none;
 }
 
-.selected-item:hover {
+.tgb-selected-item:hover {
     cursor: pointer;
     text-decoration: underline;
 }
 
-.selected-item-image {
+.tgb-selected-item-image {
     width: 48px;
     height: 48px;
     border: 1px solid #424546;
     object-fit: contain;
 }
 
-.selected-item-name {
+.tgb-selected-item-name {
     text-align: left;
     font-weight: bold;
     font-size: 12px;
 }
 
-.selected-item-name-conflict {
+.tgb-selected-item-name-conflict {
     text-align: left;
     font-weight: bold;
     font-size: 10px;
 }
 
-.conflict {
+.tgb-conflict {
     border: 1px solid #8b2a32;
     background-color: #3d2124;
 }
