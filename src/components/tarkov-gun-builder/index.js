@@ -574,7 +574,7 @@ function TarkovGunBuilder({ items, presets, defaultPresets, callback, defaultCon
                 </div>
             </div>
             <div className="selector-wrapper">
-                {listTarget && allowedIdsList.length > 0 && (
+                {listTarget && allowedIdsList && allowedIdsList.length > 0 && (
                     <ItemList
                         allowedIdsList={allowedIdsList}
                         possibleItemsConflicts={possibleItemsConflicts}
