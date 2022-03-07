@@ -85,11 +85,11 @@ function ItemList({ slotType, allowedIdsList, items, handleSelect, onHover, poss
                     setSearchText(e.target.value);
                 }}
                 placeholder="Search by Item Name"
-                ref={(input) => {
-                    if (input != null) {
-                        input.focus();
-                    }
-                }}
+                // ref={(input) => {
+                //     if (input != null) {
+                //         input.focus();
+                //     }
+                // }}
                 value={searchText}
             />
             <table
