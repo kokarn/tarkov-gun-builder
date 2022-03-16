@@ -11,7 +11,7 @@ function ItemList({ slotType, allowedIdsList, items, handleSelect, onHover, poss
         let results = [...items.filter((item) => allowedIdsList.includes(item.id))];
 
         if (searchText?.length) {
-            results = results.filter((item) => item.name.toLowerCase().includes(searchText));
+            results = results.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
         }
 
         if (!sortedByKey.key || sortedByKey.key === 'name') {
