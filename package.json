@@ -1,6 +1,6 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.1.27",
+    "version": "1.1.28",
     "private": false,
     "license": "ISC",
     "main": "dist/components/index.js",
@@ -100,7 +100,7 @@
         "rollup-plugin-postcss": "^4.0.2"
     },
     "peerDependencies": {
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
       }
 }

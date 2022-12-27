@@ -1,6 +1,8 @@
 # Tarkov Gun Builder
 
-Example in a pre-existing react repo for now
+To build & deploy:
+
+    npm run publish:npm
 
 ```
 import TarkovGunBuilder from '../../components/tarkov-gun-builder';
