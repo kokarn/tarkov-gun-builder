@@ -1,6 +1,6 @@
 {
     "name": "tarkov-gun-builder",
-    "version": "1.1.28",
+    "version": "1.2.0",
     "private": false,
     "license": "ISC",
     "main": "dist/components/index.js",
@@ -62,7 +62,7 @@
         "create-links": "",
         "prettier": "prettier --write .",
         "postinstall": "patch-package",
-        "publish:npm": "rollup -c"
+        "publish:npm": "rollup -c && npm publish --access public"
     },
     "eslintConfig": {
         "extends": [
