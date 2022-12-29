@@ -1,34 +1,21 @@
 # Tarkov Gun Builder
 
-To build & deploy:
+## To build & deploy:
 
     npm run publish:npm
 
-```
-import TarkovGunBuilder from '../../components/tarkov-gun-builder';
+## To update data
 
-import items from './items.json';
+    Update items-from-tarkov-dev-api.json
+    Update latest-dump-from-bsg.json
+    node src/merger.js
+    Move /items.json to src/items.json
 
-function GunBuilder() {
-    return <div
-        className="page-wrapper"
-        key = {'display-wrapper'}
-    >
-        <div
-            className='page-headline-wrapper'
-        >
-            <h1>
-                {t('Escape from Tarkov Gun Builder')}
-            </h1>
-        </div>
-        <TarkovGunBuilder
-            items = {items}
-        />
-    </div>
-};
+## New ammos have been added and you need presets?
 
-export default GunBuilder;
-```
+    Check how 633ec7c2a6918cb895019c6c is used in items_preset.json and globals.json
+
+## License
 
 ```
 ISC License
