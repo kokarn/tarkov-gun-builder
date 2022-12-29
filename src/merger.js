@@ -1191,6 +1191,9 @@ const result = itemsFromTarkovDevApi
             if (dumpItem.Ergonomics) {
                 item.itemProperties.Ergonomics = dumpItem.Ergonomics;
             }
+            if (dumpItem.Recoil) {
+                item.itemProperties.Recoil = dumpItem.Recoil;
+            }
             if (dumpItem.bFirerate) {
                 item.itemProperties.bFirerate = dumpItem.bFirerate;
             }
