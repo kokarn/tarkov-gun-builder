@@ -1147,6 +1147,21 @@ const result = itemsFromTarkovDevApi
             item.gridImageLink = gunDataFromApi.data.items
                 .find((x) => x.id === item.id)
                 .properties.defaultPreset?.gridImageLink.replace('assets.tarkov.dev', 'eft-ammo.com/assets/game');
+
+            if (item.id === '620109578d82e67e7911abf2') {
+                // ZiD SP-81 26x75 signal pistol
+                item.gridimageLink = 'https://eft-ammo.com/assets/game/620109578d82e67e7911abf2-grid-image.jpg';
+            }
+
+            if (item.id === '63088377b5cd696784087147') {
+                // Glock 19X 9x19 pistol
+                item.gridimageLink = 'https://eft-ammo.com/assets/game/63088377b5cd696784087147-grid-image.jpg';
+            }
+
+            if (item.id === '62e14904c2699c0ec93adc47') {
+                // SR-2M "Veresk" 9x21 submachine gun
+                item.gridimageLink = 'https://eft-ammo.com/assets/game/62e14904c2699c0ec93adc47-grid-image.jpg';
+            }
         }
 
         if (dumpItem) {
