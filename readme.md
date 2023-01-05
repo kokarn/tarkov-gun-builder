@@ -6,7 +6,7 @@
 
 ## To update data
 
-    Update items-from-tarkov-dev-api.json
+    Update items-from-tarkov-dev-api.json (see /src/merger.js)
     Update latest-dump-from-bsg.json
     node src/merger.js
     Move /items.json to src/items.json
@@ -15,8 +15,9 @@ Test it out with npm run start, then
 
     Move items.json, items_preset.json and globals.json to the folder where you want to use the widget
 
-## New ammos have been added and you need presets?
+## New ammos have been added and the app breaks?
 
+    Add empty presets
     Check how 633ec7c2a6918cb895019c6c is used in items_preset.json and globals.json
 
 ## License

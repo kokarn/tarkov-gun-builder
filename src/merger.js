@@ -2,25 +2,25 @@
 // {
 //     itemsByType(type: any){
 //       id
-//                 bsgCategoryId
+//       bsgCategoryId
 //       name
 //       shortName
-//                 normalizedName
+//       normalizedName
 //       types
 //       width
 //       height
-//                 avg24hPrice
+//       avg24hPrice
 //       wikiLink
-//                 changeLast48h
+//       changeLast48h
 //       low24hPrice
 //       high24hPrice
 //       lastLowPrice
-//                 gridImageLink
-//                 iconLink
-//                 updated
-//                 weight
+//       gridImageLink
+//       iconLink
+//       updated
+//       weight
 //       hasGrid
-//                 conflictingItems {
+//       conflictingItems {
 //         id
 //       }
 //       containsItems {
@@ -28,7 +28,7 @@
 //           id
 //         }
 //       }
-//               conflictingSlotIds
+//       conflictingSlotIds
 //     }
 //   }
 const itemsFromTarkovDevApi = require('./items-from-tarkov-dev-api.json');
