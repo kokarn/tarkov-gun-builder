@@ -1137,7 +1137,7 @@ const gunDataFromApi = {
     },
 };
 
-const result = itemsFromTarkovDevApi
+const result = itemsFromTarkovDevApi.data.itemsByType
     .map((item) => {
         const dumpItem = latestDumpFromBsg[item.id]?._props;
 
@@ -1161,6 +1161,21 @@ const result = itemsFromTarkovDevApi
             if (item.id === '62e14904c2699c0ec93adc47') {
                 // SR-2M "Veresk" 9x21 submachine gun
                 item.gridImageLink = 'https://eft-ammo.com/assets/game/62e14904c2699c0ec93adc47-grid-image.jpg';
+            }
+
+            if (item.id === '63171672192e68c5460cebc5') {
+                // AUG A3
+                item.gridImageLink = 'https://eft-ammo.com/assets/game/63171672192e68c5460cebc5-grid-image.jpg';
+            }
+
+            if (item.id === '62e7c4fba689e8c9c50dfc38') {
+                // AUG A1
+                item.gridImageLink = 'https://eft-ammo.com/assets/game/6333f05d1bc0e6217a0e9d34-grid-image.jpg';
+            }
+
+            if (item.id === '633ec7c2a6918cb895019c6c') {
+                // RSh-12 12.7x55 revolver
+                item.gridImageLink = 'https://eft-ammo.com/assets/game/633ec7c2a6918cb895019c6c-grid-image.jpg';
             }
         }
 
